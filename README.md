@@ -32,10 +32,10 @@ Other possible features:
 Main Programming Components:
 * Suffix Tree (Inverted Index)
 * Email Parser
-** Should return an Email/Document class with an ArrayList<string>
-** Output should be either UTF-8 or ASCII (Need to test this, maybe provide a flag to disable or enable)?
+  * Should return an Email/Document class with an ArrayList<string>
+  * Output should be either UTF-8 or ASCII (Need to test this, maybe provide a flag to disable or enable)?
 * Classify Interface
-** Should contain methods for "Classify(Email)" and "Train(LabeledEmails)"
+  * Should contain methods for "Classify(Email)" and "Train(LabeledEmails)"
 * Classifier (To be decided)
 
 Pre-processing techniques:
