@@ -1,0 +1,6 @@
+# Netbeans Artifacts
+nbproject
+build
+dist
+manifest.mf
+build.xml
