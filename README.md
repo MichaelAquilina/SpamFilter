@@ -9,6 +9,9 @@ Document Classfication
 C# Project for document classification https://github.com/KillaW0lf04/Document-Classification
 Should be able to provide us with some good ideas about how to improve classification for the second stage.
 
+Requirements
+------------
+
 Requirements can be found in the following pages:
 * [Spam Filter Implementation](https://www.cs.bris.ac.uk/Teaching/Resources/COMS30301/projects/spam/1/index.html)
 * [Training and Classification](https://www.cs.bris.ac.uk/Teaching/Resources/COMS30301/projects/spam/2/index.html)
