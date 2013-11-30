@@ -38,6 +38,9 @@ Other possible features:
 * Number of links
 * Images
 
+We can also use the [Term Frequency Inverse Document Frequency (TFIDF)](https://gist.github.com/KillaW0lf04/7720122) equation which has proved useful before
+
+
 Main Programming Components:
 * Suffix Tree (Inverted Index)
 * Email Parser
