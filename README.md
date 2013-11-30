@@ -3,6 +3,11 @@ Spam Filter
 
 Project for "Introduction to Machine Learning" course.
 
+Design
+------
+
+A [design wiki](https://github.com/KillaW0lf04/SpamFilter/wiki/Design) has been set up to establish a common understanding of components and milestones needed to complete the project. This should also help us when it comes to writing the report for hand in.
+
 Document Classfication
 ----------------------
 
