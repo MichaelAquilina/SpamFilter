@@ -51,4 +51,26 @@ public class HashedIndexTest {
         assertEquals(invertedIndex.getDocuments(), myDocuments);
     }
     
+    @Test
+    public void testTrimIndex() {
+        HashedIndex invertedIndex = new HashedIndex();
+        
+        // Words with just 1 occureance
+        invertedIndex.add("steel", "peal.txt");
+        
+        // Words with 4 occurances
+        for(int i=0; i<4; i++)
+            invertedIndex.add("hello", "hello.txt");
+        
+        // Words with 5 occurances
+        for(int i=0; i<5; i++)
+            invertedIndex.add("world", "world.txt");
+        
+        invertedIndex.trimIndex(2, 4);
+        
+        assertFalse(invertedIndex.containsTerm("world"));
+        assertFalse(invertedIndex.containsTerm("steel"));
+        
+        assertTrue(invertedIndex.containsTerm("hello"));
+    }
 }

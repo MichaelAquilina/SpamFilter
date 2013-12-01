@@ -1,5 +1,6 @@
 package invertedindex;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,5 +48,19 @@ public class HashedIndex extends InvertedIndex {
     @Override
     public Collection<String> getDocuments() {
         return documents;
+    }
+    
+    @Override
+    public void trimIndex(int min, int max) {
+        ArrayList<String> trash = new ArrayList<>();
+        for(String term : termMap.keySet()) {
+            TermData termData = termMap.get(term);
+            
+            if(termData.getTotalFrequency() < min || termData.getTotalFrequency() > max)
+                trash.add(term);
+        }
+        
+        for(String term : trash)
+            termMap.remove(term);
     }
 }

@@ -19,4 +19,12 @@ public abstract class InvertedIndex {
     public int getTermFrequency(String term, String document) {
         throw new UnsupportedOperationException();
     }
+    
+    public boolean containsTerm(String term) {
+        return getTermFrequency(term) > 0;
+    }
+    
+    public void trimIndex(int min, int max) {
+        throw new UnsupportedOperationException();
+    }
 }
