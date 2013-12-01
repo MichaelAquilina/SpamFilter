@@ -1,16 +1,17 @@
 package invertedindex;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class HashedIndex extends InvertedIndex {
     
     private final HashMap<String, TermData> termMap;
-    private final ArrayList<String> documents;
+    private final HashSet<String> documents;
     
     public HashedIndex() {
         termMap = new HashMap<>();
-        documents = new ArrayList<>();
+        documents = new HashSet<>();
     }
     
     @Override
@@ -44,7 +45,7 @@ public class HashedIndex extends InvertedIndex {
     }
     
     @Override
-    public ArrayList<String> getDocuments() {
+    public Collection<String> getDocuments() {
         return documents;
     }
 }

@@ -1,6 +1,6 @@
 package invertedindex;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -34,9 +34,9 @@ public class HashedIndexTest {
     public void testGetDocuments() {
         HashedIndex invertedIndex = new HashedIndex();
         
-        assertEquals(invertedIndex.getDocuments(), new ArrayList<String>());
+        assertEquals(invertedIndex.getDocuments(), new HashSet<>());
         
-        ArrayList<String> myDocuments = new ArrayList<>();
+        HashSet<String> myDocuments = new HashSet<>();
         myDocuments.add("hello.txt");
         myDocuments.add("world.txt");
         myDocuments.add("GladOs.txt");
@@ -44,6 +44,10 @@ public class HashedIndexTest {
         for(String document : myDocuments)
             invertedIndex.add("random", document);
         
+        assertEquals(invertedIndex.getDocuments(), myDocuments);
+        
+        // Ensure no duplicates occur
+        invertedIndex.add("random2", "hello.txt");
         assertEquals(invertedIndex.getDocuments(), myDocuments);
     }
     

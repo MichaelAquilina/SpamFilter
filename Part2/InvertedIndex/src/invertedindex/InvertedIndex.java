@@ -1,10 +1,10 @@
 package invertedindex;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class InvertedIndex {
     
-    public ArrayList<String> getDocuments() {
+    public Collection<String> getDocuments() {
         throw new UnsupportedOperationException();
     }
     
