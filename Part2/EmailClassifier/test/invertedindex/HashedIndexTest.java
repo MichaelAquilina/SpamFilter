@@ -13,18 +13,18 @@ public class HashedIndexTest {
     public void testGetTermFrequency() {
         HashedIndex invertedIndex = new HashedIndex();
         
-        assertEquals(invertedIndex.getTermFrequency("Imaginary"), 0);
+        assertEquals(0, invertedIndex.getTermFrequency("Imaginary"));
         
         invertedIndex.add("hello", "hello.txt");
         invertedIndex.add("hello", "world.txt");
         invertedIndex.add("world", "world.txt");
         
-        assertEquals(invertedIndex.getTermFrequency("hello"), 2);
-        assertEquals(invertedIndex.getTermFrequency("hello", "hello.txt"), 1);
+        assertEquals(2, invertedIndex.getTermFrequency("hello"));
+        assertEquals(1, invertedIndex.getTermFrequency("hello", "hello.txt"));
         
-        assertEquals(invertedIndex.getTermFrequency("world"), 1);
-        assertEquals(invertedIndex.getTermFrequency("world", "hello.txt"), 0);
-        assertEquals(invertedIndex.getTermFrequency("world", "world.txt"), 1);
+        assertEquals(1, invertedIndex.getTermFrequency("world"));
+        assertEquals(0, invertedIndex.getTermFrequency("world", "hello.txt"));
+        assertEquals(1, invertedIndex.getTermFrequency("world", "world.txt"));
     }
 
     /**
@@ -79,19 +79,19 @@ public class HashedIndexTest {
         HashedIndex invertedIndex = new HashedIndex();
         
         // min and max should be 0 at the start
-        assertEquals(invertedIndex.getMaxTermFrequency(), -1);
-        assertEquals(invertedIndex.getMinTermFrequency(), -1);
+        assertEquals(-1, invertedIndex.getMaxTermFrequency());
+        assertEquals(-1, invertedIndex.getMinTermFrequency());
         
         for(int i=0; i<4; i++)
             invertedIndex.add("hello", "hello.txt");
         
-        assertEquals(invertedIndex.getMaxTermFrequency(), 4);
-        assertEquals(invertedIndex.getMinTermFrequency(), 4);
+        assertEquals(4, invertedIndex.getMaxTermFrequency());
+        assertEquals(4, invertedIndex.getMinTermFrequency());
         
         for(int i=0; i<6; i++)
             invertedIndex.add("world", "world.txt");
         
-        assertEquals(invertedIndex.getMaxTermFrequency(), 6);
-        assertEquals(invertedIndex.getMinTermFrequency(), 4);
+        assertEquals(6, invertedIndex.getMaxTermFrequency());
+        assertEquals(4, invertedIndex.getMinTermFrequency());
     }
 }
