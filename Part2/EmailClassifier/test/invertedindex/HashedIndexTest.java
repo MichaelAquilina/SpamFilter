@@ -73,4 +73,25 @@ public class HashedIndexTest {
         
         assertTrue(invertedIndex.containsTerm("hello"));
     }
+    
+    @Test
+    public void testMinMaxTermFrequency() {
+        HashedIndex invertedIndex = new HashedIndex();
+        
+        // min and max should be 0 at the start
+        assertEquals(invertedIndex.getMaxTermFrequency(), -1);
+        assertEquals(invertedIndex.getMinTermFrequency(), -1);
+        
+        for(int i=0; i<4; i++)
+            invertedIndex.add("hello", "hello.txt");
+        
+        assertEquals(invertedIndex.getMaxTermFrequency(), 4);
+        assertEquals(invertedIndex.getMinTermFrequency(), 4);
+        
+        for(int i=0; i<6; i++)
+            invertedIndex.add("world", "world.txt");
+        
+        assertEquals(invertedIndex.getMaxTermFrequency(), 6);
+        assertEquals(invertedIndex.getMinTermFrequency(), 4);
+    }
 }

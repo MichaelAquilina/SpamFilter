@@ -63,4 +63,38 @@ public class HashedIndex extends InvertedIndex {
         for(String term : trash)
             termMap.remove(term);
     }
+    
+    @Override
+    public int getMaxTermFrequency() {
+        if(termMap.isEmpty())
+            return -1;
+        
+        int max = Integer.MIN_VALUE;
+        for(String term : termMap.keySet()) {
+            TermData termData = termMap.get(term);
+            
+            if(termData.getTotalFrequency() > max) {
+                max = termData.getTotalFrequency();
+            }
+        }
+        
+        return max;
+    }
+    
+    @Override
+    public int getMinTermFrequency() {
+        if(termMap.isEmpty())
+            return -1;
+        
+        int min = Integer.MAX_VALUE;
+        for(String term : termMap.keySet()) {
+            TermData termData = termMap.get(term);
+            
+            if(termData.getTotalFrequency() < min) {
+                min = termData.getTotalFrequency();
+            }
+        }
+        
+        return min;
+    }
 }
