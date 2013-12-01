@@ -57,7 +57,7 @@ Main Programming Components:
 
 Pre-processing techniques:
 * Spell correction (use a library)
-* Stemming / Lemmatisation
+* Stemming / Lemmatisation ([Porter Stemmer Algorithm](http://snowball.tartarus.org/algorithms/english/stemmer.html))
 * Stop word removal
 * Use a Zipfian Distribution to reduce dimensions
 * Remove words which are equally likely in ham and spam
