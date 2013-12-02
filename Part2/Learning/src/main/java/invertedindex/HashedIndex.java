@@ -97,4 +97,9 @@ public class HashedIndex extends InvertedIndex {
         
         return min;
     }
+    
+    @Override
+    public int size() {
+        return termMap.size();
+    }
 }

@@ -37,4 +37,8 @@ public abstract class InvertedIndex {
     public boolean containsTerm(String term) {
         return getTermFrequency(term) > 0;
     }
+    
+    public int size() {
+        throw new UnsupportedOperationException();
+    }
 }
