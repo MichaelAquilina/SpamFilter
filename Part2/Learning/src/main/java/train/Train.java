@@ -3,13 +3,14 @@ package train;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import classification.Email;
-import text.Parser;
-import invertedindex.HashedIndex;
-import invertedindex.InvertedIndex;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import text.Parser;
+import text.TextProcessor;
+import invertedindex.HashedIndex;
+import invertedindex.InvertedIndex;
+import classification.Email;
 
 public class Train {
     public static void usage() {
@@ -51,6 +52,8 @@ public class Train {
        Parser parser = new Parser();
        InvertedIndex invertedIndex = new HashedIndex();   // We can swap in the future if needs be
        
+       TextProcessor textProcessor = new TextProcessor();
+       
        String trainDataPath = args[0];
        String outFilePath = args[1];
 
@@ -63,8 +66,11 @@ public class Train {
                Email email = parser.parseFile(example);
                
                for(String term : email.getWords()) {
-                   if(!stopwordsIndex.containsTerm(term))
-                       invertedIndex.add(term, example.getName());
+                   
+                   String stemTerm = textProcessor.weakStem(term);
+                   
+                   if(!stopwordsIndex.containsTerm(stemTerm))
+                       invertedIndex.add(stemTerm, example.getName());
                    else
                        ++stopwordsCount;
                }
