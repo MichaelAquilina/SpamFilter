@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import classification.Email;
-import classification.Parser;
+import text.Parser;
 
 public class Train {
     public static void usage() {

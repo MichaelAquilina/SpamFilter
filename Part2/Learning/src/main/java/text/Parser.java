@@ -1,4 +1,6 @@
-package classification;
+package text;
+
+import classification.Email;
 
 import java.io.BufferedReader;
 import java.io.File;
