@@ -28,9 +28,14 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-	<version>3.0</version>
+            <version>3.0</version>
         </dependency>    
-    </dependencies>
+        <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-stable</artifactId>
+            <version>3.6.10</version>
+        </dependency>
+</dependencies>
     <repositories>
         <repository>
             <id>TypesafeRepository</id>
