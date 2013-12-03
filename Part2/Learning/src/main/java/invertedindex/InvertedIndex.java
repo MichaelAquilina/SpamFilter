@@ -38,6 +38,10 @@ public abstract class InvertedIndex {
         return getTermFrequency(term) > 0;
     }
     
+    public boolean remove(String term) {
+        throw new UnsupportedOperationException();
+    }
+    
     public int size() {
         throw new UnsupportedOperationException();
     }

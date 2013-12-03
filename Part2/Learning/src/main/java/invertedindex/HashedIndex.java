@@ -99,6 +99,11 @@ public class HashedIndex extends InvertedIndex {
     }
     
     @Override
+    public boolean remove(String term) {
+        return termMap.remove(term) != null;
+    }
+    
+    @Override
     public int size() {
         return termMap.size();
     }

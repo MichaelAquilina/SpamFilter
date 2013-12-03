@@ -98,6 +98,22 @@ public class HashedIndexTest {
     }
     
     @Test
+    public void testRemove() {
+        HashedIndex invertedIndex = new HashedIndex();
+        
+        invertedIndex.add("hello", "hello.txt");
+        invertedIndex.add("nyan", "cat.txt");
+        invertedIndex.add("hello", "hello2.txt");
+        invertedIndex.add("oxy", "moron.txt");
+        
+        assertTrue(invertedIndex.remove("hello"));
+        
+        assertFalse(invertedIndex.containsTerm("hello"));
+        assertTrue(invertedIndex.containsTerm("nyan"));
+        assertTrue(invertedIndex.containsTerm("oxy"));
+    }
+    
+    @Test
     public void testGetTerms() {
         HashedIndex invertedIndex = new HashedIndex();
         String[] expected;
