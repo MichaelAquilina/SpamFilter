@@ -3,13 +3,8 @@ package classification;
 import java.util.List;
 
 public class Email {
-
-    public enum Class {
-        Spam, Ham, Unknown
-    }
-
-    private Class _class = Class.Unknown;
-    private List<String> words;
+    private EmailClass _emailClass = EmailClass.Unknown;
+    private final List<String> words;
 
     public Email(List<String> words) {
         this.words = words;
@@ -17,6 +12,7 @@ public class Email {
 
     /**
      * Get the list of all words contained in the content of the mail.
+     * @return
      */
     public List<String> getWords() {
         return words;
@@ -25,17 +21,19 @@ public class Email {
     /**
      * Is this email Ham or Spam or does it need to be classified?
      *
-     * CClass = classification class
+     * EmailClass = classification class
+     * @return
      */
-    public Class getCClass() {
-        return _class;
+    public EmailClass getEmailClass() {
+        return _emailClass;
     }
     
     /**
      * Set if the mail is Spam or Ham
+     * @param emailClass
      */
-    public void setCClass(Class _class) {
-        this._class = _class;
+    public void setEmailClass(EmailClass emailClass) {
+        this._emailClass = emailClass;
     }
 
 }

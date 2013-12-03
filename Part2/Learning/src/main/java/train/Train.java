@@ -75,7 +75,7 @@ public class Train {
                        ++stopwordsCount;
                }
                
-               System.out.format("Successfully loaded %d terms for %s with class %s\n", email.getWords().size(), example.getName(), email.getCClass().toString());
+               System.out.format("Successfully loaded %d terms for %s with class %s\n", email.getWords().size(), example.getName(), email.getEmailClass().toString());
                
            } catch (FileNotFoundException e) {
                System.err.println(String.format("Could not load \"%s\"", example.getName()));

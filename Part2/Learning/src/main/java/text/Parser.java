@@ -1,6 +1,7 @@
 package text;
 
 import classification.Email;
+import classification.EmailClass;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,17 +37,17 @@ public class Parser {
         }
         reader.close();
 
-        Email.Class _class = Email.Class.Unknown;
+        EmailClass emailClass = EmailClass.Unknown;
         if (spamFilePattern.matcher(file.getName()).find()) {
-            _class = Email.Class.Spam;
+            emailClass = EmailClass.Spam;
         } else if (hamFilePattern.matcher(file.getName()).find()) {
-            _class = Email.Class.Ham;
+            emailClass = EmailClass.Ham;
         }
 
-        return parseString(data.toString(), _class);
+        return parseString(data.toString(), emailClass);
     }
 
-    public Email parseString(String data, Email.Class _class) {
+    public Email parseString(String data, EmailClass _class) {
         String remainder = "";
         if (separateMetadata) {
             // Do fancy stuff
@@ -75,11 +76,11 @@ public class Parser {
             remainder = data;
         }
 
-        ArrayList<String> words = new ArrayList<String>();
+        ArrayList<String> words = new ArrayList<>();
         words.addAll(Arrays.asList(remainder.split("\\s+")));
 
         Email mail = new Email(words);
-        mail.setCClass(_class);
+        mail.setEmailClass(_class);
         return mail;
     }
 }
