@@ -30,6 +30,10 @@ public class TermData {
         return totalFrequency;
     }
     
+    public int getDocumentFrequency() {
+        return termDocumentFrequency.size();
+    }
+    
     @Override
     public String toString() {
         return "TermData: <total=" + totalFrequency+" documents=" + termDocumentFrequency.size() + ">";
