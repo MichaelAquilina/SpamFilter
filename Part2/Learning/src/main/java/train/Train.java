@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import classification.Classifier;
 import classification.Email;
+import classification.LabelledVector;
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
@@ -98,19 +101,13 @@ public class Train {
        
        System.out.format("Trimmed Inverted Index term size = %d\n", invertedIndex.termCount());
 
-       System.out.println("Reading mails into memory for training");
-       for(File example : examples) {
-           try {
-               Email email = parser.parseFile(example);
-               
-              // TODO@Mike: Add your email2vector stuff here 
-           } catch (FileNotFoundException e) {
-               System.err.println(String.format("Could not load \"%s\"", example.getName()));
-               e.printStackTrace();
-           } catch (IOException e) {
-               System.err.println(String.format("IO Error during loading \"%s\"", example.getName()));
-               e.printStackTrace();
-           } 
-       }
+       VectorFactory vectorise = new VectorFactory(invertedIndex);
+       
+       ArrayList<LabelledVector> labelledVectors = vectorise.getLabelledVectors();
+       
+       // IMPORTANT
+       // Use the Classifier class as a common interface for performing training
+       Classifier someClassifier = null;
+       // someClassifier.train(labelledVectors);
     }
 }
