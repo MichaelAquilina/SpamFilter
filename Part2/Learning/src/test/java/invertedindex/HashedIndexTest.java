@@ -36,7 +36,7 @@ public class HashedIndexTest {
     public void testGetDocuments() {
         HashedIndex invertedIndex = new HashedIndex();
         
-        assertTrue(CollectionUtils.isEqualCollection(invertedIndex.getDocuments(), new HashSet<>()));
+        assertTrue(invertedIndex.getDocuments().isEmpty());
         
         HashSet<String> myDocuments = new HashSet<>();
         myDocuments.add("hello.txt");
