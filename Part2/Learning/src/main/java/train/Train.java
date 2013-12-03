@@ -70,10 +70,11 @@ public class Train {
                
                for(String term : email.getWords()) {
                    
-                   String stemTerm = textProcessor.porterStem(term);
-                   
-                   if(!stopwordsIndex.containsTerm(stemTerm))
+                   if(!stopwordsIndex.containsTerm(term.toLowerCase()))
+                   {
+                       String stemTerm = textProcessor.porterStem(term);   
                        invertedIndex.add(stemTerm, example.getName());
+                   }
                    else
                        ++stopwordsCount;
                }
