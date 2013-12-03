@@ -68,9 +68,10 @@ public class Train {
            try {
                Email email = parser.parseFile(example);
                
-               for(String term : email.getWords()) {
+               for(String word : email.getWords()) {
                    
-                   if(!stopwordsIndex.containsTerm(term.toLowerCase()))
+                   String term = word.toLowerCase();
+                   if(!stopwordsIndex.containsTerm(term))
                    {
                        String stemTerm = textProcessor.porterStem(term);   
                        invertedIndex.add(stemTerm, example.getName());
