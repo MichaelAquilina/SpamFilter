@@ -20,6 +20,10 @@ public abstract class InvertedIndex {
         throw new UnsupportedOperationException();
     }
     
+    public int getDocumentFrequency(String term) {
+        throw new UnsupportedOperationException();
+    }
+    
     // Should return -1 if no terms available
     public int getMaxTermFrequency() {
         throw new UnsupportedOperationException();

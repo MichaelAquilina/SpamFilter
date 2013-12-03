@@ -46,6 +46,15 @@ public class HashedIndex extends InvertedIndex {
     }
     
     @Override
+    public int getDocumentFrequency(String term) {
+        if(termMap.containsKey(term)) {
+            TermData termData = termMap.get(term);
+            return termData.getDocumentFrequency();
+        }
+        else return 0;
+    }
+    
+    @Override
     public Collection<String> getDocuments() {
         return documents;
     }
@@ -56,7 +65,7 @@ public class HashedIndex extends InvertedIndex {
         for(String term : termMap.keySet()) {
             TermData termData = termMap.get(term);
             
-            if(termData.getTotalFrequency() < min || termData.getTotalFrequency() > max)
+            if(termData.getDocumentFrequency()< min || termData.getDocumentFrequency()> max)
                 trash.add(term);
         }
         
