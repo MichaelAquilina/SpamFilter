@@ -64,3 +64,6 @@ Pre-processing techniques:
 
 Papers:
 * http://www.icmc.usp.br/pessoas/mcmonard/public/iastedCE2003.pdf
+
+Third Party Code
+* [Porter Stemmer Algorithm](http://tartarus.org/martin/PorterStemmer/) in [java](http://tartarus.org/martin/PorterStemmer/java.txt)
