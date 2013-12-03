@@ -29,4 +29,9 @@ public class TermData {
     public int getTotalFrequency() {
         return totalFrequency;
     }
+    
+    @Override
+    public String toString() {
+        return "TermData: <total=" + totalFrequency+" documents=" + termDocumentFrequency.size() + ">";
+    }
 }
