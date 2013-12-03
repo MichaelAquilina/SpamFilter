@@ -102,4 +102,9 @@ public class HashedIndex extends InvertedIndex {
     public int size() {
         return termMap.size();
     }
+    
+    @Override
+    public Collection<String> getTerms() {
+        return termMap.keySet();
+    }
 }

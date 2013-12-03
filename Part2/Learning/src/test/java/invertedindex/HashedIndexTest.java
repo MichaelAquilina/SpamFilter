@@ -1,6 +1,8 @@
 package invertedindex;
 
+import org.apache.commons.collections.CollectionUtils;
 import java.util.HashSet;
+import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -93,5 +95,22 @@ public class HashedIndexTest {
         
         assertEquals(6, invertedIndex.getMaxTermFrequency());
         assertEquals(4, invertedIndex.getMinTermFrequency());
+    }
+    
+    @Test
+    public void testGetTerms() {
+        HashedIndex invertedIndex = new HashedIndex();
+        String[] expected;
+        
+        invertedIndex.add("hello", "hello.txt");
+        invertedIndex.add("hello", "hello2.txt");
+        
+        expected = new String[]{"hello"};
+        assertTrue(CollectionUtils.isEqualCollection(Arrays.asList(expected), invertedIndex.getTerms()));
+        
+        invertedIndex.add("nyan", "cat.txt");
+        
+        expected = new String[]{"hello", "nyan"};
+        assertTrue(CollectionUtils.isEqualCollection(Arrays.asList(expected), invertedIndex.getTerms()));
     }
 }
