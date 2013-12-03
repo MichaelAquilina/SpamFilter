@@ -13,9 +13,12 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class Parser {
-    public static Pattern emptyLinePattern = Pattern.compile("^\\s+$");
-    public static Pattern msgIdPattern = Pattern.compile("^Message-Id:\\s+");
-    public static Pattern subjectPattern = Pattern.compile("^Subject:\\s+");
+    private final static Pattern emptyLinePattern = Pattern.compile("^\\s+$");
+    private final static Pattern msgIdPattern = Pattern.compile("^Message-Id:\\s+");
+    private final static Pattern subjectPattern = Pattern.compile("^Subject:\\s+");
+
+    private final static Pattern spamFilePattern = Pattern.compile("spam\\d+\\.txt");
+    private final static Pattern hamFilePattern = Pattern.compile("ham\\d+\\.txt");
 
     private boolean separateMetadata = true;
 
@@ -27,43 +30,56 @@ public class Parser {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         StringBuilder data = new StringBuilder();
         String line = null;
-        ArrayList<String> words = new ArrayList<String>();
         while((line = reader.readLine()) != null) {
             data.append(line);
             data.append(' ');
         }
         reader.close();
 
+        Email.Class _class = Email.Class.Unknown;
+        if (spamFilePattern.matcher(file.getName()).find()) {
+            _class = Email.Class.Spam;
+        } else if (hamFilePattern.matcher(file.getName()).find()) {
+            _class = Email.Class.Ham;
+        }
+
+        return parseString(data.toString(), _class);
+    }
+
+    public Email parseString(String data, Email.Class _class) {
         String remainder = "";
-        String dataString = data.toString();
         if (separateMetadata) {
             // Do fancy stuff
             // Step 1: Check if we have metadata in this E-Mail, at least one of
             // Subject or Message-Id will be defined if there is
-            Matcher subjectMatcher = subjectPattern.matcher(dataString);
-            Matcher msgIdMatcher = msgIdPattern.matcher(dataString);
+            Matcher subjectMatcher = subjectPattern.matcher(data);
+            Matcher msgIdMatcher = msgIdPattern.matcher(data);
 
             // Step2: If there is metadata, split the string in half
             if (subjectMatcher.find() || msgIdMatcher.find()) {
                 // Parse Metadata
-                Matcher splitMatcher = emptyLinePattern.matcher(dataString);
+                Matcher splitMatcher = emptyLinePattern.matcher(data);
                 if (splitMatcher.find()) {
-                    remainder = dataString.substring(splitMatcher.start());
-                    String metadataStr = dataString.substring(0, splitMatcher.start());
+                    remainder = data.substring(splitMatcher.start());
+                    String metadataStr = data.substring(0, splitMatcher.start());
                 } else {
                     // We could not find a split, so we possibly do not
                     // have any metadata
-                    remainder = dataString;
+                    remainder = data;
                 }
             } else {
-                remainder = dataString;
+                remainder = data;
             }
         } else {
             // Just use everything
-            remainder = dataString;
+            remainder = data;
         }
+
+        ArrayList<String> words = new ArrayList<String>();
         words.addAll(Arrays.asList(remainder.split("\\s+")));
 
-        return new Email(words);
+        Email mail = new Email(words);
+        mail.setCClass(_class);
+        return mail;
     }
 }
