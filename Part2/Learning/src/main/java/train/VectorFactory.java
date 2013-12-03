@@ -26,6 +26,16 @@ public class VectorFactory {
         }
     }
 
+    // calculate tfidf value with given input parameters
+    // Using augmented frequency as found on wikipedia http://en.wikipedia.org/wiki/Tf%E2%80%93idf
+    public double tfidf(String term, String document)
+    {
+        double tf = 0.5 + 0.5 * ((double) invertedIndex.getTermFrequency(term, document) / (double) invertedIndex.getMaxTermFrequency());
+        double idf = Math.log((double) invertedIndex.documentCount() / (double) (1 + invertedIndex.getDocumentFrequency(term)));
+
+        return tf * idf;
+    }
+
     public ArrayList<LabelledVector> getLabelledVectors() {       
         ArrayList<LabelledVector> result = new ArrayList<>();
         
