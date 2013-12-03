@@ -88,6 +88,15 @@ public class Train {
         
        System.out.format("Final InvertedIndex term size = %d\n", invertedIndex.termCount());
        System.out.format("Prevented %d stopword entries from being added\n", stopwordsCount);
+       
+       System.out.println("Trimming Index...");
+       
+       int min = (int) (invertedIndex.documentCount() * 0.07);
+       int max = (int) (invertedIndex.documentCount() * 0.9);
+       
+       invertedIndex.trimIndex(min, max);
+       
+       System.out.format("Trimmed Inverted Index term size = %d\n", invertedIndex.termCount());
 
        System.out.println("Reading mails into memory for training");
        for(File example : examples) {
