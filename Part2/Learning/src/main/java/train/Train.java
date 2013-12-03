@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import text.Parser;
-import text.TextProcessor;
+import classification.Email;
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
-import classification.Email;
+import text.Parser;
+import text.TextProcessor;
 
 public class Train {
     public static void usage() {
@@ -86,7 +86,7 @@ public class Train {
            } 
        }
         
-       System.out.format("Final InvertedIndex term size = %d\n", invertedIndex.size());
+       System.out.format("Final InvertedIndex term size = %d\n", invertedIndex.termCount());
        System.out.format("Prevented %d stopword entries from being added\n", stopwordsCount);
 
        System.out.println("Reading mails into memory for training");

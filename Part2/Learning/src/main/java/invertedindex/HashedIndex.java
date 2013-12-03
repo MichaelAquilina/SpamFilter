@@ -113,8 +113,13 @@ public class HashedIndex extends InvertedIndex {
     }
     
     @Override
-    public int size() {
+    public int termCount() {
         return termMap.size();
+    }
+    
+    @Override
+    public int documentCount() {
+        return documents.size();
     }
     
     @Override
