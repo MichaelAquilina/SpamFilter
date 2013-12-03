@@ -88,5 +88,20 @@ public class Train {
         
        System.out.format("Final InvertedIndex term size = %d\n", invertedIndex.size());
        System.out.format("Prevented %d stopword entries from being added\n", stopwordsCount);
+
+       System.out.println("Reading mails into memory for training");
+       for(File example : examples) {
+           try {
+               Email email = parser.parseFile(example);
+               
+              // TODO@Mike: Add your email2vector stuff here 
+           } catch (FileNotFoundException e) {
+               System.err.println(String.format("Could not load \"%s\"", example.getName()));
+               e.printStackTrace();
+           } catch (IOException e) {
+               System.err.println(String.format("IO Error during loading \"%s\"", example.getName()));
+               e.printStackTrace();
+           } 
+       }
     }
 }
