@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public abstract class Classifier {
     
-    void train(ArrayList<LabelledVector> examples) {
+    public void train(ArrayList<LabelledVector> examples) {
         throw new UnsupportedOperationException();
     }
     
-    EmailClass classify(int[] vector) {
+    public EmailClass classify(int[] vector) {
         throw new UnsupportedOperationException();
     }
 }
