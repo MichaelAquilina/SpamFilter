@@ -1,5 +1,6 @@
 package train;
 
+import classification.Email;
 import classification.EmailClass;
 import classification.LabelledVector;
 import invertedindex.InvertedIndex;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 // Produces vector representations from given inverted indexes
+// TODO: Transform term frequency weighted vectors into TFIDF
 public class VectorFactory {
     
     private final HashMap<String, Integer> termIndexMap;
@@ -50,6 +52,21 @@ public class VectorFactory {
         }
         
         return result;
+    }
+    
+    // Converts a new Email to a vector based on the inverted index passed
+    public float[] getVector(Email email) {
+        float[] vector = new float[invertedIndex.termCount()];
+        
+        for(String term : email.getWords()) {
+            
+            int index = getIndex(term);
+            if(index != -1) {
+                vector[index]++;
+            }
+        }
+        
+        return vector;
     }
     
     public int getIndex(String term) {
