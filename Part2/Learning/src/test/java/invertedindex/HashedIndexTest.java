@@ -57,15 +57,15 @@ public class HashedIndexTest {
     public void testTrimIndex() {
         HashedIndex invertedIndex = new HashedIndex();
         
-        // Words with just 1 occureance
+        // Words with just 1 occurrence
         invertedIndex.add("steel", "peal.txt");
 
-        // Words with 3 occurrances
+        // Words with 3 occurrence
         invertedIndex.add("hello", "world.txt");
         invertedIndex.add("hello", "hello.txt");
         invertedIndex.add("hello", "peal.txt");
 
-        // Words with 5 occurances
+        // Words with 5 occurrence
         invertedIndex.add("world", "world.txt");
         invertedIndex.add("world", "hello.txt");
         invertedIndex.add("world", "peal.txt");
