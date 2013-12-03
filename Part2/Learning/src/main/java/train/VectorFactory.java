@@ -25,8 +25,7 @@ public class VectorFactory {
             termIndexMap.put(term, index++);
         }
     }
-    
-    //Currently this takes ages to finish due to the large dimensions
+
     public ArrayList<LabelledVector> getLabelledVectors() {       
         ArrayList<LabelledVector> result = new ArrayList<>();
         
@@ -36,8 +35,8 @@ public class VectorFactory {
             
             LabelledVector emailVector = new LabelledVector();
             emailVector.setEmailClass(emailClass);
-            
-            float[] vector = new float[invertedIndex.termCount()];
+
+            double[] vector = new double[invertedIndex.termCount()];
             
             for(String term : invertedIndex.getTerms()) {
                 

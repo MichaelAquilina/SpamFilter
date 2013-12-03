@@ -2,7 +2,7 @@ package classification;
 
 public class LabelledVector {
     private EmailClass emailClass;
-    private float[] vector;
+    private double[] vector;
     
     public EmailClass getEmailClass() {
         return emailClass;
@@ -12,11 +12,11 @@ public class LabelledVector {
         this.emailClass = emailClass;
     }
 
-    public float[] getVector() {
+    public double[] getVector() {
         return vector;
     }
 
-    public void setVector(float[] vector) {
+    public void setVector(double[] vector) {
         this.vector = vector;
     }
     
