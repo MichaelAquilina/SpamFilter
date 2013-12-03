@@ -67,7 +67,7 @@ public class Train {
                
                for(String term : email.getWords()) {
                    
-                   String stemTerm = textProcessor.weakStem(term);
+                   String stemTerm = textProcessor.porterStem(term);
                    
                    if(!stopwordsIndex.containsTerm(stemTerm))
                        invertedIndex.add(stemTerm, example.getName());

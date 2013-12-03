@@ -14,7 +14,24 @@ public class TextProcessorTest {
     public void testWeakStem() {
         TextProcessor textProcessor = new TextProcessor();
         
-        assertEquals(textProcessor.weakStem("books"), "book");
-        assertEquals(textProcessor.weakStem("s"), "s");
+        assertEquals("book", textProcessor.weakStem("books"));
+        assertEquals("s", textProcessor.weakStem("s"));
+    }
+    
+    @Test
+    public void testPorterStem() {
+        TextProcessor textProcessor = new TextProcessor();
+        
+        assertEquals("book", textProcessor.porterStem("books"));
+        
+        assertEquals("connect", textProcessor.porterStem("connected"));
+        assertEquals("connect", textProcessor.porterStem("connection"));
+        
+        // Stemmer sometimes cuts off endings but they still conflate well
+        assertEquals("relat", textProcessor.porterStem("relational"));
+        
+        assertEquals("allow", textProcessor.porterStem("allowance"));
+        
+        assertEquals("adjust", textProcessor.porterStem("adjustable"));
     }
 }
