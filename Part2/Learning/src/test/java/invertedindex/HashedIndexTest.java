@@ -36,7 +36,7 @@ public class HashedIndexTest {
     public void testGetDocuments() {
         HashedIndex invertedIndex = new HashedIndex();
         
-        assertEquals(invertedIndex.getDocuments(), new HashSet<>());
+        assertTrue(CollectionUtils.isEqualCollection(invertedIndex.getDocuments(), new HashSet<>()));
         
         HashSet<String> myDocuments = new HashSet<>();
         myDocuments.add("hello.txt");
@@ -59,15 +59,19 @@ public class HashedIndexTest {
         
         // Words with just 1 occureance
         invertedIndex.add("steel", "peal.txt");
-        
-        // Words with 4 occurances
-        for(int i=0; i<4; i++)
-            invertedIndex.add("hello", "hello.txt");
-        
+
+        // Words with 3 occurrances
+        invertedIndex.add("hello", "world.txt");
+        invertedIndex.add("hello", "hello.txt");
+        invertedIndex.add("hello", "peal.txt");
+
         // Words with 5 occurances
-        for(int i=0; i<5; i++)
-            invertedIndex.add("world", "world.txt");
-        
+        invertedIndex.add("world", "world.txt");
+        invertedIndex.add("world", "hello.txt");
+        invertedIndex.add("world", "peal.txt");
+        invertedIndex.add("world", "scream.txt");
+        invertedIndex.add("world", "team.txt");
+
         invertedIndex.trimIndex(2, 4);
         
         assertFalse(invertedIndex.containsTerm("world"));
