@@ -19,6 +19,4 @@ public class LabelledVector {
     public void setVector(double[] vector) {
         this.vector = vector;
     }
-    
-    
 }
