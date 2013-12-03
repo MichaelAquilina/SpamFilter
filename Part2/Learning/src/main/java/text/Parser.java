@@ -161,12 +161,6 @@ public class Parser {
         ArrayList<String> words = new ArrayList<>();
         words.addAll(Arrays.asList(remainder.split("[\\n\\s]+")));
 
-//        if (words.size() > 2000) {
-//            System.out.println(data.substring(0, 2000));
-//            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-//            System.out.println(remainder.substring(0, 2000));
-//        }
-
         Email mail = new Email(words);
         mail.setEmailClass(_class);
         return mail;
