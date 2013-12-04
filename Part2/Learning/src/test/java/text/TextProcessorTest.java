@@ -13,6 +13,19 @@ public class TextProcessorTest {
     }
 
     @Test
+    public void testRstrip() {
+        assertEquals("", TextProcessor.rstrip(""));
+
+        assertEquals("hello", TextProcessor.rstrip("hello"));
+
+        assertEquals("hello", TextProcessor.rstrip("hello:"));
+        assertEquals("hello", TextProcessor.rstrip("hello!"));
+        assertEquals("users", TextProcessor.rstrip("users'"));
+
+        assertEquals("hello89", TextProcessor.rstrip("hello89"));
+    }
+
+    @Test
     public void testIsCurrency() {
         assertTrue(TextProcessor.isCurrency("$499"));
         assertTrue(TextProcessor.isCurrency("$4"));

@@ -10,6 +10,16 @@ public class TextProcessor {
     private static Pattern currencyPattern = Pattern.compile("\\$[0-9]+");
     private static Pattern numberPattern = Pattern.compile("^[0-9]+$");
 
+    public static String rstrip(String word) {
+        if(word.isEmpty())
+            return word;
+
+        if(!Character.isLetterOrDigit(word.charAt(word.length() - 1)))
+            return word.substring(0, word.length() - 1);
+        else
+            return word;
+    }
+
     public static boolean isSymbol(String word) {
 
         for(int i=0; i<word.length(); ++i)

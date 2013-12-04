@@ -64,7 +64,7 @@ public class Train {
                
                for(String word : email.getWords()) {
                    
-                   String term = word.toLowerCase();
+                   String term = TextProcessor.rstrip(word.toLowerCase());
 
                    //Leave out stop words
                    if(!stopwordsIndex.containsTerm(term) && !TextProcessor.isSymbol(term))
