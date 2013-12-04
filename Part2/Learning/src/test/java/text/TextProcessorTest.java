@@ -2,12 +2,27 @@ package text;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class TextProcessorTest {
     
     public TextProcessorTest() {
         
+    }
+
+    @Test
+    public void testIsSymbol() {
+        assertTrue(TextProcessor.isSymbol("$"));
+        assertTrue(TextProcessor.isSymbol("@"));
+        assertTrue(TextProcessor.isSymbol("!"));
+        assertTrue(TextProcessor.isSymbol("$@#@#@()!"));
+
+        assertFalse(TextProcessor.isSymbol("hello"));
+        assertFalse(TextProcessor.isSymbol("1234"));
+        assertFalse(TextProcessor.isSymbol("@#$@#@H"));
+        assertFalse(TextProcessor.isSymbol("Michael: "));
     }
     
     @Test

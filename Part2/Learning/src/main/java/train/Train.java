@@ -67,7 +67,7 @@ public class Train {
                    String term = word.toLowerCase();
 
                    //Leave out stop words
-                   if(!stopwordsIndex.containsTerm(term))
+                   if(!stopwordsIndex.containsTerm(term) && !TextProcessor.isSymbol(term))
                    {
 
                        String stemTerm = TextProcessor.porterStem(term);

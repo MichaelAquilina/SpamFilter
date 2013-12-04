@@ -4,6 +4,15 @@ package text;
 // such as spell checking, stemming, lemmatisation etc...
 public class TextProcessor {
     private static final Stemmer stemmer = new Stemmer();
+
+    public static boolean isSymbol(String word) {
+
+        for(int i=0; i<word.length(); ++i)
+            if(Character.isLetterOrDigit(word.charAt(i)))
+                return false;
+
+        return true;
+    }
     
     public static String lemmatise(String word) {
         // TODO: Implement if time permits
