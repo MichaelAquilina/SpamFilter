@@ -41,14 +41,16 @@ public class EmailClassifier {
 
             Email email = parser.parseFile(trainingFile);
             for(String term : email.getWords()) {
+                String alteredTerm = term.toLowerCase();
+                alteredTerm = TextProcessor.rstrip(alteredTerm);
 
-                if(!stopWordIndex.containsTerm(term)) {
-                    if(TextProcessor.isNumber(term)) {
+                if(!stopWordIndex.containsTerm(alteredTerm) && !TextProcessor.isSymbol(alteredTerm)) {
+                    if(TextProcessor.isNumber(alteredTerm)) {
                         invertedIndex.add("9999", trainingFile.getName());
                     }
                     else
                     {
-                        String stemmedTerm = TextProcessor.porterStem(term);
+                        String stemmedTerm = TextProcessor.porterStem(alteredTerm);
                         invertedIndex.add(stemmedTerm, trainingFile.getName());
                     }
                 }
