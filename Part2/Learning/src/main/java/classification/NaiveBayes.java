@@ -1,6 +1,5 @@
 package classification;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class NaiveBayes extends Classifier {
@@ -47,11 +46,11 @@ public class NaiveBayes extends Classifier {
         }
     }
 
-    private double fac(int n) {
+    private double fac(double n) {
         if (n <= 1) return 1; else return n*fac(n-1);
     }
     
-    public EmailClass classify(int[] vector) {
+    public EmailClass classify(double[] vector) {
         // We should get the same input vector as in the training set
         assert(vector.length == d);
 

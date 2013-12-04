@@ -8,7 +8,7 @@ public abstract class Classifier {
         throw new UnsupportedOperationException();
     }
     
-    public EmailClass classify(int[] vector) {
+    public EmailClass classify(double[] vector) {
         throw new UnsupportedOperationException();
     }
 }
