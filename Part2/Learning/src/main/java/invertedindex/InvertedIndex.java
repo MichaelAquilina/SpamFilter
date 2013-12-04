@@ -57,4 +57,8 @@ public abstract class InvertedIndex {
     public Collection<String> getTerms() {
         throw new UnsupportedOperationException();
     }
+
+    public void clear() {
+        throw new UnsupportedOperationException();
+    }
 }

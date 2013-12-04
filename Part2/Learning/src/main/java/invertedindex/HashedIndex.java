@@ -126,4 +126,10 @@ public class HashedIndex extends InvertedIndex {
     public Collection<String> getTerms() {
         return termMap.keySet();
     }
+
+    @Override
+    public void clear() {
+        termMap.clear();
+        documents.clear();
+    }
 }
