@@ -62,7 +62,6 @@ public class NaiveBayes extends Classifier {
             posPos += posProbs[i]*vector[i] - Math.log(fac(vector[i]));
         }
 
-        System.out.format("%f vs %f\n", negPos, posPos);
         if (negPos > posPos) {
             return EmailClass.Ham;
         } else {

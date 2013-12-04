@@ -2,6 +2,7 @@ package train;
 
 import classification.Classifier;
 import classification.Email;
+import classification.EmailClass;
 import classification.LabelledVector;
 import classification.NaiveBayes;
 import invertedindex.HashedIndex;
@@ -10,6 +11,8 @@ import text.Parser;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Train {
     public static void usage() {
@@ -101,13 +104,29 @@ public class Train {
        Classifier someClassifier = new NaiveBayes();
        someClassifier.train(labelledVectors);
        
-       // TODO@Uwe: Do a better implementation of this.
+       Map<EmailClass, Map<EmailClass, Integer>> confusion = new HashMap<EmailClass, Map<EmailClass, Integer>>();
+       confusion.put(EmailClass.Spam, new HashMap<EmailClass, Integer>());
+       confusion.get(EmailClass.Spam).put(EmailClass.Spam, 0);
+       confusion.get(EmailClass.Spam).put(EmailClass.Ham, 0);
+       confusion.put(EmailClass.Ham, new HashMap<EmailClass, Integer>());
+       confusion.get(EmailClass.Ham).put(EmailClass.Spam, 0);
+       confusion.get(EmailClass.Ham).put(EmailClass.Ham, 0);
+
        // Hack: Simply clasifiy an instance to see if the classifier works.
        int[] vector = new int[labelledVectors.get(0).getVector().length];
-       for (int i = 0; i < vector.length; i++) {
-           vector[i] = (int)labelledVectors.get(0).getVector()[i];
+       for (LabelledVector vec : labelledVectors) {
+           for (int i = 0; i < vector.length; i++) {
+               vector[i] = (int)vec.getVector()[i];
+           }
+           EmailClass clClass = someClassifier.classify(vector);
+           EmailClass actualClass = vec.getEmailClass();
+           confusion.get(actualClass).put(clClass, confusion.get(actualClass).get(clClass) + 1);
        }
-       System.out.println(someClassifier.classify(vector));
-       System.out.println(labelledVectors.get(0).getEmailClass());
+
+       // Print confusion matrix
+       System.out.println("   |   Spam |    Ham |");
+       System.out.println("---|--------|--------|");
+       System.out.format( " S | % 6d | % 6d |\n", confusion.get(EmailClass.Spam).get(EmailClass.Spam), confusion.get(EmailClass.Spam).get(EmailClass.Ham));
+       System.out.format( " H | % 6d | % 6d |\n", confusion.get(EmailClass.Ham).get(EmailClass.Spam), confusion.get(EmailClass.Ham).get(EmailClass.Ham));
     }
 }
