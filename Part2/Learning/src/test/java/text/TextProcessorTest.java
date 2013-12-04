@@ -1,8 +1,8 @@
 package text;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-import text.TextProcessor;
+
+import static org.junit.Assert.assertEquals;
 
 public class TextProcessorTest {
     
@@ -12,26 +12,22 @@ public class TextProcessorTest {
     
     @Test
     public void testWeakStem() {
-        TextProcessor textProcessor = new TextProcessor();
-        
-        assertEquals("book", textProcessor.weakStem("books"));
-        assertEquals("s", textProcessor.weakStem("s"));
+        assertEquals("book", TextProcessor.weakStem("books"));
+        assertEquals("s", TextProcessor.weakStem("s"));
     }
     
     @Test
     public void testPorterStem() {
-        TextProcessor textProcessor = new TextProcessor();
-        
-        assertEquals("book", textProcessor.porterStem("books"));
-        
-        assertEquals("connect", textProcessor.porterStem("connected"));
-        assertEquals("connect", textProcessor.porterStem("connection"));
+        assertEquals("book", TextProcessor.porterStem("books"));
+
+        assertEquals("connect", TextProcessor.porterStem("connected"));
+        assertEquals("connect", TextProcessor.porterStem("connection"));
         
         // Stemmer sometimes cuts off endings but they still conflate well
-        assertEquals("relat", textProcessor.porterStem("relational"));
+        assertEquals("relat", TextProcessor.porterStem("relational"));
         
-        assertEquals("allow", textProcessor.porterStem("allowance"));
+        assertEquals("allow", TextProcessor.porterStem("allowance"));
         
-        assertEquals("adjust", textProcessor.porterStem("adjustable"));
+        assertEquals("adjust", TextProcessor.porterStem("adjustable"));
     }
 }
