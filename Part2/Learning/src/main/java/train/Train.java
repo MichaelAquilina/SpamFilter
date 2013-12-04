@@ -69,9 +69,13 @@ public class Train {
                    //Leave out stop words
                    if(!stopwordsIndex.containsTerm(term) && !TextProcessor.isSymbol(term))
                    {
-
-                       String stemTerm = TextProcessor.porterStem(term);
-                       invertedIndex.add(stemTerm, example.getName());
+                        if(TextProcessor.isNumber(term)) {
+                            invertedIndex.add("9999", example.getName());  // Guaranteed to be unique
+                        }
+                        else {
+                            String stemTerm = TextProcessor.porterStem(term);
+                            invertedIndex.add(stemTerm, example.getName());
+                        }
                    }
                    else
                        ++stopwordsCount;
@@ -103,7 +107,7 @@ public class Train {
        VectorFactory vectorise = new VectorFactory(invertedIndex);
        
        ArrayList<LabelledVector> labelledVectors = vectorise.getLabelledVectors();
-       
+
        // IMPORTANT
        // Use the Classifier class as a common interface for performing training
        Classifier someClassifier = null;
