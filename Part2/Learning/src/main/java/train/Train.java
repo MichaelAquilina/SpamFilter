@@ -7,7 +7,6 @@ import classification.NaiveBayes;
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
-import text.TextProcessor;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -57,29 +56,18 @@ public class Train {
 
        File directory = new File(trainDataPath);
        File[] examples = directory.listFiles(new SpamHamFileFilter());
-       
-       int stopwordsCount = 0;
+
        for(File example : examples) {
            try {
                Email email = parser.parseFile(example);
                
                for(String word : email.getWords()) {
-                   
-                   String term = TextProcessor.rstrip(word.toLowerCase());
+                   if(!stopwordsIndex.containsTerm(word)) {
+                       String term = VectorFactory.transform(word);
 
-                   //Leave out stop words
-                   if(!stopwordsIndex.containsTerm(term) && !TextProcessor.isSymbol(term))
-                   {
-                        if(TextProcessor.isNumber(term)) {
-                            invertedIndex.add("9999", example.getName());  // Guaranteed to be unique
-                        }
-                        else {
-                            String stemTerm = TextProcessor.porterStem(term);
-                            invertedIndex.add(stemTerm, example.getName());
-                        }
+                       if(term != null)
+                           invertedIndex.add(term, example.getName());
                    }
-                   else
-                       ++stopwordsCount;
                }
                
                System.out.format("Successfully loaded %d terms for %s with class %s\n", email.getWords().size(), example.getName(), email.getEmailClass().toString());
@@ -94,7 +82,6 @@ public class Train {
        }
         
        System.out.format("Final InvertedIndex term size = %d\n", invertedIndex.termCount());
-       System.out.format("Prevented %d stopword entries from being added\n", stopwordsCount);
        
        System.out.println("Trimming Index...");
        

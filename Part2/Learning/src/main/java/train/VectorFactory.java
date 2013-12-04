@@ -4,15 +4,33 @@ import classification.Email;
 import classification.EmailClass;
 import classification.LabelledVector;
 import invertedindex.InvertedIndex;
+import text.TextProcessor;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 // Produces vector representations from given inverted indexes
+// TODO: This isn't really a factory class anymore.... refactor accordingly
 // TODO: Transform term frequency weighted vectors into TFIDF
 public class VectorFactory {
     
     private final HashMap<String, Integer> termIndexMap;
     private final InvertedIndex invertedIndex;
+
+    // Temporary method for transforming words before being added to an inverted index
+    public static String transform(String word) {
+        String term = TextProcessor.rstrip(word.toLowerCase());
+
+        //Leave out stop words
+        if(!TextProcessor.isSymbol(term))
+        {
+            if(TextProcessor.isNumber(term))
+                return "9999";
+            else
+                return TextProcessor.porterStem(term);
+        }
+        else
+            return null;
+    }
     
     public VectorFactory(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
@@ -69,7 +87,7 @@ public class VectorFactory {
         
         for(String term : email.getWords()) {
             
-            int index = getIndex(term);
+            int index = getIndex(transform(term));
             if(index != -1) {
                 vector[index]++;
             }
