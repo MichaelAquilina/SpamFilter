@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class TermData {
     private final HashMap<String, Integer> termDocumentFrequency;
-    private int totalFrequency = 0;
+    private int totalTermFrequency = 0;
     
     public TermData() {
         termDocumentFrequency = new HashMap<>();
@@ -15,7 +15,7 @@ public class TermData {
             termDocumentFrequency.put(document, 0);
         }
         
-        ++totalFrequency;
+        ++totalTermFrequency;
         termDocumentFrequency.put(document, termDocumentFrequency.get(document) + 1);
     }
     
@@ -26,8 +26,8 @@ public class TermData {
             return 0;
     }
     
-    public int getTotalFrequency() {
-        return totalFrequency;
+    public int getTotalTermFrequency() {
+        return totalTermFrequency;
     }
     
     public int getDocumentFrequency() {
@@ -36,6 +36,6 @@ public class TermData {
     
     @Override
     public String toString() {
-        return "TermData: <total=" + totalFrequency+" documents=" + termDocumentFrequency.size() + ">";
+        return "TermData: <totalTermFrequency=" + getTotalTermFrequency() + " documentFrequency=" + getDocumentFrequency() + ">";
     }
 }

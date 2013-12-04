@@ -31,7 +31,7 @@ public class HashedIndex extends InvertedIndex {
     public int getTermFrequency(String term) {
         if(termMap.containsKey(term)) {
             TermData termData = termMap.get(term);
-            return termData.getTotalFrequency();
+            return termData.getTotalTermFrequency();
         }
         else return 0;
     }
@@ -82,8 +82,8 @@ public class HashedIndex extends InvertedIndex {
         for(String term : termMap.keySet()) {
             TermData termData = termMap.get(term);
             
-            if(termData.getTotalFrequency() > max) {
-                max = termData.getTotalFrequency();
+            if(termData.getTotalTermFrequency() > max) {
+                max = termData.getTotalTermFrequency();
             }
         }
         
@@ -99,8 +99,8 @@ public class HashedIndex extends InvertedIndex {
         for(String term : termMap.keySet()) {
             TermData termData = termMap.get(term);
             
-            if(termData.getTotalFrequency() < min) {
-                min = termData.getTotalFrequency();
+            if(termData.getTotalTermFrequency() < min) {
+                min = termData.getTotalTermFrequency();
             }
         }
         
