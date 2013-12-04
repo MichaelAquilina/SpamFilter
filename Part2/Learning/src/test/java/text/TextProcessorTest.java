@@ -23,6 +23,16 @@ public class TextProcessorTest {
     }
 
     @Test
+    public void testIsNumber() {
+        assertTrue(TextProcessor.isNumber("499"));
+        assertTrue(TextProcessor.isNumber("123456789"));
+
+        assertFalse(TextProcessor.isNumber("$500"));
+        assertFalse(TextProcessor.isNumber("hello"));
+        assertFalse(TextProcessor.isNumber("%$#"));
+    }
+
+    @Test
     public void testIsSymbol() {
         assertTrue(TextProcessor.isSymbol("$"));
         assertTrue(TextProcessor.isSymbol("@"));

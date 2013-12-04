@@ -6,7 +6,9 @@ import java.util.regex.Pattern;
 // such as spell checking, stemming, lemmatisation etc...
 public class TextProcessor {
     private static final Stemmer stemmer = new Stemmer();
+
     private static Pattern currencyPattern = Pattern.compile("\\$[0-9]+");
+    private static Pattern numberPattern = Pattern.compile("^[0-9]+$");
 
     public static boolean isSymbol(String word) {
 
@@ -19,6 +21,10 @@ public class TextProcessor {
 
     public static boolean isCurrency(String word) {
         return currencyPattern.matcher(word).find();
+    }
+
+    public static boolean isNumber(String word) {
+        return numberPattern.matcher(word).find();
     }
     
     public static String lemmatise(String word) {
