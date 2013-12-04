@@ -11,28 +11,35 @@ import text.TextProcessor;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EmailClassifier {
 
     private Classifier classifier;
     private InvertedIndex invertedIndex;
+    private Parser parser;
+    private InvertedIndex stopWordIndex;
+
+    // Map from term -> index in vector
+    private HashMap<String, Integer> termIndexMap;
 
     public EmailClassifier(Classifier classifier) {
         this.classifier = classifier;
         this.invertedIndex = new HashedIndex();
+        this.parser = new Parser();
+        this.stopWordIndex = loadStopWordsIndex();
+        this.termIndexMap = new HashMap<>();
     }
 
     public void train(String trainingPath) throws IOException {
-
         invertedIndex.clear();
+        termIndexMap.clear();
 
         // TODO: Make these values alterable
         float upperPercentile = 0.9f;
         float lowerPercentile = 0.07f;
 
         // Part 1: Parsing and pre-processing of text
-        Parser parser = new Parser();
-        InvertedIndex stopWordIndex = loadStopWordsIndex();
 
         File trainingDirectory = new File(trainingPath);
         File[] trainingFiles = trainingDirectory.listFiles(new SpamHamFileFilter());
@@ -62,15 +69,41 @@ public class EmailClassifier {
         int maxDocFrequency = (int) (upperPercentile * invertedIndex.getDocumentCount());
         invertedIndex.trimIndex(minDocFrequency, maxDocFrequency);
 
-        // Part 3: Feature Weighting
+        // Part 3: Generate term -> index Map
+        int index = 0;
+        for(String term : invertedIndex.getTerms()) {
+            termIndexMap.put(term, index++);
+        }
+
+        // Part 4: Feature Weighting
         ArrayList<LabelledVector> vectors = extractVectors();
 
-        // Part 4: Classifier Training
+        // Part 5: Classifier Training
         classifier.train(vectors);
     }
 
-    public EmailClass classify(String emailPath) {
-        return EmailClass.Ham;
+    public EmailClass classify(String emailPath) throws IOException {
+        return classify(new File(emailPath));
+    }
+
+    public EmailClass classify(File emailFile) throws IOException {
+        Email emailDocument = parser.parseFile(emailFile);
+        EmailClass emailClass = EmailClass.Unknown;
+        double[] vector = new double[invertedIndex.getTermCount()];
+
+        for(String term : emailDocument.getWords()) {
+            String alteredTerm = term.toLowerCase();
+            alteredTerm = TextProcessor.rstrip(alteredTerm);
+            alteredTerm = TextProcessor.porterStem(alteredTerm);
+
+            if(termIndexMap.containsKey(alteredTerm)) {
+                int index = termIndexMap.get(alteredTerm);
+
+                vector[index]++;
+            }
+        }
+
+        return classifier.classify(vector);
     }
 
     public int getTermCount() {
@@ -100,11 +133,9 @@ public class EmailClassifier {
             emailVector.setEmailClass(emailDocument.contains("ham")? EmailClass.Ham : EmailClass.Spam);
 
             double[] vectorData = new double[invertedIndex.getTermCount()];
-
-            // I think we can assume that the index will remain the same
-            int index = 0;
             for(String term : invertedIndex.getTerms()) {
-                vectorData[index++] = invertedIndex.getTermFrequency(term, emailDocument);
+                int index = termIndexMap.get(term);
+                vectorData[index] = invertedIndex.getTermFrequency(term, emailDocument);
             }
 
             emailVector.setVector(vectorData);
@@ -115,19 +146,25 @@ public class EmailClassifier {
     }
 
     //TODO: Make this class less dependent on external files
-    private InvertedIndex loadStopWordsIndex() throws IOException {
-        InvertedIndex stopwordsIndex = new HashedIndex();
+    private InvertedIndex loadStopWordsIndex() {
+        try {
+            InvertedIndex stopwordsIndex = new HashedIndex();
 
-        InputStream stream = Train.class.getResourceAsStream("stopwords.txt");
+            InputStream stream = Train.class.getResourceAsStream("stopwords.txt");
 
-        BufferedReader stopwords = new BufferedReader(new InputStreamReader(stream));
+            BufferedReader stopwords = new BufferedReader(new InputStreamReader(stream));
 
-        String line;
-        while((line = stopwords.readLine()) != null)
-            stopwordsIndex.add(line, "stopwords.txt");
+            String line;
+            while((line = stopwords.readLine()) != null)
+                stopwordsIndex.add(line, "stopwords.txt");
 
-        stopwords.close();
+            stopwords.close();
 
-        return stopwordsIndex;
+            return stopwordsIndex;
+        } catch(IOException e) {
+            System.err.println("There was an Error loading the stopwords Index");
+            System.err.println("Expect feature selection to degrade");
+            return new HashedIndex();
+        }
     }
 }
