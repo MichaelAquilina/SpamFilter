@@ -3,6 +3,11 @@ Spam Filter
 
 Project for "Introduction to Machine Learning" course.
 
+Results
+-------
+
+Current terms selected from feature selection: https://gist.github.com/KillaW0lf04/d430834e07b4e7aa3901
+
 Design
 ------
 
