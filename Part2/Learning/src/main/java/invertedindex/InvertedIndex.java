@@ -46,11 +46,11 @@ public abstract class InvertedIndex {
         throw new UnsupportedOperationException();
     }
     
-    public int termCount() {
+    public int getTermCount() {
         throw new UnsupportedOperationException();
     }
     
-    public int documentCount() {
+    public int getDocumentCount() {
         throw new UnsupportedOperationException();
     }
     
