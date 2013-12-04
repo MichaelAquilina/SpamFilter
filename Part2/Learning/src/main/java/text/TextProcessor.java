@@ -1,9 +1,12 @@
 package text;
 
+import java.util.regex.Pattern;
+
 // This class should extended with any text pre or post processing methods
 // such as spell checking, stemming, lemmatisation etc...
 public class TextProcessor {
     private static final Stemmer stemmer = new Stemmer();
+    private static Pattern currencyPattern = Pattern.compile("\\$[0-9]+");
 
     public static boolean isSymbol(String word) {
 
@@ -12,6 +15,10 @@ public class TextProcessor {
                 return false;
 
         return true;
+    }
+
+    public static boolean isCurrency(String word) {
+        return currencyPattern.matcher(word).find();
     }
     
     public static String lemmatise(String word) {
