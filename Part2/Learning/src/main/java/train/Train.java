@@ -3,6 +3,7 @@ package train;
 import classification.Classifier;
 import classification.Email;
 import classification.LabelledVector;
+import classification.NaiveBayes;
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
@@ -110,7 +111,16 @@ public class Train {
 
        // IMPORTANT
        // Use the Classifier class as a common interface for performing training
-       Classifier someClassifier = null;
-       // someClassifier.train(labelledVectors);
+       Classifier someClassifier = new NaiveBayes();
+       someClassifier.train(labelledVectors);
+       
+       // TODO@Uwe: Do a better implementation of this.
+       // Hack: Simply clasifiy an instance to see if the classifier works.
+       int[] vector = new int[labelledVectors.get(0).getVector().length];
+       for (int i = 0; i < vector.length; i++) {
+           vector[i] = (int)labelledVectors.get(0).getVector()[i];
+       }
+       System.out.println(someClassifier.classify(vector));
+       System.out.println(labelledVectors.get(0).getEmailClass());
     }
 }
