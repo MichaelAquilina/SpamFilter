@@ -21,6 +21,17 @@ public class TextProcessor {
         return current;
     }
 
+    public static String lstrip(String word) {
+        if(word.isEmpty())
+            return word;
+
+        String current = word;
+        while(!current.isEmpty() && !Character.isLetterOrDigit(current.charAt(0)))
+            current = current.substring(1, current.length());
+
+        return current;
+    }
+
     public static boolean isSymbol(String word) {
 
         for(int i=0; i<word.length(); ++i)

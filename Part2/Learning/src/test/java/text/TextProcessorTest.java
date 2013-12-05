@@ -20,16 +20,32 @@ public class TextProcessorTest {
         assertEquals("hello", TextProcessor.rstrip("hello"));
 
         // Words with trailing symbols
-        assertEquals("hello", TextProcessor.rstrip("hello:"));
         assertEquals("hello", TextProcessor.rstrip("hello!"));
         assertEquals("because", TextProcessor.rstrip("because....!"));
-        assertEquals("users", TextProcessor.rstrip("users'"));
 
         // Only Symbols
         assertEquals("", TextProcessor.rstrip(".#@@#&*^@"));
 
         // Words with trailing digits
         assertEquals("hello89", TextProcessor.rstrip("hello89"));
+    }
+
+    @Test
+    public void testLstrip() {
+        assertEquals("", TextProcessor.lstrip(""));
+
+        // No Symbols
+        assertEquals("hello", TextProcessor.lstrip("hello"));
+
+        // Words with trailing symbols
+        assertEquals("hello", TextProcessor.lstrip("...hello"));
+        assertEquals("hello", TextProcessor.lstrip("@hello"));
+
+        // Only Symbols
+        assertEquals("", TextProcessor.lstrip(".#@@#&*^@"));
+
+        // Words with trailing digits
+        assertEquals("hello89", TextProcessor.lstrip("hello89"));
     }
 
     @Test
