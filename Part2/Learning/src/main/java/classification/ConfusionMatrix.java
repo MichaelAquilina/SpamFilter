@@ -19,10 +19,28 @@ public class ConfusionMatrix {
                 confusion.get(actualClass).put(emailClass, confusion.get(actualClass).get(emailClass) + 1);
         }
 
+        public int getTotal() {
+            return getValue(EmailClass.Ham, EmailClass.Ham) + getValue(EmailClass.Spam, EmailClass.Spam) +
+                   getValue(EmailClass.Spam, EmailClass.Ham) + getValue(EmailClass.Ham, EmailClass.Spam);
+        }
+
+        public int getValue(EmailClass actual, EmailClass predicted) {
+            return confusion.get(actual).get(predicted);
+        }
+
         public void print() {
             System.out.println("   |   Spam |    Ham |");
             System.out.println("---|--------|--------|");
-            System.out.format( " S | % 6d | % 6d |\n", confusion.get(EmailClass.Spam).get(EmailClass.Spam), confusion.get(EmailClass.Spam).get(EmailClass.Ham));
-            System.out.format( " H | % 6d | % 6d |\n", confusion.get(EmailClass.Ham).get(EmailClass.Spam), confusion.get(EmailClass.Ham).get(EmailClass.Ham));
+            System.out.format( " S | % 6d | % 6d |\n", getValue(EmailClass.Spam, EmailClass.Spam), getValue(EmailClass.Spam, EmailClass.Ham));
+            System.out.format( " H | % 6d | % 6d |\n", getValue(EmailClass.Ham, EmailClass.Spam), getValue(EmailClass.Ham, EmailClass.Ham));
+            System.out.println();
+
+            // Display Model Accuracy
+            int correctlyPredicted = getValue(EmailClass.Spam, EmailClass.Spam) + getValue(EmailClass.Ham, EmailClass.Ham);
+            double accuracy = ((double) correctlyPredicted) / (double) getTotal();
+
+            System.out.format("Accuracy = %f\n", accuracy);
+
+            // TODO: Print and calculate Precision and Recall
         }
 }
