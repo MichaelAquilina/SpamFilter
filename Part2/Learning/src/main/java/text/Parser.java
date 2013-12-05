@@ -1,22 +1,15 @@
 package text;
 
 import classification.Email;
-import classification.EmailClass;
+import org.jsoup.Jsoup;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import java.util.regex.Pattern;
 
 /**
  * Parse emails, return plain texts and metadata, strip html.
@@ -40,10 +33,6 @@ public class Parser {
                 new String[] { "image/bmp" }
                 ));
 
-    // Patterns for class label recognition
-    private final static Pattern spamFilePattern = Pattern.compile("spam\\d+\\.txt");
-    private final static Pattern hamFilePattern = Pattern.compile("ham\\d+\\.txt");
-
     // Patterns for content recognition
     private final static Pattern htmlPattern = Pattern.compile("(?i)\\<html\\>");
 
@@ -63,17 +52,10 @@ public class Parser {
         }
         reader.close();
 
-        EmailClass emailClass = EmailClass.Unknown;
-        if (spamFilePattern.matcher(file.getName()).find()) {
-            emailClass = EmailClass.Spam;
-        } else if (hamFilePattern.matcher(file.getName()).find()) {
-            emailClass = EmailClass.Ham;
-        }
-
-        return parseString(data.toString(), emailClass);
+        return new Email(file, parseString(data.toString()));
     }
 
-    public Email parseString(String data, EmailClass _class) {
+    public ArrayList<String> parseString(String data) {
         String metadataStr = "";
         String remainder = "";
         // Step 1: Remove metadata
@@ -161,8 +143,6 @@ public class Parser {
         ArrayList<String> words = new ArrayList<>();
         words.addAll(Arrays.asList(remainder.split("[\\n\\s]+")));
 
-        Email mail = new Email(words);
-        mail.setEmailClass(_class);
-        return mail;
+        return words;
     }
 }

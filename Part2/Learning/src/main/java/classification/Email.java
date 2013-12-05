@@ -1,13 +1,21 @@
 package classification;
 
+import java.io.File;
 import java.util.List;
 
 public class Email {
+
+    private File emailFile;
     private EmailClass _emailClass = EmailClass.Unknown;
     private final List<String> words;
 
-    public Email(List<String> words) {
+    public Email(File emailFile, List<String> words) {
+        this.emailFile = emailFile;
         this.words = words;
+    }
+
+    public File getEmailFile() {
+        return emailFile;
     }
 
     /**
