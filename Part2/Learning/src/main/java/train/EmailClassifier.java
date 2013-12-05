@@ -23,17 +23,19 @@ public class EmailClassifier {
     private Parser parser;
     private InvertedIndex stopWordIndex;
     private boolean useTextPreProcessing;
+    private FeatureWeighting weightingMethod;
 
     // Map from term -> index in vector
     private HashMap<String, Integer> termIndexMap;
 
-    public EmailClassifier(Classifier classifier, boolean useTextPreProcessing) {
+    public EmailClassifier(Classifier classifier, FeatureWeighting weightingMethod, boolean useTextPreProcessing) {
         this.classifier = classifier;
         this.invertedIndex = new HashedIndex();
         this.parser = new Parser();
         this.stopWordIndex = loadStopWordsIndex();
         this.termIndexMap = new HashMap<>();
         this.useTextPreProcessing = useTextPreProcessing;
+        this.weightingMethod = weightingMethod;
     }
 
     public void train(List<File> trainingFiles) throws IOException {
@@ -41,8 +43,8 @@ public class EmailClassifier {
         termIndexMap.clear();
 
         // TODO: Make these values alterable
-        float upperPercentile = 0.9f;
-        float lowerPercentile = 0.07f;
+        final float upperPercentile = 0.9f;
+        final float lowerPercentile = 0.07f;
 
         // Part 1: Parsing and pre-processing of text
         for(File trainingFile : trainingFiles) {
@@ -76,16 +78,25 @@ public class EmailClassifier {
 
     public EmailClass classify(File emailFile) throws IOException {
         Email emailDocument = parser.parseFile(emailFile);
-        double[] vector = new double[invertedIndex.getTermCount()];
+        String document = emailDocument.getEmailFile().getName();
 
+        // Build an inverted index just for this email to calculate values
+        // We need a separate one so that does not contaminate the values obtained from training
+        InvertedIndex localIndex = new HashedIndex();
         for(String term : emailDocument.getWords()) {
             String alteredTerm = useTextPreProcessing? performTextPreProcessing(term) : term;
 
-            if(termIndexMap.containsKey(alteredTerm)) {
-                int index = termIndexMap.get(alteredTerm);
+            // Only allow terms in the build index to be added
+            if(invertedIndex.containsTerm(alteredTerm))
+                localIndex.add(alteredTerm, document);
+        }
 
-                vector[index]++;
-            }
+        // Calculate the actual vector values using the local index
+        double[] vector = new double[invertedIndex.getTermCount()];
+        for(String term : localIndex.getTerms()) {
+            int index = termIndexMap.get(term);
+
+            vector[index] = weightingMethod.calculate_weight(localIndex.getTermData(term), document);
         }
 
         return classifier.classify(vector);
@@ -110,16 +121,6 @@ public class EmailClassifier {
             return TextProcessor.isNumber(result)? NUMBER_REP :  TextProcessor.porterStem(result);
     }
 
-    // calculate tfidf value with given input parameters
-    // Using augmented frequency as found on wikipedia http://en.wikipedia.org/wiki/Tf%E2%80%93idf
-    private double tfidf(String term, String document)
-    {
-        double tf = 0.5 + 0.5 * ((double) invertedIndex.getTermFrequency(term, document) / (double) invertedIndex.getMaxTermFrequency());
-        double idf = Math.log((double) invertedIndex.getDocumentCount() / (double) (1 + invertedIndex.getDocumentFrequency(term)));
-
-        return tf * idf;
-    }
-
     // Extracts labelled vectors from the current inverted index
     private ArrayList<LabelledVector> extractVectors() {
         ArrayList<LabelledVector> vectors = new ArrayList<>();
@@ -131,7 +132,7 @@ public class EmailClassifier {
             double[] vectorData = new double[invertedIndex.getTermCount()];
             for(String term : invertedIndex.getTerms()) {
                 int index = termIndexMap.get(term);
-                vectorData[index] = invertedIndex.getTermFrequency(term, emailDocument);
+                vectorData[index] = weightingMethod.calculate_weight(invertedIndex.getTermData(term), emailDocument);
             }
 
             emailVector.setVector(vectorData);

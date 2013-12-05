@@ -20,7 +20,7 @@ public class Train {
 
         // Load the list of files and select 0.9 as training data and 0.1 as test data.
         String trainingPath = args[0];
-        EmailClassifier emailClassifier = new EmailClassifier(new NaiveBayes(), true);
+        EmailClassifier emailClassifier = new EmailClassifier(new NaiveBayes(), new FrequencyWeighting(), true);
         CrossValidation cv = new CrossValidation(trainingPath, emailClassifier);
         cv.fold(10);
         cv.getCombinedConfusion().print();
