@@ -43,24 +43,14 @@ public class EmailClassifier {
         float lowerPercentile = 0.07f;
 
         // Part 1: Parsing and pre-processing of text
-
         for(File trainingFile : trainingFiles) {
 
             Email email = parser.parseFile(trainingFile);
             for(String term : email.getWords()) {
-                String alteredTerm = term.toLowerCase();
-                alteredTerm = TextProcessor.rstrip(alteredTerm);
+               String alteredTerm = performTextPreProcessing(term);
 
-                if(!stopWordIndex.containsTerm(alteredTerm) && !TextProcessor.isSymbol(alteredTerm)) {
-                    if(TextProcessor.isNumber(alteredTerm)) {
-                        invertedIndex.add(NUMBER_REP, trainingFile.getName());
-                    }
-                    else
-                    {
-                        String stemmedTerm = TextProcessor.porterStem(alteredTerm);
-                        invertedIndex.add(stemmedTerm, trainingFile.getName());
-                    }
-                }
+                if(alteredTerm != null)
+                    invertedIndex.add(alteredTerm, trainingFile.getName());
             }
         }
 
@@ -84,17 +74,10 @@ public class EmailClassifier {
 
     public EmailClass classify(File emailFile) throws IOException {
         Email emailDocument = parser.parseFile(emailFile);
-        EmailClass emailClass = EmailClass.Unknown;
         double[] vector = new double[invertedIndex.getTermCount()];
 
         for(String term : emailDocument.getWords()) {
-            String alteredTerm = term.toLowerCase();
-            alteredTerm = TextProcessor.rstrip(alteredTerm);
-
-            if(TextProcessor.isNumber(alteredTerm))
-                alteredTerm = NUMBER_REP;
-            else
-                alteredTerm = TextProcessor.porterStem(alteredTerm);
+            String alteredTerm = performTextPreProcessing(term);
 
             if(termIndexMap.containsKey(alteredTerm)) {
                 int index = termIndexMap.get(alteredTerm);
@@ -112,6 +95,17 @@ public class EmailClassifier {
 
     public int getDocumentCount() {
         return invertedIndex.getDocumentCount();
+    }
+
+    private String performTextPreProcessing(String term) {
+        String result = term.toLowerCase();
+        result = TextProcessor.rstrip(result);
+
+        // Completely remove symbolic terms and stop words
+        if(stopWordIndex.containsTerm(result) || TextProcessor.isSymbol(result))
+            return null;
+        else
+            return TextProcessor.isNumber(result)? NUMBER_REP :  TextProcessor.porterStem(result);
     }
 
     // calculate tfidf value with given input parameters
