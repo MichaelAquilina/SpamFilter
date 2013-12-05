@@ -80,10 +80,6 @@ public class EmailClassifier {
         classifier.train(vectors);
     }
 
-    public EmailClass classify(String emailPath) throws IOException {
-        return classify(new File(emailPath));
-    }
-
     public EmailClass classify(File emailFile) throws IOException {
         Email emailDocument = parser.parseFile(emailFile);
         EmailClass emailClass = EmailClass.Unknown;
