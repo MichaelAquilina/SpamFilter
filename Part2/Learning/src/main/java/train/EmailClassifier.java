@@ -16,6 +16,8 @@ import java.util.HashMap;
 
 public class EmailClassifier {
 
+    private static final String NUMBER_REP = "9999";
+
     private Classifier classifier;
     private InvertedIndex invertedIndex;
     private Parser parser;
@@ -51,7 +53,7 @@ public class EmailClassifier {
 
                 if(!stopWordIndex.containsTerm(alteredTerm) && !TextProcessor.isSymbol(alteredTerm)) {
                     if(TextProcessor.isNumber(alteredTerm)) {
-                        invertedIndex.add("9999", trainingFile.getName());
+                        invertedIndex.add(NUMBER_REP, trainingFile.getName());
                     }
                     else
                     {
@@ -90,7 +92,7 @@ public class EmailClassifier {
             alteredTerm = TextProcessor.rstrip(alteredTerm);
 
             if(TextProcessor.isNumber(alteredTerm))
-                alteredTerm = "9999";
+                alteredTerm = NUMBER_REP;
             else
                 alteredTerm = TextProcessor.porterStem(alteredTerm);
 
