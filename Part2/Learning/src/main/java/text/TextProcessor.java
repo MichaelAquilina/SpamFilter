@@ -14,10 +14,11 @@ public class TextProcessor {
         if(word.isEmpty())
             return word;
 
-        if(!Character.isLetterOrDigit(word.charAt(word.length() - 1)))
-            return word.substring(0, word.length() - 1);
-        else
-            return word;
+        String current = word;
+        while(!current.isEmpty() && !Character.isLetterOrDigit(current.charAt(current.length() - 1)))
+            current = current.substring(0, current.length() - 1);
+
+        return current;
     }
 
     public static boolean isSymbol(String word) {
