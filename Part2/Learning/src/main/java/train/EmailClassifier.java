@@ -88,7 +88,11 @@ public class EmailClassifier {
         for(String term : emailDocument.getWords()) {
             String alteredTerm = term.toLowerCase();
             alteredTerm = TextProcessor.rstrip(alteredTerm);
-            alteredTerm = TextProcessor.porterStem(alteredTerm);
+
+            if(TextProcessor.isNumber(alteredTerm))
+                alteredTerm = "9999";
+            else
+                alteredTerm = TextProcessor.porterStem(alteredTerm);
 
             if(termIndexMap.containsKey(alteredTerm)) {
                 int index = termIndexMap.get(alteredTerm);
