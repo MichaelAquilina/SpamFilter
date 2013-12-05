@@ -61,4 +61,8 @@ public abstract class InvertedIndex {
     public void clear() {
         throw new UnsupportedOperationException();
     }
+
+    public TermData getTermData(String term) {
+        throw new UnsupportedOperationException();
+    }
 }

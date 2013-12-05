@@ -19,7 +19,7 @@ public class TermData {
         termDocumentFrequency.put(document, termDocumentFrequency.get(document) + 1);
     }
     
-    public int getTermOcurrance(String document) {
+    public int getTermFrequency(String document) {
         if(termDocumentFrequency.containsKey(document))
             return termDocumentFrequency.get(document);
         else

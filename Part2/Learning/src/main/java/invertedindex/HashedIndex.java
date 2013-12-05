@@ -40,7 +40,7 @@ public class HashedIndex extends InvertedIndex {
     public int getTermFrequency(String term, String document) {
         if(termMap.containsKey(term)) {
             TermData termData = termMap.get(term);
-            return termData.getTermOcurrance(document);
+            return termData.getTermFrequency(document);
         }
         else return 0;
     }
@@ -131,5 +131,10 @@ public class HashedIndex extends InvertedIndex {
     public void clear() {
         termMap.clear();
         documents.clear();
+    }
+
+    @Override
+    public TermData getTermData(String term) {
+        return termMap.get(term);
     }
 }
