@@ -11,6 +11,7 @@ import text.TextProcessor;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 public class EmailClassifier {
@@ -31,7 +32,7 @@ public class EmailClassifier {
         this.termIndexMap = new HashMap<>();
     }
 
-    public void train(String trainingPath) throws IOException {
+    public void train(List<File> trainingFiles) throws IOException {
         invertedIndex.clear();
         termIndexMap.clear();
 
@@ -40,9 +41,6 @@ public class EmailClassifier {
         float lowerPercentile = 0.07f;
 
         // Part 1: Parsing and pre-processing of text
-
-        File trainingDirectory = new File(trainingPath);
-        File[] trainingFiles = trainingDirectory.listFiles(new SpamHamFileFilter());
 
         for(File trainingFile : trainingFiles) {
 

@@ -20,13 +20,16 @@ public class Train {
             return;
         }
 
-        String trainingPath = args[0];
         String stateFilePath = args[1];
+        
+        // Load the list of files and select 0.9 as training data and 0.1 as test data.
+        String trainingPath = args[0];
+        CrossValidation cv = new CrossValidation(trainingPath);
        
         EmailClassifier emailClassifier = new EmailClassifier(new NaiveBayes());
 
         try {
-            emailClassifier.train(trainingPath);
+            emailClassifier.train(cv.getTraining());
 
             System.out.format("Classifier trained with %d emails\n", emailClassifier.getDocumentCount());
             System.out.format("Classifier Dimensions = %d\n", emailClassifier.getTermCount());
@@ -53,7 +56,7 @@ public class Train {
             File trainingDirectory = new File(trainingPath);
             File[] trainingFiles = trainingDirectory.listFiles(new SpamHamFileFilter());
 
-            for(File trainingFile : trainingFiles) {
+            for(File trainingFile : cv.getTest()) {
                 EmailClass actualClass = trainingFile.getName().contains("ham")? EmailClass.Ham : EmailClass.Spam;
                 EmailClass emailClass = emailClassifier.classify(trainingFile);
 
