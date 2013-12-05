@@ -1,13 +1,8 @@
 package train;
 
-import classification.ConfusionMatrix;
-import classification.EmailClass;
 import classification.NaiveBayes;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Train {
     public static void usage() {
