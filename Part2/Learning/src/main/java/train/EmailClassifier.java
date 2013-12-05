@@ -91,12 +91,15 @@ public class EmailClassifier {
                 localIndex.add(alteredTerm, document);
         }
 
+        int maxTermFrequency = invertedIndex.getMaxTermFrequency();
+        int documentCount = invertedIndex.getDocumentCount();
+
         // Calculate the actual vector values using the local index
         double[] vector = new double[invertedIndex.getTermCount()];
         for(String term : localIndex.getTerms()) {
             int index = termIndexMap.get(term);
 
-            vector[index] = weightingMethod.calculate_weight(localIndex.getTermData(term), document);
+            vector[index] = weightingMethod.calculate_weight(localIndex.getTermData(term), document, maxTermFrequency, documentCount);
         }
 
         return classifier.classify(vector);
@@ -125,6 +128,9 @@ public class EmailClassifier {
     private ArrayList<LabelledVector> extractVectors() {
         ArrayList<LabelledVector> vectors = new ArrayList<>();
 
+        int maxTermFrequency = invertedIndex.getMaxTermFrequency();
+        int documentCount = invertedIndex.getDocumentCount();
+
         for(String emailDocument : invertedIndex.getDocuments()) {
             LabelledVector emailVector = new LabelledVector();
             emailVector.setEmailClass(emailDocument.contains("ham")? EmailClass.Ham : EmailClass.Spam);
@@ -132,7 +138,7 @@ public class EmailClassifier {
             double[] vectorData = new double[invertedIndex.getTermCount()];
             for(String term : invertedIndex.getTerms()) {
                 int index = termIndexMap.get(term);
-                vectorData[index] = weightingMethod.calculate_weight(invertedIndex.getTermData(term), emailDocument);
+                vectorData[index] = weightingMethod.calculate_weight(invertedIndex.getTermData(term), emailDocument, maxTermFrequency, documentCount);
             }
 
             emailVector.setVector(vectorData);

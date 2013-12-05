@@ -17,23 +17,17 @@ public class Train {
         }
 
         String stateFilePath = args[1];
+        String trainingPath = args[0];
+
+        FeatureWeighting weightingMethod;
+        //weightingMethod = new TfidfWeighting();
+        weightingMethod = new FrequencyWeighting();
 
         // Load the list of files and select 0.9 as training data and 0.1 as test data.
-        String trainingPath = args[0];
-        EmailClassifier emailClassifier = new EmailClassifier(new NaiveBayes(), new FrequencyWeighting(), true);
+        EmailClassifier emailClassifier = new EmailClassifier(new NaiveBayes(), weightingMethod, true);
+
         CrossValidation cv = new CrossValidation(trainingPath, emailClassifier);
         cv.fold(10);
         cv.getCombinedConfusion().print();
-
-        // try {
-        //     emailClassifier.train(cv.getTraining());
-
-        //     System.out.format("Classifier trained with %d emails\n", emailClassifier.getDocumentCount());
-        //     System.out.format("Classifier Dimensions = %d\n", emailClassifier.getTermCount());
-        // } catch(IOException e) {
-        //     System.err.println("An Error occurred while trying to perform training");
-        //     e.printStackTrace();
-        //     return;
-        // }
     }
 }
