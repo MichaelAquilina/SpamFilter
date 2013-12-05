@@ -26,7 +26,7 @@ public class Train {
         String trainingPath = args[0];
         CrossValidation cv = new CrossValidation(trainingPath);
        
-        EmailClassifier emailClassifier = new EmailClassifier(new NaiveBayes());
+        EmailClassifier emailClassifier = new EmailClassifier(new NaiveBayes(), true);
 
         try {
             emailClassifier.train(cv.getTraining());
@@ -53,9 +53,6 @@ public class Train {
         // If so, might be better to move this code to EmailClassifier
         // Including a method to print confusion matrices
         try {
-            File trainingDirectory = new File(trainingPath);
-            File[] trainingFiles = trainingDirectory.listFiles(new SpamHamFileFilter());
-
             for(File trainingFile : cv.getTest()) {
                 EmailClass actualClass = trainingFile.getName().contains("ham")? EmailClass.Ham : EmailClass.Spam;
                 EmailClass emailClass = emailClassifier.classify(trainingFile);

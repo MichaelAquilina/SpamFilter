@@ -22,16 +22,18 @@ public class EmailClassifier {
     private InvertedIndex invertedIndex;
     private Parser parser;
     private InvertedIndex stopWordIndex;
+    private boolean useTextPreProcessing;
 
     // Map from term -> index in vector
     private HashMap<String, Integer> termIndexMap;
 
-    public EmailClassifier(Classifier classifier) {
+    public EmailClassifier(Classifier classifier, boolean useTextPreProcessing) {
         this.classifier = classifier;
         this.invertedIndex = new HashedIndex();
         this.parser = new Parser();
         this.stopWordIndex = loadStopWordsIndex();
         this.termIndexMap = new HashMap<>();
+        this.useTextPreProcessing = useTextPreProcessing;
     }
 
     public void train(List<File> trainingFiles) throws IOException {
@@ -47,7 +49,7 @@ public class EmailClassifier {
 
             Email email = parser.parseFile(trainingFile);
             for(String term : email.getWords()) {
-               String alteredTerm = performTextPreProcessing(term);
+                String alteredTerm = useTextPreProcessing? performTextPreProcessing(term) : term;
 
                 if(alteredTerm != null)
                     invertedIndex.add(alteredTerm, trainingFile.getName());
@@ -77,7 +79,7 @@ public class EmailClassifier {
         double[] vector = new double[invertedIndex.getTermCount()];
 
         for(String term : emailDocument.getWords()) {
-            String alteredTerm = performTextPreProcessing(term);
+            String alteredTerm = useTextPreProcessing? performTextPreProcessing(term) : term;
 
             if(termIndexMap.containsKey(alteredTerm)) {
                 int index = termIndexMap.get(alteredTerm);
