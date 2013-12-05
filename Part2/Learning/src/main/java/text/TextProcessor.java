@@ -10,6 +10,14 @@ public class TextProcessor {
     private static Pattern currencyPattern = Pattern.compile("\\$[0-9]+");
     private static Pattern numberPattern = Pattern.compile("^[0-9]+$");
 
+    // Helper method that calls lstrip followed by rstrip
+    public static String strip(String word) {
+        String result = lstrip(word);
+        result = rstrip(result);
+
+        return result;
+    }
+
     public static String rstrip(String word) {
         if(word.isEmpty())
             return word;

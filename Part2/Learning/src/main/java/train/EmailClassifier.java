@@ -101,7 +101,7 @@ public class EmailClassifier {
 
     private String performTextPreProcessing(String term) {
         String result = term.toLowerCase();
-        result = TextProcessor.rstrip(result);
+        result = TextProcessor.strip(result);
 
         // Completely remove symbolic terms and stop words
         if(stopWordIndex.containsTerm(result) || TextProcessor.isSymbol(result))

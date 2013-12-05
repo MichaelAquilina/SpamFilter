@@ -13,6 +13,18 @@ public class TextProcessorTest {
     }
 
     @Test
+    public void testStrip() {
+        assertEquals("", TextProcessor.strip(""));
+
+        assertEquals("hello", TextProcessor.strip("hello"));
+
+        assertEquals("hello", TextProcessor.strip("...hello!"));
+        assertEquals("goodbye", TextProcessor.strip(",goodbye...!"));
+
+        assertEquals("ro6", TextProcessor.strip("ro6"));
+    }
+
+    @Test
     public void testRstrip() {
         assertEquals("", TextProcessor.rstrip(""));
 
