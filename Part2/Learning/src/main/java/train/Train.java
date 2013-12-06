@@ -6,6 +6,7 @@ import classification.NaiveBayes;
 import java.io.IOException;
 
 import weka.Perceptron;
+import weka.J48;
 
 public class Train {
     public static void usage() {
@@ -32,7 +33,7 @@ public class Train {
         //weightingMethod = new TfidfWeighting();
         weightingMethod = new FrequencyWeighting();
 
-        Classifier classifier = new NaiveBayes();
+        Classifier classifier = new J48();//NaiveBayes();
         EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, true);
         testClassifier(trainingPath, emailClassifier);
     }

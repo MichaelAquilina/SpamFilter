@@ -37,7 +37,8 @@ public abstract class WekaClassifier extends Classifier {
 
     public EmailClass classify(double[] vector) {
         // Convert data to WEKA
-        WekaInstance instance = new WekaInstance(vector.length + 1);
+        // We need to fork from the original dataset so that tree classifiers work.
+        WekaInstance instance = instances.newInstance();
         for (int i = 0; i < vector.length; i++) {
             instance.setValue(i, vector[i]);
         }
