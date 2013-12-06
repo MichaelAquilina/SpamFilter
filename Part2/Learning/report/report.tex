@@ -1,0 +1,47 @@
+\documentclass[12pt,journal]{IEEEtran}
+\usepackage{color}
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+\usepackage{pgfplots}
+\usepackage{cite}
+\usepackage{subcaption}
+\usepackage[boxed]{algorithm2e}
+
+\begin{document}
+\title{CVRP Assignment}
+\author{Uwe Korn \\
+Student no.: 1348203, Account: uk13734, Word Count: 999, Date: 24/11/2013}
+\maketitle
+
+\IEEEpeerreviewmaketitle
+
+\newcommand{\todo}[1]{{\color{red} #1}}
+
+\section{Introduction}
+\todo{Write me!}
+\section{Conclusion}
+Overall the first approach which was inspired by Prins \cite{prins2004simple} approach to the DVRP lead to the best result when climbing to the top during each mutation.
+
+\bibliography{report}
+\bibliographystyle{plain}
+
+
+\end{document}
+
+
