@@ -23,18 +23,20 @@ public class EmailClassifier {
     private Parser parser;
     private InvertedIndex stopWordIndex;
     private boolean useTextPreProcessing;
+    private boolean useFeatureSelection;
     private FeatureWeighting weightingMethod;
 
     // Map from term -> index in vector
     private HashMap<String, Integer> termIndexMap;
 
-    public EmailClassifier(Classifier classifier, FeatureWeighting weightingMethod, boolean useTextPreProcessing) {
+    public EmailClassifier(Classifier classifier, FeatureWeighting weightingMethod, boolean useTextPreProcessing, boolean useFeatureSelection) {
         this.classifier = classifier;
         this.invertedIndex = new HashedIndex();
         this.parser = new Parser();
         this.stopWordIndex = loadStopWordsIndex();
         this.termIndexMap = new HashMap<>();
         this.useTextPreProcessing = useTextPreProcessing;
+        this.useFeatureSelection = useFeatureSelection;
         this.weightingMethod = weightingMethod;
     }
 
@@ -59,9 +61,11 @@ public class EmailClassifier {
         }
 
         // Part 2: Feature Selection
-        int minDocFrequency = (int) (lowerPercentile * invertedIndex.getDocumentCount());
-        int maxDocFrequency = (int) (upperPercentile * invertedIndex.getDocumentCount());
-        invertedIndex.trimIndex(minDocFrequency, maxDocFrequency);
+        if (useFeatureSelection) {
+            int minDocFrequency = (int) (lowerPercentile * invertedIndex.getDocumentCount());
+            int maxDocFrequency = (int) (upperPercentile * invertedIndex.getDocumentCount());
+            invertedIndex.trimIndex(minDocFrequency, maxDocFrequency);
+        }
 
         // Part 3: Generate term -> index Map
         int index = 0;

@@ -33,8 +33,9 @@ public class Train {
         //weightingMethod = new TfidfWeighting();
         weightingMethod = new FrequencyWeighting();
 
-        Classifier classifier = new J48();//NaiveBayes();
-        EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, true);
+        // Classifier classifier = new J48()
+        Classifier classifier = new NaiveBayes();
+        EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, false, false);
         testClassifier(trainingPath, emailClassifier);
     }
 }
