@@ -40,6 +40,10 @@ public class EmailClassifier {
         this.weightingMethod = weightingMethod;
     }
 
+    public Parser getParser() {
+        return parser;
+    }
+
     public void train(List<File> trainingFiles) throws IOException {
         invertedIndex.clear();
         termIndexMap.clear();

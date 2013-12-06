@@ -37,9 +37,19 @@ public class Parser {
     private final static Pattern htmlPattern = Pattern.compile("(?i)\\<html\\>");
 
     private boolean separateMetadata = true;
+    private boolean splitMultipart = true;
+    private boolean stripHtml = true;
 
     public void setSeparateMetadata(boolean separateMetadata) {
         this.separateMetadata = separateMetadata;
+    }
+
+    public void setSplitMultipart(boolean splitMultipart) {
+        this.splitMultipart = splitMultipart;
+    }
+
+    public void setStripHtml(boolean stripHtml) {
+        this.stripHtml = stripHtml;
     }
 
     public Email parseFile(File file) throws FileNotFoundException, IOException {
@@ -89,7 +99,8 @@ public class Parser {
         }
 
         // Step 2: Split mulitpart
-        if (remainder.startsWith("This is a multi-part message in MIME format.")
+        if (splitMultipart 
+                && remainder.startsWith("This is a multi-part message in MIME format.")
                 && metadataStr.contains("Content-Type: multipart/mixed")
                 && metadataStr.contains("boundary=\"")) {
             // This message is split into multiple parts,
@@ -135,7 +146,7 @@ public class Parser {
         }
 
         // Step 3: Remove HTML
-        if (htmlPattern.matcher(remainder).find()) {
+        if (stripHtml && htmlPattern.matcher(remainder).find()) {
             // Oh, this is nasty HTML, get rid of it!
             remainder = Jsoup.parse(remainder).text();
         }

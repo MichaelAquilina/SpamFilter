@@ -36,6 +36,9 @@ public class Train {
         // Classifier classifier = new J48()
         Classifier classifier = new NaiveBayes();
         EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, false, false);
+        emailClassifier.getParser().setSeparateMetadata(false);
+        emailClassifier.getParser().setSplitMultipart(false);
+        emailClassifier.getParser().setStripHtml(false);
         testClassifier(trainingPath, emailClassifier);
     }
 }
