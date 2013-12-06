@@ -10,3 +10,8 @@ nbactions.xml
 # IntelliJ Artifacts
 .idea
 *.iml
+/report/report.aux
+/report/report.bbl
+/report/report.blg
+/report/report.log
+/report/report.pdf
