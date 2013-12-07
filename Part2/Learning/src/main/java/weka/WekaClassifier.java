@@ -30,7 +30,7 @@ public abstract class WekaClassifier extends Classifier {
         } catch (Exception e) {
             // Oh, WEKA why do I have to do this?
             e.printStackTrace();
-            System.err.println("Weka chrashed. Stopping here.");
+            System.err.println("Weka crashed. Stopping here.");
             System.exit(0);
         }
     }
@@ -50,7 +50,7 @@ public abstract class WekaClassifier extends Classifier {
         } catch (Exception e) {
             // Oh, WEKA why do I have to do this?
             e.printStackTrace();
-            System.err.println("Weka chrashed. Stopping here.");
+            System.err.println("Weka crashed. Stopping here.");
             System.exit(0);
         }
 
