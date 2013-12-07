@@ -2,33 +2,35 @@ package classification;
 
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
+import spamfilter.Train;
 import text.Parser;
 import text.TextProcessor;
-import spamfilter.Train;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 
 public class EmailClassifier {
 
     private static final String NUMBER_REP = "9999";
 
     private Classifier classifier;
-    private InvertedIndex invertedIndex;
     private Parser parser;
     private InvertedIndex stopWordIndex;
     private boolean useTextPreProcessing;
     private boolean useFeatureSelection;
     private FeatureWeighting weightingMethod;
 
+    private boolean trained = false;
+    private int maxTermFrequency = -1;
+    private int documentCount = -1;
+
     // Map from term -> index in vector
     private HashMap<String, Integer> termIndexMap;
 
     public EmailClassifier(Classifier classifier, FeatureWeighting weightingMethod, boolean useTextPreProcessing, boolean useFeatureSelection) {
         this.classifier = classifier;
-        this.invertedIndex = new HashedIndex();
         this.parser = new Parser();
         this.stopWordIndex = loadStopWordsIndex();
         this.termIndexMap = new HashMap<>();
@@ -41,8 +43,25 @@ public class EmailClassifier {
         return parser;
     }
 
+    public boolean isTrained() {
+        return trained;
+    }
+
+    public int getTermCount() {
+        return termIndexMap.size();
+    }
+
+    public int getMaxTermFrequency() {
+        return maxTermFrequency;
+    }
+
+    public int getDocumentCount() {
+        return documentCount;
+    }
+
     public void train(List<File> trainingFiles) throws IOException {
-        invertedIndex.clear();
+        InvertedIndex invertedIndex = new HashedIndex();
+
         termIndexMap.clear();
 
         // TODO: Make these values alterable
@@ -75,10 +94,15 @@ public class EmailClassifier {
         }
 
         // Part 4: Feature Weighting
-        ArrayList<LabelledVector> vectors = extractVectors();
+        ArrayList<LabelledVector> vectors = extractVectors(invertedIndex);
 
         // Part 5: Classifier Training
         classifier.train(vectors);
+
+        // Store the values before destroying the inverted index
+        maxTermFrequency = invertedIndex.getMaxTermFrequency();
+        documentCount = invertedIndex.getDocumentCount();
+        trained = true;
     }
 
     public EmailClass classify(File emailFile) throws IOException {
@@ -92,15 +116,12 @@ public class EmailClassifier {
             String alteredTerm = useTextPreProcessing? performTextPreProcessing(term) : term;
 
             // Only allow terms in the build index to be added
-            if(invertedIndex.containsTerm(alteredTerm))
+            if(termIndexMap.containsKey(alteredTerm))
                 localIndex.add(alteredTerm, document);
         }
 
-        int maxTermFrequency = invertedIndex.getMaxTermFrequency();
-        int documentCount = invertedIndex.getDocumentCount();
-
         // Calculate the actual vector values using the local index
-        double[] vector = new double[invertedIndex.getTermCount()];
+        double[] vector = new double[termIndexMap.size()];
         for(String term : localIndex.getTerms()) {
             int index = termIndexMap.get(term);
 
@@ -108,14 +129,6 @@ public class EmailClassifier {
         }
 
         return classifier.classify(vector);
-    }
-
-    public int getTermCount() {
-        return invertedIndex.getTermCount();
-    }
-
-    public int getDocumentCount() {
-        return invertedIndex.getDocumentCount();
     }
 
     private String performTextPreProcessing(String term) {
@@ -130,7 +143,7 @@ public class EmailClassifier {
     }
 
     // Extracts labelled vectors from the current inverted index
-    private ArrayList<LabelledVector> extractVectors() {
+    private ArrayList<LabelledVector> extractVectors(InvertedIndex invertedIndex) {
         ArrayList<LabelledVector> vectors = new ArrayList<>();
 
         int maxTermFrequency = invertedIndex.getMaxTermFrequency();
