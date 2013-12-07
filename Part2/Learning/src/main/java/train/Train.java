@@ -2,11 +2,11 @@ package train;
 
 import classification.Classifier;
 import classification.NaiveBayes;
+import com.google.gson.Gson;
 
+import java.io.FileWriter;
 import java.io.IOException;
-
-import weka.Perceptron;
-import weka.J48;
+import java.io.Writer;
 
 public class Train {
     public static void usage() {
@@ -35,10 +35,18 @@ public class Train {
 
         // Classifier classifier = new J48()
         Classifier classifier = new NaiveBayes();
-        EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, false, false);
-        emailClassifier.getParser().setSeparateMetadata(false);
-        emailClassifier.getParser().setSplitMultipart(false);
-        emailClassifier.getParser().setStripHtml(false);
+        EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, false, true);
+        //emailClassifier.getParser().setSeparateMetadata(false);
+        //emailClassifier.getParser().setSplitMultipart(false);
+        //emailClassifier.getParser().setStripHtml(false);
         testClassifier(trainingPath, emailClassifier);
+
+        // Save to file
+        Writer fileWriter = new FileWriter(stateFilePath);
+
+        Gson gson = new Gson();
+        gson.toJson(classifier, fileWriter);
+
+        System.out.format("Saved model to %s\n", stateFilePath);
     }
 }
