@@ -1,4 +1,4 @@
-package train;
+package spamfilter;
 
 import classification.*;
 import com.google.gson.Gson;

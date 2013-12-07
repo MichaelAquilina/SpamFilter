@@ -70,7 +70,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>train.Train</mainClass>
+                            <mainClass>spamfilter.Train</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

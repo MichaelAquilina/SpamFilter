@@ -1,4 +1,4 @@
-package train;
+package spamfilter;
 
 import java.io.File;
 import java.io.FilenameFilter;

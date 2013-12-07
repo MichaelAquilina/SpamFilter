@@ -4,7 +4,7 @@ import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
 import text.TextProcessor;
-import train.Train;
+import spamfilter.Train;
 
 import java.io.*;
 import java.util.ArrayList;

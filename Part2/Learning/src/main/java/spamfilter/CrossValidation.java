@@ -1,4 +1,4 @@
-package train;
+package spamfilter;
 
 import classification.ConfusionMatrix;
 import classification.EmailClass;
@@ -37,7 +37,7 @@ public class CrossValidation {
             fileFolds.add(files.subList(i * foldLength, end));
         }
 
-        // For each combination train and test
+        // For each combination spamfilter and test
         confusionMatrix = new ConfusionMatrix();
         confusionMatrices = new ArrayList<ConfusionMatrix>();
         for (int i = 0; i < folds; i++) {
