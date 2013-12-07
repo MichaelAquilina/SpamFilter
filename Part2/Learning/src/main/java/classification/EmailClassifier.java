@@ -60,13 +60,18 @@ public class EmailClassifier {
     }
 
     public void train(List<File> trainingFiles) throws IOException {
+        train(trainingFiles, 0.07f, 0.95f);     // Default values
+    }
+
+    public void train(List<File> trainingFiles, float lowerPercentile, float upperPercentile) throws IOException {
         InvertedIndex invertedIndex = new HashedIndex();
 
         termIndexMap.clear();
 
-        // TODO: Make these values alterable
-        final float upperPercentile = 0.9f;
-        final float lowerPercentile = 0.07f;
+        if(upperPercentile < 0 || upperPercentile > 1)
+            throw new IllegalArgumentException("Upper Percentile must be a value between 0 and 1");
+        if(lowerPercentile < 0 || lowerPercentile > 1)
+            throw new IllegalArgumentException("Lower percentile must be a value between 0 and 1");
 
         // Part 1: Parsing and pre-processing of text
         for(File trainingFile : trainingFiles) {
