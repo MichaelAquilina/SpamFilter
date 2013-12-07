@@ -2,11 +2,11 @@ package classification;
 
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
-import spamfilter.Train;
 import text.Parser;
 import text.TextProcessor;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,6 @@ public class EmailClassifier {
 
     private Classifier classifier;
     private Parser parser;
-    private InvertedIndex stopWordIndex;
     private boolean useTextPreProcessing;
     private boolean useFeatureSelection;
     private FeatureWeighting weightingMethod;
@@ -32,7 +31,6 @@ public class EmailClassifier {
     public EmailClassifier(Classifier classifier, FeatureWeighting weightingMethod, boolean useTextPreProcessing, boolean useFeatureSelection) {
         this.classifier = classifier;
         this.parser = new Parser();
-        this.stopWordIndex = loadStopWordsIndex();
         this.termIndexMap = new HashMap<>();
         this.useTextPreProcessing = useTextPreProcessing;
         this.useFeatureSelection = useFeatureSelection;
@@ -154,33 +152,10 @@ public class EmailClassifier {
         String result = term.toLowerCase();
         result = TextProcessor.strip(result);
 
-        // Completely remove symbolic terms and stop words
-        if(stopWordIndex.containsTerm(result) || TextProcessor.isSymbol(result))
+        // Completely remove symbolic terms
+        if(TextProcessor.isSymbol(result))
             return null;
         else
             return TextProcessor.isNumber(result)? NUMBER_REP :  TextProcessor.porterStem(result);
-    }
-
-    //TODO: Make this class less dependent on external files
-    private InvertedIndex loadStopWordsIndex() {
-        try {
-            InvertedIndex stopwordsIndex = new HashedIndex();
-
-            InputStream stream = Train.class.getResourceAsStream("stopwords.txt");
-
-            BufferedReader stopwords = new BufferedReader(new InputStreamReader(stream));
-
-            String line;
-            while((line = stopwords.readLine()) != null)
-                stopwordsIndex.add(line, "stopwords.txt");
-
-            stopwords.close();
-
-            return stopwordsIndex;
-        } catch(IOException e) {
-            System.err.println("There was an Error loading the stopwords Index");
-            System.err.println("Expect feature selection to degrade");
-            return new HashedIndex();
-        }
     }
 }
