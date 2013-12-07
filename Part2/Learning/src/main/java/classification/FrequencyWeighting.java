@@ -1,5 +1,6 @@
-package train;
+package classification;
 
+import classification.FeatureWeighting;
 import invertedindex.TermData;
 
 public class FrequencyWeighting implements FeatureWeighting {

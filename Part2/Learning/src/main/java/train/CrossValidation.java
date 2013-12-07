@@ -2,6 +2,7 @@ package train;
 
 import classification.ConfusionMatrix;
 import classification.EmailClass;
+import classification.EmailClassifier;
 
 import java.io.File;
 import java.io.IOException;

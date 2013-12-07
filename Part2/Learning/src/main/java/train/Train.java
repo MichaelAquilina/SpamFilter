@@ -1,7 +1,6 @@
 package train;
 
-import classification.Classifier;
-import classification.NaiveBayes;
+import classification.*;
 import com.google.gson.Gson;
 
 import java.io.FileWriter;

@@ -1,4 +1,4 @@
-package train;
+package classification;
 
 import invertedindex.TermData;
 

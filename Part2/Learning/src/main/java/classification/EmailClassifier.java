@@ -1,13 +1,10 @@
-package train;
+package classification;
 
-import classification.Classifier;
-import classification.Email;
-import classification.EmailClass;
-import classification.LabelledVector;
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
 import text.TextProcessor;
+import train.Train;
 
 import java.io.*;
 import java.util.ArrayList;
