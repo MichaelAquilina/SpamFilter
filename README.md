@@ -28,3 +28,4 @@ Current Machine Learning Models
 Third Party Code
 ----------------
 * [Porter Stemmer Algorithm](http://tartarus.org/martin/PorterStemmer/) in [java](http://tartarus.org/martin/PorterStemmer/java.txt)
+* AbstractAdapter is based on [this stackoverflow post](http://stackoverflow.com/questions/5800433/polymorphism-with-gson)
