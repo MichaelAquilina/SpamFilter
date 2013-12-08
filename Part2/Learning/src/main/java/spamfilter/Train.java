@@ -1,11 +1,8 @@
 package spamfilter;
 
 import classification.*;
-import com.google.gson.Gson;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 
 public class Train {
     public static void usage() {
@@ -34,18 +31,13 @@ public class Train {
 
         // Classifier classifier = new J48()
         Classifier classifier = new NaiveBayes();
-        EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, false, true);
+        EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, true, true);
         //emailClassifier.getParser().setSeparateMetadata(false);
         //emailClassifier.getParser().setSplitMultipart(false);
         //emailClassifier.getParser().setStripHtml(false);
         testClassifier(trainingPath, emailClassifier);
 
-        // Save to file
-        Writer fileWriter = new FileWriter(stateFilePath);
-
-        Gson gson = new Gson();
-        gson.toJson(classifier, fileWriter);
-
+        EmailClassifier.save(emailClassifier, stateFilePath);
         System.out.format("Saved model to %s\n", stateFilePath);
     }
 }

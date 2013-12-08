@@ -1,12 +1,13 @@
 package classification;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
 import text.TextProcessor;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -157,5 +158,34 @@ public class EmailClassifier {
             return null;
         else
             return TextProcessor.isNumber(result)? NUMBER_REP :  TextProcessor.porterStem(result);
+    }
+
+    public static void save(EmailClassifier emailClassifier, String path) throws IOException {
+        Gson gson = null;
+        {
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(Classifier.class, new AbstractAdapter<Classifier>());
+            builder.registerTypeAdapter(FeatureWeighting.class, new AbstractAdapter<FeatureWeighting>());
+            gson = builder.create();
+
+        }
+
+        Writer writer = new FileWriter(path);
+        gson.toJson(emailClassifier, EmailClassifier.class, writer);
+
+        writer.close();
+    }
+
+    public static EmailClassifier load(String path) throws FileNotFoundException {
+        Gson gson = null;
+        {
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(Classifier.class, new AbstractAdapter<Classifier>());
+            builder.registerTypeAdapter(FeatureWeighting.class, new AbstractAdapter<FeatureWeighting>());
+            gson = builder.create();
+        }
+
+        Reader reader = new FileReader(path);
+        return gson.fromJson(reader, EmailClassifier.class);
     }
 }
