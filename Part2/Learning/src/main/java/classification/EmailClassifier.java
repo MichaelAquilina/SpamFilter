@@ -2,6 +2,7 @@ package classification;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonWriter;
 import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
@@ -170,7 +171,9 @@ public class EmailClassifier {
 
         }
 
-        Writer writer = new FileWriter(path);
+        JsonWriter writer = new JsonWriter(new FileWriter(path));
+        writer.setIndent("   ");
+
         gson.toJson(emailClassifier, EmailClassifier.class, writer);
 
         writer.close();
