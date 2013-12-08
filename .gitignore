@@ -15,3 +15,6 @@ nbactions.xml
 /report/report.blg
 /report/report.log
 /report/report.pdf
+
+# Tex Creator Artifacts
+*.synctex.gz
