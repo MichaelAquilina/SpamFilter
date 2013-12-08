@@ -17,6 +17,9 @@ public class EmailClassifier {
 
     private static final String NUMBER_REP = "9999";
 
+    private static final float DEFAULT_UPPER_PERCENTILE = 0.95f;
+    private static final float DEFAULT_LOWER_PERCENTILE = 0.07f;
+
     private Classifier classifier;
     private Parser parser;
     private boolean useTextPreProcessing;
@@ -60,7 +63,7 @@ public class EmailClassifier {
     }
 
     public void train(List<File> trainingFiles) throws IOException {
-        train(trainingFiles, 0.07f, 0.95f);     // Default values
+        train(trainingFiles, DEFAULT_LOWER_PERCENTILE, DEFAULT_UPPER_PERCENTILE);     // Default values
     }
 
     public void train(List<File> trainingFiles, float lowerPercentile, float upperPercentile) throws IOException {
