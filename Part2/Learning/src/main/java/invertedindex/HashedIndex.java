@@ -22,7 +22,7 @@ public class HashedIndex extends InvertedIndex {
         }
         
         TermData termData = termMap.get(term);
-        termData.addTermOccurance(document);
+        termData.addTermOccurrence(document);
         
         documents.add(document);
     }

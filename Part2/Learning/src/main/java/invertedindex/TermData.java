@@ -10,7 +10,7 @@ public class TermData {
         termDocumentFrequency = new HashMap<>();
     }
     
-    public void addTermOccurance(String document) {
+    public void addTermOccurrence(String document) {
         if(!termDocumentFrequency.containsKey(document)) {
             termDocumentFrequency.put(document, 0);
         }
