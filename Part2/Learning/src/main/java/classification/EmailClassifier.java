@@ -152,8 +152,8 @@ public class EmailClassifier {
         String result = term.toLowerCase();
         result = TextProcessor.strip(result);
 
-        // Completely remove symbolic terms
-        if(TextProcessor.isSymbol(result))
+        // Completely remove symbolic and single/double characters terms
+        if(TextProcessor.isSymbol(result) || result.length() <= 2)
             return null;
         else
             return TextProcessor.isNumber(result)? NUMBER_REP :  TextProcessor.porterStem(result);
