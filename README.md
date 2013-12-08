@@ -3,36 +3,27 @@ Spam Filter
 
 Project for "Introduction to Machine Learning" course.
 
+Requirements can be found in the following pages:
+* [Spam Filter Implementation](https://www.cs.bris.ac.uk/Teaching/Resources/COMS30301/projects/spam/1/index.html)
+* [Training and Classification](https://www.cs.bris.ac.uk/Teaching/Resources/COMS30301/projects/spam/2/index.html)
+
 Results
 -------
 
-Current terms selected from feature selection: https://gist.github.com/KillaW0lf04/d430834e07b4e7aa3901
+* Current terms selected from feature selection: https://gist.github.com/KillaW0lf04/d430834e07b4e7aa3901
+* Json format for saving EmailClassifier: https://gist.github.com/KillaW0lf04/2ec98c3d2ad29085fcd1
 
 Design
 ------
 
 A [design wiki](https://github.com/KillaW0lf04/SpamFilter/wiki/Design) has been set up to establish a common understanding of components and milestones needed to complete the project. This should also help us when it comes to writing the report for hand in.
 
-Document Classfication
-----------------------
+Current Machine Learning Models
+-------------------------------
 
-C# Project for document classification https://github.com/KillaW0lf04/Document-Classification
-Should be able to provide us with some good ideas about how to improve classification for the second stage.
-
-Requirements
-------------
-
-Requirements can be found in the following pages:
-* [Spam Filter Implementation](https://www.cs.bris.ac.uk/Teaching/Resources/COMS30301/projects/spam/1/index.html)
-* [Training and Classification](https://www.cs.bris.ac.uk/Teaching/Resources/COMS30301/projects/spam/2/index.html)
-
-Summary
--------
-* The project should be implemented in java
-* main file should be called `filter.java` and take only one argument
-
-* The program will be tested using an automatic marking script on a test dataset. A sample of the automarking script can be found 
-  [here](https://www.cs.bris.ac.uk/Teaching/Resources/COMS30301/projects/spam/2/sampletest.tar.gz).
+* Perceptron
+* Naive Bayes
+* Decision Tree
 
 Third Party Code
 ----------------
