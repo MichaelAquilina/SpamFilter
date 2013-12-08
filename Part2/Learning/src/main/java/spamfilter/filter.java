@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class filter {
 
-    private static final String DEFAULT_MODEL_PATH = "/home/michaela/Development/SpamFilter/model.json";
+    private static final String DEFAULT_MODEL_PATH = "model.json";
 
     public static void usage() {
         System.out.println("filter <targetFile>");
