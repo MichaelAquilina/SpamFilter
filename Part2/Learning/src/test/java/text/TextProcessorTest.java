@@ -2,9 +2,7 @@ package text;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class TextProcessorTest {
     
@@ -13,15 +11,45 @@ public class TextProcessorTest {
     }
 
     @Test
-    public void testExtractDomain() {
-        assertEquals("www.google.com", TextProcessor.extractDomain("http://www.google.com/dawdawdawdawdjiocjei"));
-        assertEquals("click.wh5.com", TextProcessor.extractDomain("http://click.wh5.com/redirect.php?c=8496&u=lxoyup..cahrnet_0bkttg"));
-        assertEquals("example.bob.co.uk", TextProcessor.extractDomain("https://example.bob.co.uk/?@##@#$@wdaeq2322323"));
+    public void testExtractMailDomain() {
+        // Valid Email Addresses
+        assertEquals("gmail.com", TextProcessor.extractMailDomain("michaelaquilina@gmail.com"));
+        assertEquals("yahoo.co.uk", TextProcessor.extractMailDomain("test@yahoo.co.uk"));
 
-        assertEquals("example.com", TextProcessor.extractDomain("http://example.com"));
+        // Invalid Email Addresses
+        assertEquals(null, TextProcessor.extractMailDomain("Dog"));
+        assertEquals(null, TextProcessor.extractMailDomain("@gmail.com"));
+    }
 
-        assertEquals(null, TextProcessor.extractDomain("Mike Aquilina"));
-        assertEquals(null, TextProcessor.extractDomain("htp://something.example"));
+    @Test
+    public void testExtractUrlDomain() {
+        // known urls
+        assertEquals("www.google.com", TextProcessor.extractUrlDomain("http://www.google.com/dawdawdawdawdjiocjei"));
+        assertEquals("click.wh5.com", TextProcessor.extractUrlDomain("http://click.wh5.com/redirect.php?c=8496&u=lxoyup..cahrnet_0bkttg"));
+        assertEquals("example.bob.co.uk", TextProcessor.extractUrlDomain("https://example.bob.co.uk/?@##@#$@wdaeq2322323"));
+
+        // no sub-domain
+        assertEquals("example.com", TextProcessor.extractUrlDomain("http://example.com"));
+
+        // Invalid Urls
+        assertEquals(null, TextProcessor.extractUrlDomain("Mike Aquilina"));
+        assertEquals(null, TextProcessor.extractUrlDomain("htp://something.example"));
+    }
+
+    @Test
+    public void testIsEmailAddress() {
+        // known email addresses
+        assertTrue(TextProcessor.isEmailAddress("michaelaquilina@gmail.com"));
+        assertTrue(TextProcessor.isEmailAddress("my-email-address@something.co.uk"));
+        assertTrue(TextProcessor.isEmailAddress("john@mail.office.com"));
+
+        // known non-email addresses
+        assertFalse(TextProcessor.isEmailAddress("Dog"));
+        assertFalse(TextProcessor.isEmailAddress("http://www.google.com/23"));
+
+        // Corner cases
+        assertFalse(TextProcessor.isEmailAddress("Hello@"));
+        assertFalse(TextProcessor.isEmailAddress("@Hello"));
     }
 
     @Test
@@ -32,6 +60,7 @@ public class TextProcessorTest {
 
         assertFalse(TextProcessor.isUrl("Hamburger"));
         assertFalse(TextProcessor.isUrl("ht://example"));
+        assertFalse(TextProcessor.isUrl("MichaelAquilina@gmail.com"));
     }
 
     @Test

@@ -12,13 +12,26 @@ public class TextProcessor {
     private static Pattern numberPattern = Pattern.compile("^[0-9]+$");
 
     private static Pattern urlPattern = Pattern.compile("^https?://([^\\/]*).*");
+    private static Pattern emailAddressPattern = Pattern.compile("^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]+)");
 
-    public static String extractDomain(String url) {
+    public static String extractMailDomain(String emailAddress) {
+        Matcher matcher = emailAddressPattern.matcher(emailAddress);
+        if(matcher.find())
+            return matcher.group(2) + "." + matcher.group(3);
+        else
+            return null;
+    }
+
+    public static String extractUrlDomain(String url) {
         Matcher matcher = urlPattern.matcher(url);
         if(matcher.find())
             return matcher.group(1);
         else
             return null;
+    }
+
+    public static boolean isEmailAddress(String text) {
+        return emailAddressPattern.matcher(text).find();
     }
 
     public static boolean isUrl(String text) {

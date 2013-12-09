@@ -17,8 +17,8 @@ public class EmailClassifier {
 
     private static final String NUMBER_REP = "9999";
 
-    private static final float DEFAULT_UPPER_PERCENTILE = 0.95f;
-    private static final float DEFAULT_LOWER_PERCENTILE = 0.01f;
+    private static final float DEFAULT_UPPER_PERCENTILE = 0.99f;
+    private static final float DEFAULT_LOWER_PERCENTILE = 0.001f;
 
     private Classifier classifier;
     private Parser parser;
@@ -162,7 +162,7 @@ public class EmailClassifier {
             return null;
         else
         if(TextProcessor.isUrl(result))
-            return TextProcessor.extractDomain(result);
+            return TextProcessor.extractUrlDomain(result);
         else
         if(TextProcessor.isNumber(result))
             return NUMBER_REP;
