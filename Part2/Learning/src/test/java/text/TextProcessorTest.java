@@ -126,6 +126,15 @@ public class TextProcessorTest {
     public void testIsNumber() {
         assertTrue(TextProcessor.isNumber("499"));
         assertTrue(TextProcessor.isNumber("123456789"));
+        assertTrue(TextProcessor.isNumber("230,400,233"));
+        assertTrue(TextProcessor.isNumber("23,000,000"));
+        assertTrue(TextProcessor.isNumber("23,000"));
+        assertTrue(TextProcessor.isNumber("23,000,000,000"));
+
+        //Corner Cases
+        // TODO: Future improvements to regex
+        //assertFalse(TextProcessor.isNumber("23,32,32"));
+        //assertFalse(TextProcessor.isNumber("23,000,23"));
 
         assertFalse(TextProcessor.isNumber("$500"));
         assertFalse(TextProcessor.isNumber("hello"));
