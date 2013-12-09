@@ -14,6 +14,7 @@ public class Train {
         CrossValidation cv = new CrossValidation(trainingPath, emailClassifier);
         cv.fold(10);
         cv.getCombinedConfusion().print();
+        System.out.format("StdDev: %f\n", cv.getStdDev());
     }
 
     public static void main(String[] args) throws IOException {

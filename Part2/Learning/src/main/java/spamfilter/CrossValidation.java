@@ -25,6 +25,19 @@ public class CrossValidation {
         files = new ArrayList<File>(Arrays.asList(trainingDirectory.listFiles(new SpamHamFileFilter())));
     }
 
+    public double getStdDev() {
+        double mean = 0.0;
+        for (ConfusionMatrix cm : confusionMatrices) {
+            mean += cm.getAccuracy();
+        }
+        mean /= confusionMatrices.size();
+        double o2 = 0.0;
+        for (ConfusionMatrix cm : confusionMatrices) {
+            o2 += (cm.getAccuracy() - mean) * (cm.getAccuracy() - mean);
+        }
+        return Math.sqrt(o2);
+    }
+
     public void fold(int folds) throws IOException {
         // Shuffle the list, so that we get each time other results
         Collections.shuffle(files);

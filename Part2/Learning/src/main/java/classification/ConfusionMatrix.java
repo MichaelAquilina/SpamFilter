@@ -28,6 +28,11 @@ public class ConfusionMatrix {
             return confusion.get(actual).get(predicted);
         }
 
+        public double getAccuracy() {
+            int correctlyPredicted = getValue(EmailClass.Spam, EmailClass.Spam) + getValue(EmailClass.Ham, EmailClass.Ham);
+            return ((double) correctlyPredicted) / (double) getTotal();
+        }
+
         public void print() {
             System.out.println("   |   Spam |    Ham |");
             System.out.println("---|--------|--------|");
@@ -36,10 +41,8 @@ public class ConfusionMatrix {
             System.out.println();
 
             // Display Model Accuracy
-            int correctlyPredicted = getValue(EmailClass.Spam, EmailClass.Spam) + getValue(EmailClass.Ham, EmailClass.Ham);
-            double accuracy = ((double) correctlyPredicted) / (double) getTotal();
 
-            System.out.format("Accuracy = %f\n", accuracy);
+            System.out.format("Accuracy = %f\n", getAccuracy());
 
             // TODO: Print and calculate Precision and Recall
         }
