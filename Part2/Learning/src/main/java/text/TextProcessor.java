@@ -1,5 +1,6 @@
 package text;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // This class should extended with any text pre or post processing methods
@@ -9,6 +10,20 @@ public class TextProcessor {
 
     private static Pattern currencyPattern = Pattern.compile("\\$[0-9]+");
     private static Pattern numberPattern = Pattern.compile("^[0-9]+$");
+
+    private static Pattern urlPattern = Pattern.compile("^https?://([^\\/]*).*");
+
+    public static String extractDomain(String url) {
+        Matcher matcher = urlPattern.matcher(url);
+        if(matcher.find())
+            return matcher.group(1);
+        else
+            return null;
+    }
+
+    public static boolean isUrl(String text) {
+        return urlPattern.matcher(text).find();
+    }
 
     // Helper method that calls lstrip followed by rstrip
     public static String strip(String word) {

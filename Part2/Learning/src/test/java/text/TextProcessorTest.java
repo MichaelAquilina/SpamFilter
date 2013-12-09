@@ -13,6 +13,28 @@ public class TextProcessorTest {
     }
 
     @Test
+    public void testExtractDomain() {
+        assertEquals("www.google.com", TextProcessor.extractDomain("http://www.google.com/dawdawdawdawdjiocjei"));
+        assertEquals("click.wh5.com", TextProcessor.extractDomain("http://click.wh5.com/redirect.php?c=8496&u=lxoyup..cahrnet_0bkttg"));
+        assertEquals("example.bob.co.uk", TextProcessor.extractDomain("https://example.bob.co.uk/?@##@#$@wdaeq2322323"));
+
+        assertEquals("example.com", TextProcessor.extractDomain("http://example.com"));
+
+        assertEquals(null, TextProcessor.extractDomain("Mike Aquilina"));
+        assertEquals(null, TextProcessor.extractDomain("htp://something.example"));
+    }
+
+    @Test
+    public void testIsUrl() {
+        assertTrue(TextProcessor.isUrl("http://www.google.com/dawdawdawdawdjiocjei"));
+        assertTrue(TextProcessor.isUrl("http://click.wh5.com/redirect.php?c\u003d8496\u0026u\u003dlxoyup..cahrnet_0bkttg"));
+        assertTrue(TextProcessor.isUrl("https://lists.sourceforge.net/lists/listinfo/razor-us"));
+
+        assertFalse(TextProcessor.isUrl("Hamburger"));
+        assertFalse(TextProcessor.isUrl("ht://example"));
+    }
+
+    @Test
     public void testStrip() {
         assertEquals("", TextProcessor.strip(""));
 
