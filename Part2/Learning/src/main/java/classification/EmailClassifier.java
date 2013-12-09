@@ -164,6 +164,9 @@ public class EmailClassifier {
         if(TextProcessor.isUrl(result))
             return TextProcessor.extractUrlDomain(result);
         else
+        if(TextProcessor.isEmailAddress(result))
+            return "*@" + TextProcessor.extractMailDomain(result);
+        else
         if(TextProcessor.isNumber(result))
             return NUMBER_REP;
         else
