@@ -6,7 +6,9 @@ import org.jsoup.Jsoup;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,13 +26,13 @@ public class Parser {
     private final static Pattern msgIdPattern = Pattern.compile("(?m)^Message-Id:\\s+");
     private final static Pattern subjectPattern = Pattern.compile("(?m)^Subject:\\s+");
     private final static Pattern boundaryPattern = Pattern.compile("boundary=\"([^\"]*)\"");
-    private final static Pattern contentTypePattern = Pattern.compile("(?m)^Content-Type:\\s*([^;]*);");
+    private final static Pattern contentTypePattern = Pattern.compile("(?m)^Content-Type:\\s*([^\\n;]*)(;.*)?$");
 
     private static final Set<String> textContentTypes = new HashSet<String>(Arrays.asList(
-                new String[] { "text/plain" }
+                new String[] { "text/plain", "text/html", "multipart/alternative" }
                 ));
     private static final Set<String> unusedContentTypes = new HashSet<String>(Arrays.asList(
-                new String[] { "image/bmp" }
+                new String[] { "image/bmp", "application/x-pkcs7-signature", "image/gif", "image/jpeg" }
                 ));
 
     // Patterns for content recognition
@@ -50,6 +52,19 @@ public class Parser {
 
     public void setStripHtml(boolean stripHtml) {
         this.stripHtml = stripHtml;
+    }
+
+    public static String join(Collection<?> col) {
+        String delim = " ";
+        StringBuilder sb = new StringBuilder();
+        Iterator<?> iter = col.iterator();
+        if (iter.hasNext())
+            sb.append(iter.next().toString());
+        while (iter.hasNext()) {
+            sb.append(delim);
+            sb.append(iter.next().toString());
+        }
+        return sb.toString();
     }
 
     public Email parseFile(File file) throws FileNotFoundException, IOException {
@@ -101,7 +116,7 @@ public class Parser {
         // Step 2: Split mulitpart
         if (splitMultipart 
                 && remainder.startsWith("This is a multi-part message in MIME format.")
-                && metadataStr.contains("Content-Type: multipart/mixed")
+                && metadataStr.contains("Content-Type: multipart/")
                 && metadataStr.contains("boundary=\"")) {
             // This message is split into multiple parts,
             // extract all their (relevant) information.
@@ -130,7 +145,14 @@ public class Parser {
                         }
 
                         if (textContentTypes.contains(contentType)) {
-                            remainder += content + " ";
+                            if (contentType == "text/html" && stripHtml) {
+                                remainder = Jsoup.parse(content).text();
+                            } else if (contentType == "multipart/alternative") {
+                                // Recursion \o/
+                                remainder = join(parseString(content));
+                            } else {
+                                remainder += content + " ";
+                            }
                         } else if (unusedContentTypes.contains(contentType)) {
                             // Just dismiss this content
                             // TODO@Uwe: Save this event in the Email class
