@@ -1,6 +1,9 @@
 package text;
 
 import classification.Email;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 import org.jsoup.Jsoup;
 
 import java.io.*;
@@ -27,6 +30,7 @@ public class Parser {
     private final static Pattern subjectPattern = Pattern.compile("(?m)^Subject:\\s+");
     private final static Pattern boundaryPattern = Pattern.compile("boundary=\"([^\"]*)\"");
     private final static Pattern contentTypePattern = Pattern.compile("(?m)^Content-Type:\\s*([^\\n;]*)(;.*)?$");
+    private final static Pattern contentTransferEncoding64 = Pattern.compile("Content-Transfer-Encoding:\\s*base64");
 
     private static final Set<String> textContentTypes = new HashSet<String>(Arrays.asList(
                 new String[] { "text/plain", "text/html", "multipart/alternative" }
@@ -133,10 +137,11 @@ public class Parser {
                     if (ctm.find()) {
                         String contentType = ctm.group(1);
                         String content = "";
+                        String header = "";
                         Matcher splitMatcher = emptyLinePattern.matcher(parts[i]);
                         if (splitMatcher.find()) {
+                            header = data.substring(0, splitMatcher.end());
                             content = data.substring(splitMatcher.end() + 1);
-                            // metadata = data.substring(0, splitMatcher.start());
                             // TODO@Uwe: Add metadata parsing here
                         } else {
                             // We could not find a split, so we possibly do not
@@ -145,6 +150,9 @@ public class Parser {
                         }
 
                         if (textContentTypes.contains(contentType)) {
+                            if (contentTransferEncoding64.matcher(header).find()) {
+                                content = StringUtils.newStringUtf8(Base64.decodeBase64(StringUtils.getBytesUtf8(content)));
+                            }
                             if (contentType == "text/html" && stripHtml) {
                                 remainder = Jsoup.parse(content).text();
                             } else if (contentType == "multipart/alternative") {
