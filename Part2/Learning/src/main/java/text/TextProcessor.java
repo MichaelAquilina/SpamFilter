@@ -13,7 +13,7 @@ public class TextProcessor {
     private static Pattern urlPattern = Pattern.compile("^https?://([^\\.]*.)([^\\/]*).*");
     private static Pattern emailAddressPattern = Pattern.compile("^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]+)");
 
-    private static Pattern numberPattern = Pattern.compile("^([0-9]+,?)([0-9]+,?)*[0-9]+");
+    private static Pattern numberPattern = Pattern.compile("^([0-9]+,?)*([0-9]+,?)*[0-9]+.?[0-9]+");
 
     public static String extractMailDomain(String emailAddress) {
         Matcher matcher = emailAddressPattern.matcher(emailAddress);
