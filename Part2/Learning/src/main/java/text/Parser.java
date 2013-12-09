@@ -4,6 +4,7 @@ import classification.Email;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.codec.net.QuotedPrintableCodec;
 import org.jsoup.Jsoup;
 
 import java.io.*;
@@ -30,8 +31,12 @@ public class Parser {
     private final static Pattern subjectPattern = Pattern.compile("(?m)^Subject:\\s+");
     private final static Pattern boundaryPattern = Pattern.compile("boundary=\"([^\"]*)\"");
     private final static Pattern contentTypePattern = Pattern.compile("(?m)^Content-Type:\\s*([^\\n;]*)(;.*)?$");
-    private final static Pattern contentTransferEncoding64 = Pattern.compile("Content-Transfer-Encoding:\\s*base64");
+    private final static Pattern contentTransferEncoding = Pattern.compile("(?m)^Content-Transfer-Encoding:(.*)$");
+    private final static Pattern charsetPattern = Pattern.compile("charset\\s*=\\s*\"([^\"]+)\"");
 
+    private static final Set<String> passContentEncoding = new HashSet<String>(Arrays.asList(
+                new String[] { "7bit", "binary" }
+                ));
     private static final Set<String> textContentTypes = new HashSet<String>(Arrays.asList(
                 new String[] { "text/plain", "text/html", "multipart/alternative" }
                 ));
@@ -133,6 +138,7 @@ public class Parser {
                 // Skip first part, this is the "This is a multi-part message in MIME format." string
                 // Skip last part too as this is not read by the mail client
                 for (int i = 1; i < parts.length - 1; i++) {
+                    parts[i] = parts[i].trim();
                     Matcher ctm = contentTypePattern.matcher(parts[i]);
                     if (ctm.find()) {
                         String contentType = ctm.group(1);
@@ -140,8 +146,9 @@ public class Parser {
                         String header = "";
                         Matcher splitMatcher = emptyLinePattern.matcher(parts[i]);
                         if (splitMatcher.find()) {
-                            header = data.substring(0, splitMatcher.end());
-                            content = data.substring(splitMatcher.end() + 1);
+                            header = parts[i].substring(0, splitMatcher.end()).trim();
+                            content = parts[i].substring(splitMatcher.end() + 1);
+                            System.out.println(header);
                             // TODO@Uwe: Add metadata parsing here
                         } else {
                             // We could not find a split, so we possibly do not
@@ -150,8 +157,21 @@ public class Parser {
                         }
 
                         if (textContentTypes.contains(contentType)) {
-                            if (contentTransferEncoding64.matcher(header).find()) {
-                                content = StringUtils.newStringUtf8(Base64.decodeBase64(StringUtils.getBytesUtf8(content)));
+                            Matcher cteMatcher = contentTransferEncoding.matcher(header);
+                            if (cteMatcher.find()) {
+                                String cte = cteMatcher.group(1).trim();
+                                if (!passContentEncoding.contains(cte)) {
+                                    Matcher charsetMatcher = charsetPattern.matcher(header);
+                                    if (cte.equals("quoted-printable") && charsetMatcher.find()) {
+                                        String charset = charsetMatcher.group(1).trim();
+                                        try {
+                                            content = (new QuotedPrintableCodec(charset)).decode(content);
+                                        } catch (org.apache.commons.codec.DecoderException e){
+                                            // We could not convert, so just leave it.
+                                        }
+                                    } else {
+                                    }
+                                }
                             }
                             if (contentType == "text/html" && stripHtml) {
                                 remainder = Jsoup.parse(content).text();
