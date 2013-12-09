@@ -49,6 +49,8 @@ public class Train {
 
         emailClassifier.train(Arrays.asList(trainingDir.listFiles()));
 
+        System.out.format("Feature Dimensions = %d\n", emailClassifier.getTermCount());
+
         EmailClassifier.save(emailClassifier, stateFilePath);
         System.out.format("Saved model to %s\n", stateFilePath);
     }

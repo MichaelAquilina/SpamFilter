@@ -138,7 +138,7 @@ public class TextProcessorTest {
         //assertFalse(TextProcessor.isNumber("23,32,32"));
         //assertFalse(TextProcessor.isNumber("23,000,23"));
         //assertFalse(TextProcessor.isNumber("23423."));
-        
+
         assertFalse(TextProcessor.isNumber("$500"));
         assertFalse(TextProcessor.isNumber("hello"));
         assertFalse(TextProcessor.isNumber("%$#"));
