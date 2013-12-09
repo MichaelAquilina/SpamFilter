@@ -2,9 +2,13 @@ package spamfilter;
 
 import classification.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Train {
+    private static final int NO_FOLDS = 10;
+
     public static void usage() {
         System.out.println("Usage: ");
         System.out.println("\tjava -jar spamfilter-learning.jar <traindata> <outfile>");
@@ -12,7 +16,7 @@ public class Train {
 
     public static void testClassifier(String trainingPath, EmailClassifier emailClassifier) throws IOException {
         CrossValidation cv = new CrossValidation(trainingPath, emailClassifier);
-        cv.fold(10);
+        cv.fold(NO_FOLDS);
         cv.getCombinedConfusion().print();
         System.out.format("StdDev: %f\n", cv.getStdDev());
     }
@@ -36,7 +40,14 @@ public class Train {
         //emailClassifier.getParser().setSeparateMetadata(false);
         //emailClassifier.getParser().setSplitMultipart(false);
         //emailClassifier.getParser().setStripHtml(false);
+
+        System.out.format("Performing cross-validation on %d folds...", NO_FOLDS);
         testClassifier(trainingPath, emailClassifier);
+
+        System.out.println("Finished Testing, performing final train step...");
+        File trainingDir = new File(trainingPath);
+
+        emailClassifier.train(Arrays.asList(trainingDir.listFiles()));
 
         EmailClassifier.save(emailClassifier, stateFilePath);
         System.out.format("Saved model to %s\n", stateFilePath);
