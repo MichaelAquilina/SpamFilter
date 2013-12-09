@@ -11,7 +11,7 @@ public class TextProcessor {
     private static Pattern currencyPattern = Pattern.compile("\\$[0-9]+");
     private static Pattern numberPattern = Pattern.compile("^[0-9]+$");
 
-    private static Pattern urlPattern = Pattern.compile("^https?://([^\\/]*).*");
+    private static Pattern urlPattern = Pattern.compile("^https?://([^\\.]*.)([^\\/]*).*");
     private static Pattern emailAddressPattern = Pattern.compile("^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.([a-zA-Z]+)");
 
     public static String extractMailDomain(String emailAddress) {
@@ -25,7 +25,7 @@ public class TextProcessor {
     public static String extractUrlDomain(String url) {
         Matcher matcher = urlPattern.matcher(url);
         if(matcher.find())
-            return matcher.group(1);
+            return matcher.group(2);
         else
             return null;
     }
