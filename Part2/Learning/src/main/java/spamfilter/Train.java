@@ -41,7 +41,7 @@ public class Train {
         //emailClassifier.getParser().setSplitMultipart(false);
         //emailClassifier.getParser().setStripHtml(false);
 
-        System.out.format("Performing cross-validation on %d folds...", NO_FOLDS);
+        System.out.format("Performing cross-validation on %d folds...\n", NO_FOLDS);
         testClassifier(trainingPath, emailClassifier);
 
         System.out.println("Finished Testing, performing final train step...");
