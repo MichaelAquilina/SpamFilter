@@ -27,21 +27,21 @@ import java.util.regex.Pattern;
 public class Parser {
     // Patterns for metadata handling
     private final static Pattern emptyLinePattern = Pattern.compile("(?m)^\\s*$");
-    private final static Pattern msgIdPattern = Pattern.compile("(?m)^Message-Id:\\s+");
-    private final static Pattern subjectPattern = Pattern.compile("(?m)^Subject:\\s+");
-    private final static Pattern boundaryPattern = Pattern.compile("boundary=\"([^\"]*)\"");
-    private final static Pattern contentTypePattern = Pattern.compile("(?m)^Content-Type:\\s*([^\\n;]*)(;.*)?$");
-    private final static Pattern contentTransferEncoding = Pattern.compile("(?m)^Content-Transfer-Encoding:(.*)$");
+    private final static Pattern msgIdPattern = Pattern.compile("(?m)^Message-Id:\\s+", Pattern.CASE_INSENSITIVE);
+    private final static Pattern subjectPattern = Pattern.compile("(?m)^Subject:\\s+", Pattern.CASE_INSENSITIVE);
+    private final static Pattern boundaryPattern = Pattern.compile("boundary=\"([^\"]*)\"", Pattern.CASE_INSENSITIVE);
+    private final static Pattern contentTypePattern = Pattern.compile("(?m)^Content-Type:\\s*([^\\n;]*)(;.*)?$", Pattern.CASE_INSENSITIVE);
+    private final static Pattern contentTransferEncoding = Pattern.compile("(?m)^Content-Transfer-Encoding:(.*)$", Pattern.CASE_INSENSITIVE);
     private final static Pattern charsetPattern = Pattern.compile("charset\\s*=\\s*\"([^\"]+)\"");
 
     private static final Set<String> passContentEncoding = new HashSet<String>(Arrays.asList(
-                new String[] { "7bit", "binary" }
+                new String[] { "7bit", "binary", "8bit" }
                 ));
     private static final Set<String> textContentTypes = new HashSet<String>(Arrays.asList(
                 new String[] { "text/plain", "text/html", "multipart/alternative" }
                 ));
     private static final Set<String> unusedContentTypes = new HashSet<String>(Arrays.asList(
-                new String[] { "image/bmp", "application/x-pkcs7-signature", "image/gif", "image/jpeg" }
+                new String[] { "image/bmp", "application/x-pkcs7-signature", "image/gif", "image/jpeg", "application/pgp-signature", "application/octet-stream", "application/ms-tnef" }
                 ));
 
     // Patterns for content recognition
@@ -99,9 +99,10 @@ public class Parser {
             // Subject or Message-Id will be defined if there is
             Matcher subjectMatcher = subjectPattern.matcher(data);
             Matcher msgIdMatcher = msgIdPattern.matcher(data);
+            Matcher contentTypeMatcher = contentTypePattern.matcher(data);
 
             // Step 1.2: If there is metadata, split the string in half
-            if (subjectMatcher.find() || msgIdMatcher.find()) {
+            if (subjectMatcher.find() || msgIdMatcher.find() || contentTypeMatcher.find()) {
                 // Parse Metadata
                 Matcher splitMatcher = emptyLinePattern.matcher(data);
                 if (splitMatcher.find()) {
@@ -124,11 +125,11 @@ public class Parser {
 
         // Step 2: Split mulitpart
         if (splitMultipart 
-                && remainder.startsWith("This is a multi-part message in MIME format.")
                 && metadataStr.contains("Content-Type: multipart/")
                 && metadataStr.contains("boundary=\"")) {
             // This message is split into multiple parts,
             // extract all their (relevant) information.
+            remainder.replace("This is a multi-part message in MIME format.", "");
             Matcher m = boundaryPattern.matcher(metadataStr);
             if (m.find()) {
                 String boundary = m.group(1);
@@ -136,8 +137,7 @@ public class Parser {
                 // Clear remainder as we will refill it now with the relevant stuff
                 remainder = "";
                 // Skip first part, this is the "This is a multi-part message in MIME format." string
-                // Skip last part too as this is not read by the mail client
-                for (int i = 1; i < parts.length - 1; i++) {
+                for (int i = 1; i < parts.length; i++) {
                     parts[i] = parts[i].trim();
                     Matcher ctm = contentTypePattern.matcher(parts[i]);
                     if (ctm.find()) {
@@ -148,12 +148,11 @@ public class Parser {
                         if (splitMatcher.find()) {
                             header = parts[i].substring(0, splitMatcher.end()).trim();
                             content = parts[i].substring(splitMatcher.end() + 1);
-                            System.out.println(header);
                             // TODO@Uwe: Add metadata parsing here
                         } else {
                             // We could not find a split, so we possibly do not
                             // have any metadata
-                            content = data;
+                            content = parts[i];
                         }
 
                         if (textContentTypes.contains(contentType)) {
@@ -169,15 +168,20 @@ public class Parser {
                                         } catch (org.apache.commons.codec.DecoderException e){
                                             // We could not convert, so just leave it.
                                         }
+                                    } else if (cte.equals("quoted-printable")) {
+                                        // No charset -> no care.
+                                    } else if (cte.equals("base64")) {
+                                        content = StringUtils.newStringUtf8(Base64.decodeBase64(StringUtils.getBytesUtf8(content)));
                                     } else {
+                                        // Unknown ContentTypeEncoding, do nothing
                                     }
                                 }
                             }
-                            if (contentType == "text/html" && stripHtml) {
-                                remainder = Jsoup.parse(content).text();
-                            } else if (contentType == "multipart/alternative") {
+                            if (contentType.equals("text/html") && stripHtml) {
+                                remainder += Jsoup.parse(content).text();
+                            } else if (contentType.equals("multipart/alternative")) {
                                 // Recursion \o/
-                                remainder = join(parseString(content));
+                                remainder += join(parseString(parts[i]));
                             } else {
                                 remainder += content + " ";
                             }
