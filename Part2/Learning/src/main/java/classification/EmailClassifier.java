@@ -17,8 +17,8 @@ public class EmailClassifier {
 
     private static final String NUMBER_REP = "9999";
 
-    private static final float DEFAULT_UPPER_PERCENTILE = 0.99f;
-    private static final float DEFAULT_LOWER_PERCENTILE = 0.001f;
+    public static final double DEFAULT_UPPER_PERCENTILE = 0.99;
+    public static final double DEFAULT_LOWER_PERCENTILE = 0.001;
 
     private Classifier classifier;
     private Parser parser;
@@ -66,7 +66,7 @@ public class EmailClassifier {
         train(trainingFiles, DEFAULT_LOWER_PERCENTILE, DEFAULT_UPPER_PERCENTILE);     // Default values
     }
 
-    public void train(List<File> trainingFiles, float lowerPercentile, float upperPercentile) throws IOException {
+    public void train(List<File> trainingFiles, double lowerPercentile, double upperPercentile) throws IOException {
         InvertedIndex invertedIndex = new HashedIndex();
 
         trained = false;
