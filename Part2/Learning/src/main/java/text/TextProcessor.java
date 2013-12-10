@@ -39,6 +39,23 @@ public class TextProcessor {
         return urlPattern.matcher(text).find();
     }
 
+    public static String stripAttributes(String word) {
+        final Pattern attributePattern = Pattern.compile("(src=|href=|mailto:)\"?'?([^\"']*)");
+
+        boolean repeat;
+        do {
+            repeat = false;
+
+            Matcher matcher = attributePattern.matcher(word);
+            if(matcher.find()) {
+                word = matcher.group(2);
+                repeat = true;
+            }
+        } while(repeat);
+
+        return word;
+    }
+
     // Helper method that calls lstrip followed by rstrip
     public static String strip(String word) {
         String result = lstrip(word);

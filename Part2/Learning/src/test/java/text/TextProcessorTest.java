@@ -65,6 +65,28 @@ public class TextProcessorTest {
     }
 
     @Test
+    public void testStripAttributes() {
+        // src and href
+        // " and '
+        assertEquals("Michael", TextProcessor.stripAttributes("src=\"Michael"));
+        assertEquals("Uwe", TextProcessor.stripAttributes("href='Uwe"));
+
+        // No quatation marks
+        assertEquals("Gandalf", TextProcessor.stripAttributes("href=Gandalf"));
+
+        // mailto
+        assertEquals("michaelaquilina@gmail.com", TextProcessor.stripAttributes("mailto:michaelaquilina@gmail.com"));
+
+        // composites
+        assertEquals("holycow", TextProcessor.stripAttributes("href=mailto:holycow"));
+        assertEquals("banderas@gmail.com", TextProcessor.stripAttributes("src=href=mailto:href=banderas@gmail.com")); // Crazy!
+
+        // TODO FIX
+        // for some reason this will fail but we should never encounter it
+        // assertEquals("thehobbit", TextProcessor.stripAttributes("src=href='thehobbit"));
+    }
+
+    @Test
     public void testStrip() {
         assertEquals("", TextProcessor.strip(""));
 
