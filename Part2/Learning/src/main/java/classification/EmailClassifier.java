@@ -156,6 +156,7 @@ public class EmailClassifier {
     private String performTextPreProcessing(String term) {
         String result = term.toLowerCase();
         result = TextProcessor.strip(result);
+        result = TextProcessor.stripAttributes(result);
 
         // Completely remove symbolic and single/double characters terms
         if(TextProcessor.isSymbol(result) || result.length() <= 2)
