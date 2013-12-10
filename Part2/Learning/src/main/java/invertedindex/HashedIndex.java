@@ -58,16 +58,23 @@ public class HashedIndex extends InvertedIndex {
     public Collection<String> getDocuments() {
         return documents;
     }
-    
+
     @Override
-    public void trimIndex(int min, int max) {
-        ArrayList<String> trash = new ArrayList<>();
+    public ArrayList<String> getOuterWords(int min, int max) {
+        ArrayList<String> result = new ArrayList<>();
         for(String term : termMap.keySet()) {
             TermData termData = termMap.get(term);
-            
+
             if(termData.getDocumentFrequency()< min || termData.getDocumentFrequency()> max)
-                trash.add(term);
+                result.add(term);
         }
+
+        return result;
+    }
+
+    @Override
+    public void trimIndex(int min, int max) {
+        ArrayList<String> trash = getOuterWords(min, max);
         
         for(String term : trash)
             termMap.remove(term);

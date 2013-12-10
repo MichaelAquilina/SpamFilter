@@ -1,5 +1,6 @@
 package invertedindex;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class InvertedIndex {
@@ -31,6 +32,10 @@ public abstract class InvertedIndex {
     
     // Should return -1 if no terms available
     public int getMinTermFrequency() {
+        throw new UnsupportedOperationException();
+    }
+
+    public ArrayList<String> getOuterWords(int min, int max) {
         throw new UnsupportedOperationException();
     }
     
