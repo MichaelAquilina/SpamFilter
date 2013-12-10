@@ -2,7 +2,7 @@ package invertedindex;
 
 import java.util.HashMap;
 
-public class TermData {
+public class TermData implements Comparable<TermData> {
 
     private String term;
     private final HashMap<String, Integer> termDocumentFrequency;
@@ -44,5 +44,10 @@ public class TermData {
     @Override
     public String toString() {
         return "TermData: <totalTermFrequency=" + getTotalTermFrequency() + " documentFrequency=" + getDocumentFrequency() + ">";
+    }
+
+    @Override
+    public int compareTo(TermData termData) {
+        return this.getDocumentFrequency() - termData.getDocumentFrequency();
     }
 }
