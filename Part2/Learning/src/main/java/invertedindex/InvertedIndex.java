@@ -102,8 +102,7 @@ public class InvertedIndex {
         
         return max;
     }
-    
-    
+
     public int getMinTermFrequency() {
         if(termMap.isEmpty())
             return -1;
@@ -120,11 +119,9 @@ public class InvertedIndex {
         return min;
     }
     
-    
     public boolean remove(String term) {
         return termMap.remove(term) != null;
     }
-    
     
     public int getTermCount() {
         return termMap.size();
@@ -143,18 +140,15 @@ public class InvertedIndex {
         return termMap.keySet();
     }
 
-    
     public void clear() {
         termMap.clear();
         documents.clear();
     }
 
-    
     public TermData getTermData(String term) {
         return termMap.get(term);
     }
 
-    
     public void writeTermData(String path) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 
