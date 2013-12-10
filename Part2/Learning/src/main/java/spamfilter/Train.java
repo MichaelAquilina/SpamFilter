@@ -41,11 +41,13 @@ public class Train {
 
         //Classifier classifier = new J48();
         Classifier classifier = new NaiveBayes();
+
         EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, true, true);
         //emailClassifier.getParser().setSeparateMetadata(false);
         //emailClassifier.getParser().setSplitMultipart(false);
         //emailClassifier.getParser().setStripHtml(false);
 
+        System.out.format("Using %s\n", classifier.getClass().getName());
         System.out.format("Performing cross-validation on %d folds...\n", NO_FOLDS);
         testClassifier(trainingPath, emailClassifier, lowerPercentile, upperPercentile);
 
