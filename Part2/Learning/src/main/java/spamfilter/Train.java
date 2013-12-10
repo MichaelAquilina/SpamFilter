@@ -11,20 +11,23 @@ public class Train {
 
     public static void usage() {
         System.out.println("Usage: ");
-        System.out.println("\tjava -jar spamfilter-learning.jar <traindata> <outfile>");
+        System.out.println("\tjava -jar spamfilter-learning.jar <traindata> <outfile> [<lowerPercentile> <upperPercentile>]");
     }
 
-    public static void testClassifier(String trainingPath, EmailClassifier emailClassifier) throws IOException {
+    public static void testClassifier(String trainingPath, EmailClassifier emailClassifier, double lowerPercentile, double upperPercentile) throws IOException {
         CrossValidation cv = new CrossValidation(trainingPath, emailClassifier);
-        cv.fold(NO_FOLDS);
+        cv.fold(NO_FOLDS, lowerPercentile, upperPercentile);
         cv.getCombinedConfusion().print();
         System.out.format("StdDev: %f\n", cv.getStdDev());
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
+        double lowerPercentile = EmailClassifier.DEFAULT_LOWER_PERCENTILE;
+        double upperPercentile = EmailClassifier.DEFAULT_UPPER_PERCENTILE;
+        if (args.length != 2 && args.length != 4) {
             usage();
             return;
+        } else if (args.length == 4) {
         }
 
         String stateFilePath = args[1];
@@ -42,7 +45,7 @@ public class Train {
         //emailClassifier.getParser().setStripHtml(false);
 
         System.out.format("Performing cross-validation on %d folds...\n", NO_FOLDS);
-        testClassifier(trainingPath, emailClassifier);
+        testClassifier(trainingPath, emailClassifier, lowerPercentile, upperPercentile);
 
         System.out.println("Finished Testing, performing final train step...");
         File trainingDir = new File(trainingPath);

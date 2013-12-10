@@ -38,7 +38,7 @@ public class CrossValidation {
         return Math.sqrt(o2);
     }
 
-    public void fold(int folds) throws IOException {
+    public void fold(int folds, double lowerPercentile, double upperPercentile) throws IOException {
         // Shuffle the list, so that we get each time other results
         Collections.shuffle(files);
 
@@ -62,7 +62,7 @@ public class CrossValidation {
                 }
             }
 
-            classifier.train(train);
+            classifier.train(train, lowerPercentile, upperPercentile);
             
             ConfusionMatrix cm = new ConfusionMatrix();
             for(File trainingFile : fileFolds.get(i)) {
