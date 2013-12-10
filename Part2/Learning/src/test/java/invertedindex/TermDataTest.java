@@ -11,7 +11,7 @@ public class TermDataTest {
 
     @Before
     public void setup() {
-        termData = new TermData();
+        termData = new TermData("someterm");
         termData.addTermOccurrence("hello.txt");
         termData.addTermOccurrence("hello.txt");
         termData.addTermOccurrence("world.txt");

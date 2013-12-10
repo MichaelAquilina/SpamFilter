@@ -18,7 +18,7 @@ public class HashedIndex extends InvertedIndex {
     @Override
     public void add(String term, String document) {
         if(!termMap.containsKey(term)) {
-            termMap.put(term, new TermData());
+            termMap.put(term, new TermData(term));
         }
         
         TermData termData = termMap.get(term);

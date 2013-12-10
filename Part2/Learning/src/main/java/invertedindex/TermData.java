@@ -3,11 +3,18 @@ package invertedindex;
 import java.util.HashMap;
 
 public class TermData {
+
+    private String term;
     private final HashMap<String, Integer> termDocumentFrequency;
     private int totalTermFrequency = 0;
     
-    public TermData() {
-        termDocumentFrequency = new HashMap<>();
+    public TermData(String term) {
+        this.term = term;
+        this.termDocumentFrequency = new HashMap<>();
+    }
+
+    public String getTerm() {
+        return term;
     }
     
     public void addTermOccurrence(String document) {
