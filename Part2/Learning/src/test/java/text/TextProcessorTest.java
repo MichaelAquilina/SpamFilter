@@ -70,6 +70,7 @@ public class TextProcessorTest {
         // " and '
         assertEquals("Michael", TextProcessor.stripAttributes("src=\"Michael"));
         assertEquals("Uwe", TextProcessor.stripAttributes("href='Uwe"));
+        assertEquals("bobcat", TextProcessor.stripAttributes("value=\"bobcat"));
 
         // No quatation marks
         assertEquals("Gandalf", TextProcessor.stripAttributes("href=Gandalf"));

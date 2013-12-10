@@ -40,7 +40,7 @@ public class TextProcessor {
     }
 
     public static String stripAttributes(String word) {
-        final Pattern attributePattern = Pattern.compile("(src=|href=|mailto:)\"?'?([^\"']*)");
+        final Pattern attributePattern = Pattern.compile("(src=|href=|mailto:|value=)\"?'?([^\"']*)");
 
         boolean repeat;
         do {
