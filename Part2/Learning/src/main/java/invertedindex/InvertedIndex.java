@@ -78,11 +78,13 @@ public class InvertedIndex {
         return result;
     }
 
-    public void trimIndex(int min, int max) {
+    public int trimIndex(int min, int max) {
         ArrayList<TermData> trash = getOuterWords(min, max);
         
         for(TermData termData : trash)
             termMap.remove(termData.getTerm());
+
+        return trash.size();
     }
 
     public int getMaxTermFrequency() {
