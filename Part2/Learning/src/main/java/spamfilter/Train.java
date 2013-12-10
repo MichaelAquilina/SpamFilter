@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import weka.J48;
+
 public class Train {
     private static final int NO_FOLDS = 10;
 
@@ -28,6 +30,8 @@ public class Train {
             usage();
             return;
         } else if (args.length == 4) {
+            lowerPercentile = Double.parseDouble(args[2]);
+            upperPercentile = Double.parseDouble(args[3]);
         }
 
         String stateFilePath = args[1];
@@ -37,8 +41,8 @@ public class Train {
         //weightingMethod = new TfidfWeighting();
         weightingMethod = new FrequencyWeighting();
 
-        // Classifier classifier = new J48()
-        Classifier classifier = new NaiveBayes();
+        Classifier classifier = new J48();
+        // Classifier classifier = new NaiveBayes();
         EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, true, true);
         //emailClassifier.getParser().setSeparateMetadata(false);
         //emailClassifier.getParser().setSplitMultipart(false);
@@ -50,7 +54,7 @@ public class Train {
         System.out.println("Finished Testing, performing final train step...");
         File trainingDir = new File(trainingPath);
 
-        emailClassifier.train(Arrays.asList(trainingDir.listFiles()));
+        emailClassifier.train(Arrays.asList(trainingDir.listFiles()), lowerPercentile, upperPercentile);
 
         System.out.format("Feature Dimensions = %d\n", emailClassifier.getTermCount());
 
