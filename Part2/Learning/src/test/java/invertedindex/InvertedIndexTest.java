@@ -1,19 +1,21 @@
 package invertedindex;
 
 import org.apache.commons.collections.CollectionUtils;
-import java.util.HashSet;
-import java.util.Arrays;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
 import static org.junit.Assert.*;
 
-public class HashedIndexTest {
+public class InvertedIndexTest {
     
-    public HashedIndexTest() {
+    public InvertedIndexTest() {
     }
 
     @Test
     public void testGetTermFrequency() {
-        HashedIndex invertedIndex = new HashedIndex();
+        InvertedIndex invertedIndex = new InvertedIndex();
         
         assertEquals(0, invertedIndex.getTermFrequency("Imaginary"));
         
@@ -29,12 +31,9 @@ public class HashedIndexTest {
         assertEquals(1, invertedIndex.getTermFrequency("world", "world.txt"));
     }
 
-    /**
-     * Test of getDocuments method, of class HashedIndex.
-     */
     @Test
     public void testGetDocuments() {
-        HashedIndex invertedIndex = new HashedIndex();
+        InvertedIndex invertedIndex = new InvertedIndex();
         
         assertTrue(invertedIndex.getDocuments().isEmpty());
         
@@ -55,7 +54,7 @@ public class HashedIndexTest {
     
     @Test
     public void testTrimIndex() {
-        HashedIndex invertedIndex = new HashedIndex();
+        InvertedIndex invertedIndex = new InvertedIndex();
         
         // Words with just 1 occurrence
         invertedIndex.add("steel", "peal.txt");
@@ -82,7 +81,7 @@ public class HashedIndexTest {
     
     @Test
     public void testMinMaxTermFrequency() {
-        HashedIndex invertedIndex = new HashedIndex();
+        InvertedIndex invertedIndex = new InvertedIndex();
         
         // min and max should be 0 at the start
         assertEquals(-1, invertedIndex.getMaxTermFrequency());
@@ -103,7 +102,7 @@ public class HashedIndexTest {
     
     @Test
     public void testRemove() {
-        HashedIndex invertedIndex = new HashedIndex();
+        InvertedIndex invertedIndex = new InvertedIndex();
         
         invertedIndex.add("hello", "hello.txt");
         invertedIndex.add("nyan", "cat.txt");
@@ -119,7 +118,7 @@ public class HashedIndexTest {
     
     @Test
     public void testGetTerms() {
-        HashedIndex invertedIndex = new HashedIndex();
+        InvertedIndex invertedIndex = new InvertedIndex();
         String[] expected;
         
         invertedIndex.add("hello", "hello.txt");

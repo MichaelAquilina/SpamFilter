@@ -3,7 +3,6 @@ package classification;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonWriter;
-import invertedindex.HashedIndex;
 import invertedindex.InvertedIndex;
 import text.Parser;
 import text.TextProcessor;
@@ -67,7 +66,7 @@ public class EmailClassifier {
     }
 
     public void train(List<File> trainingFiles, double lowerPercentile, double upperPercentile) throws IOException {
-        InvertedIndex invertedIndex = new HashedIndex();
+        InvertedIndex invertedIndex = new InvertedIndex();
 
         trained = false;
         termIndexMap.clear();
@@ -127,7 +126,7 @@ public class EmailClassifier {
 
         // Build an inverted index just for this email to calculate values
         // We need a separate one so that does not contaminate the values obtained from training
-        InvertedIndex localIndex = new HashedIndex();
+        InvertedIndex localIndex = new InvertedIndex();
         for(String term : emailDocument.getWords()) {
             String alteredTerm = useTextPreProcessing? performTextPreProcessing(term) : term;
 
