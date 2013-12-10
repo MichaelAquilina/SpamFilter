@@ -152,7 +152,7 @@ public class EmailClassifier {
         return vectorData;
     }
 
-    private String performTextPreProcessing(String term) {
+    public static String performTextPreProcessing(String term) {
         String result = term.toLowerCase();
         result = TextProcessor.strip(result);
         result = TextProcessor.stripAttributes(result);
