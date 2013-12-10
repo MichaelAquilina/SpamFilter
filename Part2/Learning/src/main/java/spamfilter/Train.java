@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import weka.J48;
-
 public class Train {
     private static final int NO_FOLDS = 10;
 
@@ -41,8 +39,8 @@ public class Train {
         //weightingMethod = new TfidfWeighting();
         weightingMethod = new FrequencyWeighting();
 
-        Classifier classifier = new J48();
-        // Classifier classifier = new NaiveBayes();
+        //Classifier classifier = new J48();
+        Classifier classifier = new NaiveBayes();
         EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, true, true);
         //emailClassifier.getParser().setSeparateMetadata(false);
         //emailClassifier.getParser().setSplitMultipart(false);

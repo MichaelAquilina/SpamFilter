@@ -54,23 +54,35 @@ public class InvertedIndex {
         return documents;
     }
 
-    public ArrayList<String> getOuterWords(int min, int max) {
-        ArrayList<String> result = new ArrayList<>();
+    public ArrayList<TermData> getInnerWords(int min, int max) {
+        ArrayList<TermData> result = new ArrayList<>();
+        for(String term : termMap.keySet()) {
+            TermData termData = termMap.get(term);
+
+            if(termData.getDocumentFrequency()>= min && termData.getDocumentFrequency()<= max)
+                result.add(termData);
+        }
+
+        return result;
+    }
+
+    public ArrayList<TermData> getOuterWords(int min, int max) {
+        ArrayList<TermData> result = new ArrayList<>();
         for(String term : termMap.keySet()) {
             TermData termData = termMap.get(term);
 
             if(termData.getDocumentFrequency()< min || termData.getDocumentFrequency()> max)
-                result.add(term);
+                result.add(termData);
         }
 
         return result;
     }
 
     public void trimIndex(int min, int max) {
-        ArrayList<String> trash = getOuterWords(min, max);
+        ArrayList<TermData> trash = getOuterWords(min, max);
         
-        for(String term : trash)
-            termMap.remove(term);
+        for(TermData termData : trash)
+            termMap.remove(termData.getTerm());
     }
 
     public int getMaxTermFrequency() {
@@ -144,12 +156,16 @@ public class InvertedIndex {
     public void writeTermData(String path) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 
-        ArrayList<TermData> termDataList = new ArrayList<>(termMap.values());
+        ArrayList<TermData> termDataList = new ArrayList<>(getInnerWords(6, getDocumentCount()));
         Collections.sort(termDataList);
+        Collections.reverse(termDataList);
 
-        for(int i=0; i<termDataList.size(); ++i) {
+        for(int i=0; i<termDataList.size(); i+=5) {
             TermData termData = termDataList.get(i);
-            writer.write(String.format("(%d, %d) %% %s\n", i, termData.getDocumentFrequency(), termData.getTerm()));
+            String term = termData.getTerm();
+            term = term.replace(',', ' ');
+
+            writer.write(String.format("%s, %d\n", term, termData.getDocumentFrequency()));
         }
 
         writer.close();
