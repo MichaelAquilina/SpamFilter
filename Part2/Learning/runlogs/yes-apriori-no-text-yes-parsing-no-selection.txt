@@ -1,0 +1,21 @@
+Using classification.NaiveBayes
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    425 |     28 |
+ H |     80 |   1967 |
+
+Accuracy = 0.956800
+StdDev: 0.031394
+Finished Testing, performing final train step...
+Feature Dimensions = 94903
+
+Most representative POSITIVE features:
+harper, reps,, massive, claimed, originates, INVESTMENT, Several, internal, military, Work, |||, Subject:, earned, cases, Bible, Growing, responded, Exchange, figured, Every, 
+
+Most representative NEGATIVE features:
+reps,, harper, obscenities, drive--and, connection/56k, PRIZES:, UNESCO, GnuPG, Executives, since., is qqqqqqqqqq-cnet-newsletters@example.com, figured, lawsuits, physicists, reverse, Ronan, Features, installs, massive, (including, 
+'
+Saved model to classifier
+
+Runtime: 10min
