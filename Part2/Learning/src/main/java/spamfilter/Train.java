@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import weka.J48;
+
 public class Train {
     private static final int NO_FOLDS = 10;
 
