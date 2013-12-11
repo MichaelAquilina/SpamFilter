@@ -1,0 +1,19 @@
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    412 |     41 |
+ H |     90 |   1957 |
+
+Accuracy = 0.947600
+StdDev: 0.033202
+Finished Testing, performing final train step...
+Feature Dimensions = 143820
+
+Most representative POSITIVE features:
+PRIZES:, SIR=2C, (300, direction, FAVORITE, stamina, LANG="0"></B><BR>, december, military, computerupdates101@msn.com, Word, earned, bounced, radio, width="65%", responded, claimed, perfect, figured, Thread-Index:, 
+
+Most representative NEGATIVE features:
+SIR=2C, href="http://www.linuxplanet.com/linuxplanet/tutorials/211/1/", regardless,, drive--and, directing, PRIZES:, <ckloiber@ckloiber.com>, incomplete, Registered, since., compose, bgcolor=3D"#ffffff", lawsuits, physicists, FAVORITE, arrangements, >5-megapixel, <p><FONT, bottom,, stuttgart, 
+'
+
+Runtime: 16min
