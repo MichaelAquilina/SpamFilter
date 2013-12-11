@@ -28,9 +28,40 @@ public class ConfusionMatrix {
             return confusion.get(actual).get(predicted);
         }
 
+        // Assuming Spam=positive class Ham=negative class
+        public int getTruePositive() {
+            return getValue(EmailClass.Spam, EmailClass.Spam);
+        }
+
+        public int getTrueNegative() {
+            return getValue(EmailClass.Ham, EmailClass.Ham);
+        }
+
+        public int getFalsePositive() {
+            return getValue(EmailClass.Ham, EmailClass.Spam);
+        }
+
+        public int getFalseNegative() {
+            return getValue(EmailClass.Spam, EmailClass.Ham);
+        }
+
         public double getAccuracy() {
             int correctlyPredicted = getValue(EmailClass.Spam, EmailClass.Spam) + getValue(EmailClass.Ham, EmailClass.Ham);
             return ((double) correctlyPredicted) / (double) getTotal();
+        }
+
+        public double getRecall() {
+            int truePositive = getTruePositive();
+            int totalPositive = getTruePositive() + getFalseNegative();
+
+            return ((double) truePositive / (double) totalPositive);
+        }
+
+        public double getPrecision() {
+            int truePositive = getTruePositive();
+            int falsePositive = getFalsePositive();
+
+            return ((double) truePositive / (double) (truePositive + falsePositive));
         }
 
         public void print() {
@@ -40,10 +71,9 @@ public class ConfusionMatrix {
             System.out.format( " H | % 6d | % 6d |\n", getValue(EmailClass.Ham, EmailClass.Spam), getValue(EmailClass.Ham, EmailClass.Ham));
             System.out.println();
 
-            // Display Model Accuracy
-
+            // Display Standard Performance Statistics
             System.out.format("Accuracy = %f\n", getAccuracy());
-
-            // TODO: Print and calculate Precision and Recall
+            System.out.format("Recall = %f\n", getRecall());
+            System.out.format("Precision = %f\n", getPrecision());
         }
 }
