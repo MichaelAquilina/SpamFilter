@@ -16,8 +16,8 @@ public class EmailClassifier {
 
     private static final String NUMBER_REP = "9999";
 
-    public static final double DEFAULT_UPPER_PERCENTILE = 0.99;
-    public static final double DEFAULT_LOWER_PERCENTILE = 0.001;
+    public static final double DEFAULT_UPPER_PERCENTILE = 0.50;
+    public static final double DEFAULT_LOWER_PERCENTILE = 0.01;
 
     private Classifier classifier;
     private Parser parser;
