@@ -9,6 +9,8 @@ public class NaiveBayes extends Classifier {
     private int d = 0;
     private double[] posProbs = null;
     private double[] negProbs = null;
+    private double posApriori = 0.0;
+    private double negApriori = 0.0;
 
     public void train(ArrayList<LabelledVector> examples) {
         // We assume that all vectors are of equal length 
@@ -28,8 +30,12 @@ public class NaiveBayes extends Classifier {
             posProbs[i] = 1.0;
         }
 
+        int posMailCount = 0;
         // Pass 1: Count occurences
         for (LabelledVector example : examples) {
+            if (example.getEmailClass() == EmailClass.Spam) {
+                posMailCount++;
+            }
             for (int i = 0; i < d; i++) {
                 if (example.getEmailClass() == EmailClass.Spam) {
                     posCount += example.getVector()[i];
@@ -40,6 +46,9 @@ public class NaiveBayes extends Classifier {
                 }
             }
         }
+
+        posApriori = Math.log((double)posMailCount / (double)examples.size());
+        negApriori = Math.log(1 - ((double)posMailCount / (double)examples.size()));
         
         // Pass 2: Calculate correct log-probabilities
         for (int i = 0; i < d; i++) {
@@ -56,8 +65,8 @@ public class NaiveBayes extends Classifier {
         // We should get the same input vector as in the training set
         assert(vector.length == d);
 
-        double negPos = 1.0;
-        double posPos = 1.0;
+        double negPos = negApriori;
+        double posPos = posApriori;
         for (int i = 0; i < d; i++) {
             negPos += negProbs[i]*vector[i] - Math.log(fac(vector[i]));
             posPos += posProbs[i]*vector[i] - Math.log(fac(vector[i]));
