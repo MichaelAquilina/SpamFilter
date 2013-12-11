@@ -31,17 +31,20 @@ public class Train {
         ArrayList<Integer> orderedPosProbs = classifier.getHighestPositiveFeatures();
         ArrayList<Integer> orderedNegProbs = classifier.getHighestNegativeFeatures();
 
-        HashMap<String, Integer> termIndexMap = emailClassifier.getTermIndexMap();
+        // Only run if Classifier has implemented the relevant function
+        if(orderedNegProbs != null) {
+            HashMap<String, Integer> termIndexMap = emailClassifier.getTermIndexMap();
 
-        System.out.println("\nMost representative POSITIVE features:");
-        for(int i=0; i<20 ; ++i)
-            System.out.print(find(termIndexMap, orderedPosProbs.get(i)) + ", ");
-        System.out.println();
+            System.out.println("\nMost representative POSITIVE features:");
+            for(int i=0; i<20 ; ++i)
+                System.out.print(find(termIndexMap, orderedPosProbs.get(i)) + ", ");
+            System.out.println();
 
-        System.out.println("\nMost representative NEGATIVE features:");
-        for(int i=0; i<20 ; ++i)
-            System.out.print(find(termIndexMap, orderedNegProbs.get(i)) + ", ");
-        System.out.println();
+            System.out.println("\nMost representative NEGATIVE features:");
+            for(int i=0; i<20 ; ++i)
+                System.out.print(find(termIndexMap, orderedNegProbs.get(i)) + ", ");
+            System.out.println();
+        }
     }
 
     public static void testClassifier(String trainingPath, EmailClassifier emailClassifier, double lowerPercentile, double upperPercentile) throws IOException {
