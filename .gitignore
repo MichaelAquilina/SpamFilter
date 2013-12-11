@@ -1,3 +1,6 @@
+*.log
+*.dvi
+
 # Netbeans Artifacts
 nbproject
 build
