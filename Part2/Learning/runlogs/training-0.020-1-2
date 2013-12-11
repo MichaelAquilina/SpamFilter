@@ -1,0 +1,19 @@
+Using classification.NaiveBayes
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    429 |     24 |
+ H |     67 |   1980 |
+
+Accuracy = 0.963600
+StdDev: 0.041742
+Finished Testing, performing final train step...
+Feature Dimensions = 1461
+
+Most representative POSITIVE features:
+david, camera, french, kevin, carri, compat, institut, equip, phenomenon, touch, sens, password, acquir, challeng, upgrad, administr, today', compil, advanc, research, 
+
+Most representative NEGATIVE features:
+bulk, payabl, huge, visa, deserv, adult, worldwid, debt, sincer, excit, conveni, achiev, sold, brand, afford, amaz, insur, bought, shot, safe, 
+'
+Saved model to runlogs/classifier-0.020-1-2

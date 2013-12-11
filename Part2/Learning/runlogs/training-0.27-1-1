@@ -1,0 +1,19 @@
+Using classification.NaiveBayes
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    374 |     79 |
+ H |    190 |   1857 |
+
+Accuracy = 0.892400
+StdDev: 0.048150
+Finished Testing, performing final train step...
+Feature Dimensions = 52
+
+Most representative POSITIVE features:
+linux, group, user, some, which, been, than, who, would, ha, there, but, also, other, like, wa, about, what, new, thei, 
+
+Most representative NEGATIVE features:
+address, pleas, been, onli, make, user, just, who, than, now, also, time, linux, work, group, get, like, out, ani, what, 
+'
+Saved model to runlogs/classifier-0.27-1-1
