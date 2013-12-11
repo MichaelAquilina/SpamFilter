@@ -16,6 +16,13 @@ public class filter {
         System.exit(1);
     }
 
+    public static String classify(File targetFile) throws IOException {
+        EmailClassifier emailClassifier = EmailClassifier.load(DEFAULT_MODEL_PATH);
+
+        EmailClass emailClass = emailClassifier.classify(targetFile);
+        return emailClass.toString();
+    }
+
     public static void main(String args[]) throws FileNotFoundException {
         if(args.length != 1)
             usage();
@@ -24,12 +31,9 @@ public class filter {
         File targetFile = new File(args[0]);
 
         if(modelFile.exists()) {
-            EmailClassifier emailClassifier = EmailClassifier.load(DEFAULT_MODEL_PATH);
 
             try {
-                EmailClass emailClass = emailClassifier.classify(targetFile);
-
-                System.out.println(emailClass.toString());
+                System.out.println(classify(targetFile));
             } catch(IOException e) {
                 System.err.format("Unable to classify file \"%s\"\n", targetFile.getName());
                 e.printStackTrace();
