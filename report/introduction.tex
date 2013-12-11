@@ -1,7 +1,13 @@
 \section{Introduction}
-\todo{Write me!}
+The following report describes our implementation of a spam filter.
+\todo{This filter classifies emails by their content if they are unwanted (spam) mails or wanted (ham) mails using various preprocessing techniques and a Naive Bayes classifier.}
 
-\todo{Crossvalidation: 10fold, Confusion matrix is sum over all folds}
+As we were only given a labelled training set, we are evaluating the performance of our classifier using 10-fold cross validation.
+For each fold we are calculating the accuracy and reporting as a final measure the overall averaged accuracy and the sample standard deviation to compare the different classifier instantiations.
 
-\todo{Which quality measure did we choose?}
+To optimise the classification performance, we pre-process the input data using various techniques to filter out noise, normalise the features and minimise the overall dimensionality.
 
+As there is no one best classifier, we are comparing different classifiers for the given training set using different parameter instantiations.
+\todo{a bit more here..}
+
+\todo{State best performance!}
