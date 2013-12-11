@@ -1,13 +1,15 @@
 package classification;
 
 import java.util.ArrayList;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class NaiveBayes extends Classifier {
 
     private int d = 0;
     private double[] posProbs = null;
     private double[] negProbs = null;
-    
+
     public void train(ArrayList<LabelledVector> examples) {
         // We assume that all vectors are of equal length 
         // and that there is at least one vector for training.
@@ -49,7 +51,7 @@ public class NaiveBayes extends Classifier {
     private double fac(double n) {
         if (n <= 1) return 1; else return n*fac(n-1);
     }
-    
+
     public EmailClass classify(double[] vector) {
         // We should get the same input vector as in the training set
         assert(vector.length == d);
@@ -66,6 +68,26 @@ public class NaiveBayes extends Classifier {
         } else {
             return EmailClass.Spam;
         }
+    }
+
+    @Override
+    public ArrayList<Integer> getHighestPositiveFeatures() {
+        return getHighestFeature(posProbs);
+    }
+
+    @Override
+    public ArrayList<Integer> getHighestNegativeFeatures() {
+        return getHighestFeature(negProbs);
+    }
+
+    private ArrayList<Integer> getHighestFeature(double[] probs) {
+        SortedMap<Double, Integer> sortedMap = new TreeMap<>();
+
+        for(int i=0; i<probs.length; i++) {
+            sortedMap.put(probs[i], i);
+        }
+
+        return new ArrayList(sortedMap.values());
     }
 }
 

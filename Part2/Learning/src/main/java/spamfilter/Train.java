@@ -4,14 +4,44 @@ import classification.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Train {
     private static final int NO_FOLDS = 10;
 
     public static void usage() {
         System.out.println("Usage: ");
-        System.out.println("\tjava -jar spamfilter-learning.jar <traindata> <outfile> [<lowerPercentile> <upperPercentile>]");
+        System.out.println("\tjava -jar spamfilter-learning.jar <traindata> <outfile> [<lowerPercentile> <upperPercentile>] [<cross-validation>]");
+    }
+
+    public static String find(HashMap<String, Integer> map, int index) {
+        for(String key : map.keySet())
+            if(map.get(key) == index)
+                return key;
+
+        return null;
+    }
+
+    public static void displayRepresentativeFeatures(EmailClassifier emailClassifier) {
+        Classifier classifier = emailClassifier.getClassifier();
+
+        // Returns the index of the best features in the vector in terms of representation of positive and negative
+        ArrayList<Integer> orderedPosProbs = classifier.getHighestPositiveFeatures();
+        ArrayList<Integer> orderedNegProbs = classifier.getHighestNegativeFeatures();
+
+        HashMap<String, Integer> termIndexMap = emailClassifier.getTermIndexMap();
+
+        System.out.println("\nMost representative POSITIVE features:");
+        for(int i=0; i<20 ; ++i)
+            System.out.print(find(termIndexMap, orderedPosProbs.get(i)) + ", ");
+        System.out.println();
+
+        System.out.println("\nMost representative NEGATIVE features:");
+        for(int i=0; i<20 ; ++i)
+            System.out.print(find(termIndexMap, orderedNegProbs.get(i)) + ", ");
+        System.out.println();
     }
 
     public static void testClassifier(String trainingPath, EmailClassifier emailClassifier, double lowerPercentile, double upperPercentile) throws IOException {
@@ -58,7 +88,9 @@ public class Train {
 
         System.out.format("Feature Dimensions = %d\n", emailClassifier.getTermCount());
 
+        displayRepresentativeFeatures(emailClassifier);
+
         EmailClassifier.save(emailClassifier, stateFilePath);
-        System.out.format("Saved model to %s\n", stateFilePath);
+        System.out.format("'\nSaved model to %s\n", stateFilePath);
     }
 }

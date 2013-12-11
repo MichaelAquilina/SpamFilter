@@ -41,6 +41,10 @@ public class EmailClassifier {
         this.weightingMethod = weightingMethod;
     }
 
+    public Classifier getClassifier() {
+        return classifier;
+    }
+
     public HashMap<String, Integer> getTermIndexMap() {
         return termIndexMap;
     }
