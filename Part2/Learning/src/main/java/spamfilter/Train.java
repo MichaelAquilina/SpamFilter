@@ -90,6 +90,7 @@ public class Train {
         //emailClassifier.getParser().setStripHtml(false);
 
         System.out.format("Using %s\n", classifier.getClass().getName());
+        System.out.format("Using Feature Weighting Scheme %s\n", weightingMethod.getClass().getName());
         System.out.format("Performing cross-validation on %d folds...\n", NO_FOLDS);
         testClassifier(trainingPath, emailClassifier, lowerPercentile, upperPercentile);
 
