@@ -101,15 +101,9 @@ What we really want to keep is the words which are in between these two categori
     \label{zipfian}
 \end{figure}
 
-Unfortunately, choosing a ideal \(\alpha \) and \(\beta\) is a somewhat tedious process of trial and error. \todo{Uwe you could start writing about feature selection here}
-
-\todo{\dots}
-
-\input{upperbound-plot.tex}
-
-\input{lowerprecisionplot.tex}
-\todo{explain what each line in the figure represents and make sure standard deviation is calculated correctly (it should not go above 1.0)..}
-
+Unfortunately, choosing ideal \(\alpha \) and \(\beta\) is a somewhat tedious process of trial and error.
+Finding the right values ensure that the classifiers does not overfit on features are only available in the training process but may accidentially strip out features that contribute very good to distinguish both classes but are represented with the same frequency as term that are considered irrelevant.
+In Section \ref{sec:featurethresholds}, we will try to optimise our selected thresholds by the emperical evaluation of the performance of the classifier on out data set.
 
 \subsection{Vector Generation / Feature Weighting}
 
@@ -126,3 +120,12 @@ The second approach taken is using \emph{Term Frequency Inverse Document Frequen
 Where $N$ represents the number of documents, $n_i$ represents the number of times the term i appears in a document and \emph{maxf} represents the highest frequency in the document corpus.
 
 After testing these two approaches, it was immediately noted that \emph{tfidf} gave significantly worse results than \emph{frequency weighting}. While this was initially a surprise, It was noted that this behaviour could be occurring due to use of a multinomial Naive Bayes model rather than Bernoulli model. \todo{maybe some more justification on this. Not sure this is enough information to justify mentioning tfidf}. We shall assume the use of Frequency Weighting for the rest of the report for this reason.
+
+\subsection{Optimising Feature Thresholds}
+\label{sec:featurethresholds}
+
+\input{upperbound-plot.tex}
+
+\input{lowerprecisionplot.tex}
+\todo{explain what each line in the figure represents and make sure standard deviation is calculated correctly (it should not go above 1.0)..}
+
