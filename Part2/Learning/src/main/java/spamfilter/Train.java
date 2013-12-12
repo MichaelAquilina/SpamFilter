@@ -52,7 +52,14 @@ public class Train {
     public static void testClassifier(String trainingPath, EmailClassifier emailClassifier, double lowerPercentile, double upperPercentile) throws IOException {
         CrossValidation cv = new CrossValidation(trainingPath, emailClassifier);
         cv.fold(NO_FOLDS, lowerPercentile, upperPercentile);
-        cv.getCombinedConfusion().print();
+        ConfusionMatrix cm = cv.getCombinedConfusion();
+
+        System.out.println(cm.toString());
+
+        System.out.format("Accuracy = %f\n", cm.getAccuracy());
+        System.out.format("Recall = %f\n", cm.getRecall());
+        System.out.format("Negative Recall = %f\n", cm.getNegativeRecall());
+        System.out.format("Precision = %f\n", cm.getPrecision());
         System.out.format("StdDev: %f\n", cv.getStdDev());
     }
 

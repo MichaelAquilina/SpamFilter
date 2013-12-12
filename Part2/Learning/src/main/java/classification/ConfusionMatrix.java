@@ -74,17 +74,11 @@ public class ConfusionMatrix {
             return ((double) truePositive / (double) (truePositive + falsePositive));
         }
 
-        public void print() {
-            System.out.println("   |   Spam |    Ham |");
-            System.out.println("---|--------|--------|");
-            System.out.format( " S | % 6d | % 6d |\n", getValue(EmailClass.Spam, EmailClass.Spam), getValue(EmailClass.Spam, EmailClass.Ham));
-            System.out.format( " H | % 6d | % 6d |\n", getValue(EmailClass.Ham, EmailClass.Spam), getValue(EmailClass.Ham, EmailClass.Ham));
-            System.out.println();
-
-            // Display Standard Performance Statistics
-            System.out.format("Accuracy = %f\n", getAccuracy());
-            System.out.format("Recall = %f\n", getRecall());
-            System.out.format("Negative Recall = %f\n", getNegativeRecall());
-            System.out.format("Precision = %f\n", getPrecision());
+        @Override
+        public String toString() {
+            return          "   |   Spam |    Ham |\n" +
+                            "---|--------|--------|\n" +
+              String.format(" S | % 6d | % 6d |\n", getValue(EmailClass.Spam, EmailClass.Spam), getValue(EmailClass.Spam, EmailClass.Ham)) +
+              String.format(" H | % 6d | % 6d |\n", getValue(EmailClass.Ham, EmailClass.Spam), getValue(EmailClass.Ham, EmailClass.Ham));
         }
 }
