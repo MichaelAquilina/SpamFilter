@@ -64,6 +64,24 @@ public class TextProcessor {
         return result;
     }
 
+    public static String fullStrip(String word) {
+        if(word.isEmpty())
+            return word;
+
+        String current = word;
+        for(int i=0; i<current.length(); ++i)
+        {
+            char c = current.charAt(i);
+            if(!Character.isLetterOrDigit(c))
+            {
+                current = current.replace(c + "", "");
+                --i;
+            }
+        }
+
+        return current;
+    }
+
     public static String rstrip(String word) {
         if(word.isEmpty())
             return word;

@@ -11,6 +11,13 @@ public class TextProcessorTest {
     }
 
     @Test
+    public void testFullStrip() {
+        assertEquals("michael", TextProcessor.fullStrip("mi@cha-el!"));
+
+        assertEquals("michael", TextProcessor.fullStrip("michael"));
+    }
+
+    @Test
     public void testExtractMailDomain() {
         // Valid Email Addresses
         assertEquals("gmail.com", TextProcessor.extractMailDomain("michaelaquilina@gmail.com"));
