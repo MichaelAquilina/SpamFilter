@@ -2,21 +2,21 @@ Using classification.NaiveBayes
 Performing cross-validation on 10 folds...
    |   Spam |    Ham |
 ---|--------|--------|
- S |    412 |     41 |
+ S |    429 |     24 |
  H |     14 |   2033 |
 
-Accuracy = 0.978000
-Recall = 0.909492
+Accuracy = 0.984800
+Recall = 0.947020
 Negative Recall = 0.993161
-Precision = 0.967136
-StdDev: 0.029530
+Precision = 0.968397
+StdDev: 0.028733
 Finished Testing, performing final train step...
-Feature Dimensions = 43144
+Feature Dimensions = 43321
 
 Most representative POSITIVE features:
-harper, issue#422, uole.com.ve, repos, herbac, compat, woman, equip, mso-bidi-font-size:10.0pt, overload, sens, password, be-your-own-isp.com, herbal, consolid, administr, today', compil, advanc, compet, 
+harper, issue#422, uole.com.ve, repos, herbac, compat, woman, equip, mso-bidi-font-size:10.0pt, overload, sens, password, be-your-own-isp.com, herbal, consolid, administr, today', compil, advanc, research, 
 
 Most representative NEGATIVE features:
 issue#422, harper, szymona.net, lifestyl, connection/56k, shooter, usenet, brenno, nt/2000/whatev, justif, is?qqqqqqqqqq-cnet-newsletters@example.com, kmail, reput, lite, wyse, rambl, ciaran, wynn, copyedit, stuttgart, 
 '
-Saved model to runlogs/classifier-0.0-0.10-1
+Saved model to runlogs/classifier-0.0-0.18-1
