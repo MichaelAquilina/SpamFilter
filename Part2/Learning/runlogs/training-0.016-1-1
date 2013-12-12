@@ -2,11 +2,14 @@ Using classification.NaiveBayes
 Performing cross-validation on 10 folds...
    |   Spam |    Ham |
 ---|--------|--------|
- S |    431 |     22 |
- H |     68 |   1979 |
+ S |    432 |     21 |
+ H |     71 |   1976 |
 
-Accuracy = 0.964000
-StdDev: 0.040000
+Accuracy = 0.963200
+Recall = 0.953642
+Negative Recall = 0.965315
+Precision = 0.858847
+StdDev: 0.033371
 Finished Testing, performing final train step...
 Feature Dimensions = 1755
 

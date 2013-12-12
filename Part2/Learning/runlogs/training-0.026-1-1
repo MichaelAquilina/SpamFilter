@@ -3,10 +3,13 @@ Performing cross-validation on 10 folds...
    |   Spam |    Ham |
 ---|--------|--------|
  S |    428 |     25 |
- H |     75 |   1972 |
+ H |     78 |   1969 |
 
-Accuracy = 0.960000
-StdDev: 0.052764
+Accuracy = 0.958800
+Recall = 0.944812
+Negative Recall = 0.961895
+Precision = 0.845850
+StdDev: 0.038802
 Finished Testing, performing final train step...
 Feature Dimensions = 1203
 

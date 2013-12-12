@@ -1,0 +1,22 @@
+Using classification.NaiveBayes
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    436 |     17 |
+ H |     54 |   1993 |
+
+Accuracy = 0.971600
+Recall = 0.962472
+Negative Recall = 0.973620
+Precision = 0.889796
+StdDev: 0.023630
+Finished Testing, performing final train step...
+Feature Dimensions = 5894
+
+Most representative POSITIVE features:
+justif, justic, brew, reput, pledg, compat, woman, equip, raleigh, overload, sens, password, acquir, herbal, consolid, administr, today', compil, advanc, research, 
+
+Most representative NEGATIVE features:
+herbal, crave, 9am, snail, pledg, brew, compli, ee.ed.ac.uk, nt/2000/whatev, justif, is?qqqqqqqqqq-cnet-newsletters@example.com, seiz, reput, lite, interestingli, silent, ciaran, wynn, copyedit, stuttgart, 
+'
+Saved model to runlogs/classifier-0.003-1-1

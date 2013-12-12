@@ -6,7 +6,10 @@ Performing cross-validation on 10 folds...
  H |     11 |   2036 |
 
 Accuracy = 0.814800
-StdDev: 0.090519
+Recall = 0.002208
+Negative Recall = 0.994626
+Precision = 0.083333
+StdDev: 0.096673
 Finished Testing, performing final train step...
 Feature Dimensions = 1
 

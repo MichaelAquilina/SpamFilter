@@ -1,0 +1,22 @@
+Using classification.NaiveBayes
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    416 |     37 |
+ H |    147 |   1900 |
+
+Accuracy = 0.926400
+Recall = 0.918322
+Negative Recall = 0.928188
+Precision = 0.738899
+StdDev: 0.050024
+Finished Testing, performing final train step...
+Feature Dimensions = 314
+
+Most representative POSITIVE features:
+linguist, english, edu, wrote, data, languag, irish, discuss, linux, research, univers, said, develop, seem, recent, though, second, mean, network, between, 
+
+Most representative NEGATIVE features:
+monei, wish, below, repli, less, futur, abl, old, ever, remov, advertis, again, further, month, live, great, complet, result, believ, special, 
+'
+Saved model to runlogs/classifier-0.096-1-1
