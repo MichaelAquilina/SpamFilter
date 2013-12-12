@@ -122,7 +122,7 @@ The first and most basic attempt uses {\it Frequency Weighting} which is simply 
 The second approach taken is using {\it Term Frequency Inverse Document Frequency} also commonly known as {\it tfidf} \cite{tfidf1973}. Tfidf is a commonly used metric in natural language processing that portrays the importance of a word in a document with respect to the rest of the corpus. It is technique often used by Search Engines and has proven many times to be a reliable way of representing the significance of a term within a document. The equation for calculating the weight for a term $i$ in a document $j$ is given as:
 
 \begin{align*}
-	tfidf_{ij} = \frac{f_{ij}}{maxf} \times log(\frac{N}{n_i})
+	\textrm{tfidf}_{ij} = \frac{f_{ij}}{\textrm{maxf}} * \log\left(\frac{N}{n_i}\right)
 \end{align*}
 
-Where $N$ represents the number of documents, $n_i$ represents the number of times the term i appears in a document and $maxf$ represents the highest frequency in the document corpus.
+Where $N$ represents the number of documents, $n_i$ represents the number of times the term i appears in a document and \emph{maxf} represents the highest frequency in the document corpus.
