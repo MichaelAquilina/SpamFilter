@@ -1,5 +1,5 @@
 \section{Preprocessing}
-The bag of words model used by our classifiers is a good way to represent the data found in the given training documents. However this feature representation is prone to obtaining very high dimensions due to the large number of possible combinations that can be found in words. 
+The bag of words model used by our classifiers is a good way to represent the data found in the given training documents. However this feature representation is prone to very high dimensions if not handled well due to the large number of possible combinations in words. 
 
 According to a recent survey performed by Google and Harvard, there are approximately 1,022,000 different words in the English language \cite{google2010words}. While we do not expect to find all possible words in the document corpus, a large number of them will be found along with their derivations in the form of spelling mistakes and grammatical variations (e.g.{\it they're} and {\it theyre}). Other non-English words such as html code, URLs and nonsensical data such as PGP keys will also be found within the documents.
 
@@ -7,6 +7,7 @@ Most of these words will provide no benefit to the classifier and in most cases 
 \begin{itemize}
 	\item Smart Email Parsing
 	\item Simple Text Processing Techniques
+	\item Domain Extraction
 	\item Stemming
 	\item Feature Selection based on Document Frequency
 \end{itemize}
@@ -16,7 +17,7 @@ Each of these steps contribute towards achieving a higher accuracy and performan
 \subsection{Email Parsing}
 As a first preprocessing step, we modify the parsing of the email structure.
 The provided emails sometimes contain metadata which is very redundant w.r.t. to the number of contained words, e.g. all will have a "From" line but also if an email has metadata is independent from its class label, i.e. the classifier should not that all mails that have metadata are spam.
-Furthermore mails do not always consit of just text but also have attachments or their textual content is supplied as plain text or beautified with HTML markup.
+Furthermore mails do not always consist of just text but also have attachments or their textual content is supplied as plain text or beautified with HTML markup.
 
 In a first step, we strip the metadata from the email so that only give the content of the mail to the classifier.
 This reduces the size of data passed on to the classifier as most terms in the metadata are either common among all emails, e.g. the names of the header lines (``From'', ``Content-Type'', \dots), or are unique to the mail like the date of sending or the message-id.
@@ -24,7 +25,7 @@ From the metadata we extract some basic information like the encoding or if it i
 
 If the mail is split in multiple parts, we want to extract only the parts which contain text as we cannot infer information of the \emph{base64} representation of images or other binary attachments.
 These binary attachments would only add a large number of words of a length of 76 characters \cite{rfc2045} to the index which are very uncommon in other mails as images are compressed data with a high entropy.
-Another problem that is solved by adding handling multiple is the recursive parsing of attached emails that have texutal content and may have multiple parts again inside so that we are now stripping down the inner mails to their actual content too.
+Another problem that is solved by adding handling multiple is the recursive parsing of attached emails that have textual content and may have multiple parts again inside so that we are now stripping down the inner mails to their actual content too.
 
 Furthermore not all text is encoded in the same encoding as the email itself, e.g. the main text could be encoded as Base64 which would not reveal the actual words when just splitting the mail into words by separating at each space.
 Another typical encoding is quoted-printable which only transforms non-ASCII characters into another format but leaves all ASCII characters intact.
@@ -34,6 +35,20 @@ As a final parsing step in the email handling we are stripping all HTML from the
 This markup is not displayed to the user and does not carry any content that will be some sort of advertising.
 
 \todo{Improvement?}
+
+\subsection{Simple Text Processing Techniques}
+
+A number of simple processing techniques are used to conflate incoming strings that represent the word together. Although the email parser is built in such a way as to strip out html content where possible, a number of artefacts could still linger in the data which could cause noise and incorrectly distinguish variations of the same word. Because it is not the parsers job to perform this form of filtering, a separate step is taken to perform simple text processing tasks before passing them on the later pre-processing stages.
+
+All incoming words that are composed purely of symbols (i.e. no numbers or letters) are simply discarded as they are most commonly noise in the data that does not represent anything in the corpus. Without this step, the number of features used by the classifier would grow substantially as a large number of "rubbish" symbols are included as part of the feature set. Additionally, all remaining words will have ally symbols stripped, this prevents variations in words like {\it they're} and {\it theyre} from treated as different features.
+
+As a second step, all valid incoming words are simply reduced to lower-case format. The same word in different cases should not be distinguished from one another during classification so it is important that e.g. {\it Bristol} is considered the same as {\it bristol}.
+
+Finally, variations in number representations (e.g. 4,000 and 4000) are detected using regular expressions and conflated to a single representative feature "9999". We do this because allowing all possible number combinations each a unique feature will increase the dimensionality substantially and rarely contribute to classification performance - it can most often be considered noise. Doing this also provides some assurance that we do not overfit our classifier to the training set with specific numeric combinations.
+
+\subsection{Domain Extraction}
+
+
 
 \subsection{Stemming}
 Most words in the English language are derived from a {\it morphological root} word that contains no prefixes or suffixes and conveys a very similar meaning to its derivation. A simple example of this is {\it subscriber} and {\it subscription} with their morphological root {\it subscribe}. 
@@ -60,3 +75,4 @@ As the number of features generated by the input data is even very high after th
 \todo{\dots}
 
 \input{upperbound-plot.tex}
+\todo{explain what each line in the figure represents and make sure standard deviation is calculated correctly (it should not go above 1.0)..}
