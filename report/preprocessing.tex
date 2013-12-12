@@ -3,13 +3,17 @@ The bag of words model used by our classifiers is a good way to represent the da
 
 According to a recent survey performed by Google and Harvard, there are approximately 1,022,000 different words in the English language \cite{google2010words}. While we do not expect to find all possible words in the document corpus, a large number of them will be found along with their derivations in the form of spelling mistakes and grammatical variations (e.g.{\it they're} and {\it theyre}). Other non-English words such as html code, URLs and nonsensical data such as PGP keys will also be found within the documents.
 
-Most of these words will provide no benefit to the classifier and in most cases will even harm the classifier's performance. It is therefore of utmost importance that noise in the text is filtered out and the number of word combinations is reduced to the most representative, yet minimal subset of the available words. The following steps are taken to do this:
+Most of these words will provide no benefit to the classifier and in most cases will even harm the classifier's performance. It is therefore of utmost importance that noise in the text is filtered out and the number of word combinations is reduced to the most representative, yet minimal subset of the available words. Once this is done, steps can be taken to transform each document into a feature vector that can be understood by the classifier. 
+
+The following steps are taken to do this:
 \begin{itemize}
 	\item Smart Email Parsing
 	\item Simple Text Processing Techniques
 	\item Domain Extraction
 	\item Stemming
+	\item Inverted Index Storage
 	\item Feature Selection based on Document Frequency
+	\item Vector Generation / Feature Weighting
 \end{itemize}
 
 Each of these steps contribute towards achieving a higher accuracy and performance in the classifier and will be described in detail in the sections below.
@@ -74,9 +78,11 @@ For our Spam Filter implementation, we made use of the Porter Stemmer algorithm 
 
 Using the same examples shown before, passing {\it subscriber} and {\it subscribe} to the Porter Stemmer would reduce the words {\it subscribe} and {\it subscriber} to the stem {\it subscrib}. On the other hand, the word {\it subscription} will be wrongly mapped to a different stem - {\it subscript}. The latter is an example of where the approximation fails to produce the correct result, however in general most words passed to the algorithm have shown to produce favourable results.
 
-In terms of the Spam Filter implementation, using Porter Stemming on the given set of training emails reduced the number of words from 24813 words to 18932 stems (both after text pre-processing). This is a substantial reduction in the number of dimensions and plays a crucial role in ensuring that the classifier is able to train with the given documents in a short amount of time and without requiring large amounts of memory. Apart from improving speed and reducing memory, it has also proved to improve classification performance. \todo{include some results - simple example I have is 0.973 with and 0.97 without}.
+In terms of the Spam Filter implementation, using Porter Stemming on the given set of training emails reduced the number of words from 24813 words to 18932 stems (both after text pre-processing). This is a substantial reduction in the number of dimensions and plays a crucial role in ensuring that the classifier is able to train with the given documents in a short amount of time and without requiring large amounts of memory. Apart from improving speed and reducing memory, it has also proved to improve classification performance.
 
-\todo{Improvement?}
+\subsection{Inverted Index Storage}
+
+After words have gone through simple text processing, domain extraction and stemming - they are stored in a fast inverted index structure in the form of a Hashed List. Using an inverted index allows quick querying of each term's metadata; such as its total frequency in the corpus and its frequency in each document. This information is especially important for the next two stages that will occur - Feature Selection and Feature Weighting.
 
 \subsection{Feature selection}
 Although we have substantially reduced the number of features through the use of various text processing techniques, we still have a substantial number of features for the classifier to train with. Interestingly, the frequency of occurrence for each word in the text can be grouped into 3 categories of very common, common and rare. 
@@ -109,3 +115,8 @@ Unfortunately, choosing a ideal \begin{math}\alpha \end{math} and \begin{math} \
 
 \input{lowerprecisionplot.tex}
 \todo{explain what each line in the figure represents and make sure standard deviation is calculated correctly (it should not go above 1.0)..}
+
+
+\subsection{Vector Generation / Feature Weighting}
+
+\todo{Frequency Weighting and TFIF Weighting comparison}
