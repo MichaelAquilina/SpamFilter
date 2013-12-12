@@ -1,12 +1,14 @@
-Using classification.NaiveBayes
 Performing cross-validation on 10 folds...
    |   Spam |    Ham |
 ---|--------|--------|
- S |    423 |     30 |
- H |     84 |   1963 |
+ S |    425 |     28 |
+ H |     81 |   1966 |
 
-Accuracy = 0.954400
-StdDev: 0.024787
+Accuracy = 0.956400
+Recall = 0.938190
+Negative Recall = 0.960430
+Precision = 0.839921
+StdDev: 0.035077
 Finished Testing, performing final train step...
 Feature Dimensions = 94903
 
@@ -17,5 +19,6 @@ Most representative NEGATIVE features:
 reps,, harper, obscenities, drive--and, connection/56k, PRIZES:, UNESCO, GnuPG, Executives, since., is qqqqqqqqqq-cnet-newsletters@example.com, figured, lawsuits, physicists, reverse, Ronan, Features, installs, massive, (including, 
 '
 Saved model to classifier
+
 
 Runtime: 10min

@@ -1,19 +1,24 @@
+Using classification.NaiveBayes
 Performing cross-validation on 10 folds...
    |   Spam |    Ham |
 ---|--------|--------|
- S |    412 |     41 |
- H |     90 |   1957 |
+ S |    424 |     29 |
+ H |     41 |   2006 |
 
-Accuracy = 0.947600
-StdDev: 0.033202
+Accuracy = 0.972000
+Recall = 0.935982
+Negative Recall = 0.979971
+Precision = 0.911828
+StdDev: 0.030984
 Finished Testing, performing final train step...
-Feature Dimensions = 143820
+Feature Dimensions = 69091
 
 Most representative POSITIVE features:
-PRIZES:, SIR=2C, (300, direction, FAVORITE, stamina, LANG="0"></B><BR>, december, military, computerupdates101@msn.com, Word, earned, bounced, radio, width="65%", responded, claimed, perfect, figured, Thread-Index:, 
+harper, br>who, dollars.<br, repos, ptsize=3d"8, height=3d24><font, guru, equip, catch, overload, br>thi, type=radio, strong, colspan=2><a, border=0></a></td, heart, pressur, radio, advanc, univers, 
 
 Most representative NEGATIVE features:
-SIR=2C, href="http://www.linuxplanet.com/linuxplanet/tutorials/211/1/", regardless,, drive--and, directing, PRIZES:, <ckloiber@ckloiber.com>, incomplete, Registered, since., compose, bgcolor=3D"#ffffff", lawsuits, physicists, FAVORITE, arrangements, >5-megapixel, <p><FONT, bottom,, stuttgart, 
+dollars.<br, harper, priviti, drive--and, connection/56k, ripper</a><br, name=url, style="text-decoration:none"><b>find, vanquish, guag, intel/linux, linu, height="14"></td, semiot, reput, rambl, overload, iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii, abv-sfo1-acmta4.cnet.com, stuttgart, 
 '
+
 
 Runtime: 16min

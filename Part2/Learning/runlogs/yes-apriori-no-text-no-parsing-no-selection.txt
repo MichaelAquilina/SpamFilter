@@ -2,11 +2,14 @@ Using classification.NaiveBayes
 Performing cross-validation on 10 folds...
    |   Spam |    Ham |
 ---|--------|--------|
- S |    411 |     42 |
- H |     90 |   1957 |
+ S |    413 |     40 |
+ H |     89 |   1958 |
 
-Accuracy = 0.947200
-StdDev: 0.032398
+Accuracy = 0.948400
+Recall = 0.911700
+Negative Recall = 0.956522
+Precision = 0.822709
+StdDev: 0.040968
 Finished Testing, performing final train step...
 Feature Dimensions = 143820
 
@@ -16,6 +19,6 @@ PRIZES:, SIR=2C, (300, direction, FAVORITE, stamina, LANG="0"></B><BR>, december
 Most representative NEGATIVE features:
 SIR=2C, href="http://www.linuxplanet.com/linuxplanet/tutorials/211/1/", regardless,, drive--and, directing, PRIZES:, <ckloiber@ckloiber.com>, incomplete, Registered, since., compose, bgcolor=3D"#ffffff", lawsuits, physicists, FAVORITE, arrangements, >5-megapixel, <p><FONT, bottom,, stuttgart, 
 '
-Saved model to classifier
+Saved model to classifie
 
 Runtime: 14min
