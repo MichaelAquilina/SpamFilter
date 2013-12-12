@@ -11,7 +11,8 @@ Results
 -------
 
 * Current terms selected from feature selection: https://gist.github.com/KillaW0lf04/d430834e07b4e7aa3901
-* Json format for saving EmailClassifier: https://gist.github.com/KillaW0lf04/2ec98c3d2ad29085fcd1
+* Json format for saving EmailClassifier: https://gist.github.com/KillaW0lf04/2ec98c3d2ad29085fcd1\
+* Most representative features detected by the Naive Bayes classifier: https://gist.github.com/KillaW0lf04/ddb0871769b75d37b49e
 
 Design
 ------
