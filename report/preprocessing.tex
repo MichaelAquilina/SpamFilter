@@ -115,4 +115,14 @@ Unfortunately, choosing a ideal \(\alpha \) and \(\beta\) is a somewhat tedious 
 
 \subsection{Vector Generation / Feature Weighting}
 
-\todo{Frequency Weighting and TFIF Weighting comparison}
+Now that we have filtered out all unnecessary features and determined which features should be kept for classification, we need to convert email documents into data that is understandable by the Classifier. More specifically, we need to convert each email into a corresponding feature vector using the features we have just identified. In this report, we have attempted two ways of converting frequency information found in emails into corresponding weights. 
+
+The first and most basic attempt uses {\it Frequency Weighting} which is simply assigning each feature in a vector the frequency of the corresponding term in the email. 
+
+The second approach taken is using {\it Term Frequency Inverse Document Frequency} also commonly known as {\it tfidf} \cite{tfidf1973}. Tfidf is a commonly used metric in natural language processing that portrays the importance of a word in a document with respect to the rest of the corpus. It is technique often used by Search Engines and has proven many times to be a reliable way of representing the significance of a term within a document. The equation for calculating the weight for a term $i$ in a document $j$ is given as:
+
+\begin{align*}
+	tfidf_{ij} = \frac{f_{ij}}{maxf} \times log(\frac{N}{n_i})
+\end{align*}
+
+Where $N$ represents the number of documents, $n_i$ represents the number of times the term i appears in a document and $maxf$ represents the highest frequency in the document corpus.
