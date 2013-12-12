@@ -34,7 +34,9 @@ Handling these encoding turns meaningless, long character sequences into words t
 As a final parsing step in the email handling we are stripping all HTML from the mails to remove all HTML tags from our word index.
 This markup is not displayed to the user and does not carry any content that will be some sort of advertising.
 
-\todo{Improvement?}
+Altough email parsing did not make a significant impact on the quality score of the classifier, it reduced its dimensionality from 143820 down to 94903.
+With this lower dimensionality the runtime decreases too from 16 minutes to ten.
+In conclusion email parsing stripped a lot of irrelevant or redundant dependencies from the input data set without the cost of quality loss.
 
 \subsection{Simple Text Processing Techniques}
 
