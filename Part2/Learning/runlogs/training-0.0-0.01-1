@@ -1,0 +1,22 @@
+Using classification.NaiveBayes
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    368 |     85 |
+ H |     32 |   2015 |
+
+Accuracy = 0.953200
+Recall = 0.812362
+Negative Recall = 0.984367
+Precision = 0.920000
+StdDev: 0.052475
+Finished Testing, performing final train step...
+Feature Dimensions = 40991
+
+Most representative POSITIVE features:
+harper, issue#422, uole.com.ve, repos, herbac, straightforward, guru, nextpart, mso-bidi-font-size:10.0pt, overload, tommi, lotteri, be-your-own-isp.com, herbal, consolid, buck, compli, xxx, color="#0000a0, p>&nbsp;</p, 
+
+Most representative NEGATIVE features:
+issue#422, harper, szymona.net, lifestyl, connection/56k, shooter, usenet, brenno, nt/2000/whatev, justif, is?qqqqqqqqqq-cnet-newsletters@example.com, kmail, reput, lite, wyse, rambl, ciaran, wynn, copyedit, stuttgart, 
+'
+Saved model to runlogs/classifier-0.0-0.01-1
