@@ -16,6 +16,8 @@ public class ClassificationTest {
         File trainDataDir = new File(trainDataPath);
 
         int failures = 0;
+        int total = trainDataDir.listFiles().length;
+
         for(File trainDataFile : trainDataDir.listFiles()) {
             String result = filter.classify(trainDataFile);
 
@@ -34,6 +36,7 @@ public class ClassificationTest {
         }
 
         System.out.format("Misclassifications: %d\n", failures);
+        System.out.format("Accuracy: %f\n", ((double) total - failures)/total);
     }
 
 
