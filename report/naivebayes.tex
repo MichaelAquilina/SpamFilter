@@ -3,7 +3,7 @@ As previously made in Part 1 of this project, we are using Naive Bayes as our in
 We model our the underlying distribution as a multinomial distribution based on the word frequency in each email.
 
 The probabilites generated during training and classifying are always stored as loglikelihoods to minimize numerical errors.
-Due to this low number of numerical errors, this Naive Bayes implementation is able to cope with the large number of 94903 dimensions (i.e. different word in the input data) in the initial training set.
+Due to this low number of numerical errors, this Naive Bayes implementation is able to cope with the large number of 143820 dimensions (i.e. different word in the input data) in the initial training set.
 
 To obtain an initial baseline performance, we run the Naive Bayes classifier on the training set using 10-fold cross validation.
 This resulted in an accuracy of 0.944 and a standard deviation across all folds of 0.024 for the Naive Bayes classifier without using the underlying class distribution as a-priori probabilities.
