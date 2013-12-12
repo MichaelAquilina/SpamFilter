@@ -48,6 +48,10 @@ As a second step, all valid incoming words are simply reduced to lower-case form
 
 Finally, variations in number representations (e.g. 4,000 and 4000) are detected using regular expressions and conflated to a single representative feature "9999". We do this because allowing all possible number combinations each a unique feature will increase the dimensionality substantially and rarely contribute to classification performance - it can most often be considered noise. Doing this also provides some assurance that we do not overfit our classifier to the training set with specific numeric combinations.
 
+Using the techniques described above we were able to reduce the number of  combinations from 94,903 words to just 56149. This is a substantial decrease in dimensions and provides a very notable improvement to memory usage, training speed and classification speed. 
+
+\todo{note that accuracy increases to 97.4 from 95.1?}
+
 \subsection{Domain Extraction}
 
 
