@@ -4,6 +4,7 @@ The following report describes our implementation of a spam filter.
 
 As we were only given a labelled training set, we are evaluating the performance of our classifier using 10-fold cross validation.
 For each fold we are calculating the accuracy and reporting as a final measure the overall averaged accuracy and the sample standard deviation to compare the different classifier instantiations.
+As in a normal binary classification process, one always uses the terms positive and negative class, we are \todo{defining} \emph{spam} to be the positive class and \emph{ham} the negative class.
 
 To optimise the classification performance, we pre-process the input data using various techniques to filter out noise, normalise the features and minimise the overall dimensionality.
 
