@@ -14,14 +14,25 @@ Most of these words will provide no benefit to the classifier and in most cases 
 Each of these steps contribute towards achieving a higher accuracy and performance in the classifier and will be described in detail in the sections below.
 
 \subsection{Email Parsing}
-\todo{This is our simple technique}
-\todo{
-    \begin{itemize}
-        \item Strip metadata
-        \item Strip HTML
-        \item Multipart Splitting
-    \end{itemize}
-}
+As a first preprocessing step, we modify the parsing of the email structure.
+The provided emails sometimes contain metadata which is very redundant w.r.t. to the number of contained words, e.g. all will have a "From" line but also if an email has metadata is independent from its class label, i.e. the classifier should not that all mails that have metadata are spam.
+Furthermore mails do not always consit of just text but also have attachments or their textual content is supplied as plain text or beautified with HTML markup.
+
+In a first step, we strip the metadata from the email so that only give the content of the mail to the classifier.
+This reduces the size of data passed on to the classifier as most terms in the metadata are either common among all emails, e.g. the names of the header lines (``From'', ``Content-Type'', \dots), or are unique to the mail like the date of sending or the message-id.
+From the metadata we extract some basic information like the encoding or if it is a multi-part email for further processing.
+
+If the mail is split in multiple parts, we want to extract only the parts which contain text as we cannot infer information of the \emph{base64} representation of images or other binary attachments.
+These binary attachments would only add a large number of words of a length of 76 characters \cite{rfc2045} to the index which are very uncommon in other mails as images are compressed data with a high entropy.
+Another problem that is solved by adding handling multiple is the recursive parsing of attached emails that have texutal content and may have multiple parts again inside so that we are now stripping down the inner mails to their actual content too.
+
+Furthermore not all text is encoded in the same encoding as the email itself, e.g. the main text could be encoded as Base64 which would not reveal the actual words when just splitting the mail into words by separating at each space.
+Another typical encoding is quoted-printable which only transforms non-ASCII characters into another format but leaves all ASCII characters intact.
+Handling these encoding turns meaningless, long character sequences into words that are present in other mails.
+
+As a final parsing step in the email handling we are stripping all HTML from the mails to remove all HTML tags from our word index.
+This markup is not displayed to the user and does not carry any content that will be some sort of advertising.
+
 \todo{Improvement?}
 
 \subsection{Stemming}
