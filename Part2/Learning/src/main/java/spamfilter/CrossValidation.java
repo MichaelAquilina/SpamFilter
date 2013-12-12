@@ -35,7 +35,7 @@ public class CrossValidation {
         for (ConfusionMatrix cm : confusionMatrices) {
             o2 += (cm.getAccuracy() - mean) * (cm.getAccuracy() - mean);
         }
-        return Math.sqrt(o2);
+        return Math.sqrt(o2 / (confusionMatrices.size() - 1));
     }
 
     public void fold(int folds, double lowerPercentile, double upperPercentile) throws IOException {
