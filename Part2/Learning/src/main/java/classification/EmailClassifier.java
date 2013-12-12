@@ -167,9 +167,6 @@ public class EmailClassifier {
         if(TextProcessor.isSymbol(result))
             return null;
 
-        result = TextProcessor.fullStrip(result);
-        result = TextProcessor.stripAttributes(result);
-
         if(result.length() <= 2)
             return null;
         else
@@ -182,6 +179,8 @@ public class EmailClassifier {
         if(TextProcessor.isNumber(result))
             return NUMBER_REP;
         else
+            result = TextProcessor.fullStrip(result);
+            result = TextProcessor.stripAttributes(result);
             return TextProcessor.porterStem(result);
     }
 
