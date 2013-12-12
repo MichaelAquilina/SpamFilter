@@ -126,3 +126,5 @@ The second approach taken is using {\it Term Frequency Inverse Document Frequenc
 \end{align*}
 
 Where $N$ represents the number of documents, $n_i$ represents the number of times the term i appears in a document and \emph{maxf} represents the highest frequency in the document corpus.
+
+After testing these two approaches, it was immediately noted that \emph{tfidf} gave significantly worse results than \emph{frequency weighting}. While this was initially a surprise, It was noted that this behaviour could be occurring due to use of a multinomial Naive Bayes model rather than Bernoulli model. \todo{maybe some more justification on this. Not sure this is enough information to justify mentioning tfidf}. We shall assume the use of Frequency Weighting for the rest of the report for this reason.
