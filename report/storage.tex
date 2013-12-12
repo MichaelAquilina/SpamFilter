@@ -1,0 +1,5 @@
+\section{Storage}
+
+In order to save the State of the machine for re-use at later stage, a method for storing the model to disk was implemented. After training, the model is automatically saved to disk in Json format which provides a simple and human readable way of storing results. This file is read back into memory during classification when the \emph{filter} class is run. We make use of Google's \emph{Gson} open source Java library \cite{google:gson} for automatically reading and writing Java classes to disk. 
+
+Making use of a Json storage format provided us with the additional benefit of being able to analyse the features that were selected in a human readable format. Each time a change was made to the Spam Filter implementation, the output Json file was analysed to check for possible areas of improvement. A number of optimisations mentioned in this document were due to such analysis.
