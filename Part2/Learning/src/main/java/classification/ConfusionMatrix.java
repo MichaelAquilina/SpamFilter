@@ -50,6 +50,7 @@ public class ConfusionMatrix {
             return ((double) correctlyPredicted) / (double) getTotal();
         }
 
+        // i.e. True Positive Rate
         public double getRecall() {
             int truePositive = getTruePositive();
             int totalPositive = getTruePositive() + getFalseNegative();
@@ -57,6 +58,15 @@ public class ConfusionMatrix {
             return ((double) truePositive / (double) totalPositive);
         }
 
+        // i.e. True Negative Rate
+        public double getNegativeRecall() {
+            int trueNegative = getTrueNegative();
+            int totalNegative = getTrueNegative() + getFalsePositive();
+
+            return ((double) trueNegative / (double) totalNegative);
+        }
+
+        // i.e. Confidence
         public double getPrecision() {
             int truePositive = getTruePositive();
             int falsePositive = getFalsePositive();
@@ -74,6 +84,7 @@ public class ConfusionMatrix {
             // Display Standard Performance Statistics
             System.out.format("Accuracy = %f\n", getAccuracy());
             System.out.format("Recall = %f\n", getRecall());
+            System.out.format("Negative Recall = %f\n", getNegativeRecall());
             System.out.format("Precision = %f\n", getPrecision());
         }
 }
