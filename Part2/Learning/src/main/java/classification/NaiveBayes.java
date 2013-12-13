@@ -90,7 +90,7 @@ public class NaiveBayes extends Classifier {
     }
 
     private ArrayList<Integer> getHighestFeature(double[] probs) {
-        SortedMap<Double, Integer> sortedMap = new TreeMap<>();
+        SortedMap<Double, Integer> sortedMap = new TreeMap<>(java.util.Collections.reverseOrder());
 
         for(int i=0; i<probs.length; i++) {
             sortedMap.put(probs[i], i);
