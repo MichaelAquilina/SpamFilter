@@ -1,17 +1,17 @@
 \section{Naive Bayes}
-As previously made in Part 1 of this project, we are using Naive Bayes as our initial classifier.
-We model our the underlying distribution as a multinomial distribution.
-This type of distribution takes the frequency of each word, not only the binary value of existence into account.
-In general, Naive Bayes makes the assumption that words are independently drawn from each other and does not model any dependencies between them.
+A Naive Bayes implementation was developed as Part 1 of our report and will be used as our classifier throughout the report.
+We shall be using the Bag of Words model to extract features from the emails which treats each independent word in the document corpus as an individual feature.
+Our specific implementation of Naive Bayes makes use of a multinomial distribution in its underlying model which takes the frequency of each word as its distribution rather than the binary value of simple existence.
+It is important to note that the in general, Naive Bayes models make the assumption that words are independently drawn from each other and does not model any dependencies between them.
 
-The probabilites generated during training and classifying are always stored as loglikelihoods to minimize numerical errors.
-Due to this low number of numerical errors, this Naive Bayes implementation is able to cope with the large number of 143820 dimensions (i.e. different word in the input data) in the initial training set.
+The probabilities generated during training and classification are always stored as log-likelihoods to minimize numerical errors.
+Due to the low number of numerical errors, the Naive Bayes implementation was able to cope with a large number of 143820 dimensions (i.e. number of different words in the input data) as its initial feature set.
 
-To obtain an initial baseline performance, we run the Naive Bayes classifier on the training set using 10-fold cross validation.
+To obtain an initial baseline performance, we ran the Naive Bayes classifier on the training set using 10-fold cross validation.
 This resulted in an accuracy of 0.944 and a standard deviation across all folds of 0.024 for the Naive Bayes classifier without using the underlying class distribution as a-priori probabilities.
 With the usage of the underlying distribution, we get a classification accuracy of 0.9472 and a standard deviation of 0.032.
 
-Altough the class distribution (81\% Ham, 19\% Spam) is very different to a uniform distribution, the resulting classification score are not significantly different.
-With each instantiation taking 16 minutes to train and classify, the runtime does not make a difference either as the feature size stayed the same.
+Although the class distribution (81\% Ham, 19\% Spam) is very different to a uniform distribution, the resulting classification score is not significantly different.
+\todo{clarify this section}With each instantiation taking 16 minutes to train and classify, the runtime does not make a difference either as the feature size stayed the same.
 \todo{As using maximum-a-posteriori is the most common used Naive Bayes approach, we are going to use it in the following as our baseline which we will optimise using various preprocessing techniques.}
 
