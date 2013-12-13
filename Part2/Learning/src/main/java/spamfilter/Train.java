@@ -66,12 +66,16 @@ public class Train {
     public static void main(String[] args) throws IOException {
         double lowerPercentile = EmailClassifier.DEFAULT_LOWER_PERCENTILE;
         double upperPercentile = EmailClassifier.DEFAULT_UPPER_PERCENTILE;
-        if (args.length != 2 && args.length != 4) {
+        int minInstances = 2;
+        if (args.length != 2 && args.length != 4 && args.length != 5) {
             usage();
             return;
-        } else if (args.length == 4) {
+        } else if (args.length >= 4) {
             lowerPercentile = Double.parseDouble(args[2]);
             upperPercentile = Double.parseDouble(args[3]);
+        }
+        if (args.length == 5) {
+            minInstances = Integer.parseInt(args[4]);
         }
 
         String stateFilePath = args[1];
@@ -81,7 +85,7 @@ public class Train {
         //weightingMethod = new TfidfWeighting();
         weightingMethod = new FrequencyWeighting();
 
-        //Classifier classifier = new J48();
+        //Classifier classifier = new J48(minInstances);
         Classifier classifier = new NaiveBayes();
 
         EmailClassifier emailClassifier = new EmailClassifier(classifier, weightingMethod, true, true);
