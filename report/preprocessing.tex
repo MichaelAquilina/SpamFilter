@@ -124,8 +124,23 @@ After testing these two approaches, it was immediately noted that \emph{tfidf} g
 \subsection{Optimising Feature Thresholds}
 \label{sec:featurethresholds}
 
+After all preprocessing steps the total number of dimensions is now down to 43437 different words.
+Altough this is less than a third of the initial dimensionality, it is slowing down the training of the classifier as well as the classification of the samples.
+A high number of features can have a negative impact on quality of the classification results too as the classifier may learn to concentrate on words that are rare and only appear in the training set while leaving out feature that could separate the two classes very well.
+
+To increase the quality and the runtime, we want to remove infrequent and non-separating, but still freuqent features without having a negative effect on the quality.
+As an exhaustive search of all possible feature combination is infeasible, we will try to find emperically the two thresholds $\alpha$ and $\beta$.
+This is done by setting one of the threasholds to a fixed value while iterating over possible values for the other threshold.
+
 \input{upperbound-plot.tex}
 
+To compare the impact on the behaviour of the classification of both classes \emph{Spam} and \emph{Ham} we are using the measures \emph{Precision}, \emph{Recall} and \emph{Negative Recall} as they are less dependent of the class distribution in the test set than \emph{Accuracy}.
+
+In Figure \ref{p:upperbound}, we have set $\alpha = 0$ to have all lower frequent words in the training and iterating over $\beta$ to emperically determine which high frequent words can be removed without an effect on the cluster quality.
+As seen in the graph, only for a value of $\beta$ larger than 0.19 all three quality measures stay quite constant.
+In the interval between $0.05$ and $0.2$ there is a high variance of the scores, so we increased the resolution in the plot to a simulation in each 0.01 step to better view the behaviour of the classifier.
+As a final choice for $\beta$ we have taken $\beta = 0.19$ as \emph{Recall} has its maximum here and decreases steep towards $\beta = 0$.
+The other measures are at a very good level (near their maximum) for $\beta = 0.19$ and only increase slightly in this neighbourhood.
+
 \input{lowerprecisionplot.tex}
-\todo{explain what each line in the figure represents and make sure standard deviation is calculated correctly (it should not go above 1.0)..}
 
