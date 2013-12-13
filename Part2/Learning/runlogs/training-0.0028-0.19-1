@@ -3,21 +3,21 @@ Using Feature Weighting Scheme classification.FrequencyWeighting
 Performing cross-validation on 10 folds...
    |   Spam |    Ham |
 ---|--------|--------|
- S |    433 |     20 |
+ S |    432 |     21 |
  H |     34 |   2013 |
 
-Accuracy = 0.978400
-Recall = 0.955850
+Accuracy = 0.978000
+Recall = 0.953642
 Negative Recall = 0.983390
-Precision = 0.927195
-StdDev: 0.005719
+Precision = 0.927039
+StdDev: 0.007832
 Finished Testing, performing final train step...
-Feature Dimensions = 9276
+Feature Dimensions = 6705
 
 Most representative POSITIVE features:
 justif, justic, brew, lifestyl, pledg, compat, woman, equip, raleigh, beyourownispcom, sens, password, acquir, herbal, consolid, administr, compli, compil, advanc, research, 
 
 Most representative NEGATIVE features:
-herbal, aruba, firei, lifestyl, promulg, sibil, usenet, akira, massimo, justif, fellowship, linu, reput, lite, wyse, brasil, ciaran, wynn, copyedit, stuttgart, 
+herbal, crave, 9am, lifestyl, guis, cater, usenet, ee.ed.ac.uk, massimo, justif, fellowship, seiz, reput, lite, wyse, illich, ciaran, wynn, copyedit, stuttgart, 
 '
-Saved model to runlogs/classifier-0.0020-0.19-1
+Saved model to runlogs/classifier-0.0028-0.19-1

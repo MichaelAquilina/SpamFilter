@@ -10,14 +10,14 @@ Accuracy = 0.978400
 Recall = 0.955850
 Negative Recall = 0.983390
 Precision = 0.927195
-StdDev: 0.005719
+StdDev: 0.003373
 Finished Testing, performing final train step...
-Feature Dimensions = 9276
+Feature Dimensions = 5891
 
 Most representative POSITIVE features:
-justif, justic, brew, lifestyl, pledg, compat, woman, equip, raleigh, beyourownispcom, sens, password, acquir, herbal, consolid, administr, compli, compil, advanc, research, 
+justif, justic, brew, reput, pledg, compat, woman, equip, raleigh, overload, sens, password, acquir, herbal, consolid, administr, compli, compil, advanc, research, 
 
 Most representative NEGATIVE features:
-herbal, aruba, firei, lifestyl, promulg, sibil, usenet, akira, massimo, justif, fellowship, linu, reput, lite, wyse, brasil, ciaran, wynn, copyedit, stuttgart, 
+herbal, crave, 9am, snail, pledg, brew, compli, ee.ed.ac.uk, massimo, justif, silenc, seiz, reput, lite, interestingli, illich, ciaran, wynn, copyedit, stuttgart, 
 '
-Saved model to runlogs/classifier-0.0020-0.19-1
+Saved model to runlogs/classifier-0.0029-0.19-1
