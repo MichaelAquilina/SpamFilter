@@ -171,7 +171,17 @@ In the interval between $0.05$ and $0.2$ there is a high variance of the scores,
 As a final choice for $\beta$ we have taken $\beta = 0.19$ as \emph{Recall} has its maximum here and decreases steep towards $\beta = 0$.
 The other measures are at a very good level (near their maximum) for $\beta = 0.19$ and only increase slightly in this neighbourhood.
 
+\todo{State how many words we have saved and which runtime we achieved}
+
 \input{lowerprecisionplot.tex}
+
+Figure \ref{p:lowerbound} shows the behaviour of the quality measures if we would evaluate the classification performance with $\beta=1$ to determine the best lower threshold.
+As we already have choosen an upper threshold of $\beta = 0.19$, we are taking this into account in Figure \ref{p:lowerbound19}.
+Using the upper threshold leads to slightly different behaviour where \emph{Precision} still decreases with increasing threshold but at a lower level.
+Whereas in the situation $\beta = 1$ \emph{Recall} stayed at a nearly constant level among all parameter choices, it decreases with the same pace as \emph{Precision}.
+Overall it should be remarked that \emph{Precision} is at a much higher level for $\alpha = 0$ in Figure \ref{p:lowerbound19} than in Figure \ref{p:lowerbound} whilst \emph{Recall} is at approximately the same level in both situations.
+
+\todo{State that $\alpha = 0$ leads to the best result but we can dramtically decrease the dimensionality with slight increases of the threshold}
 
 \input{lowerbound-plot.tex}
 
