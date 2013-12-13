@@ -46,32 +46,36 @@ The following steps are taken to do this:
 Each of these steps contribute towards achieving a higher accuracy and performance in the classifier and will be described in detail in the sections below.
 
 \subsection{Email Parsing}
-As a first preprocessing step, we modify the parsing of the email structure.
-The provided emails sometimes contain metadata which is very redundant w.r.t. to the number of contained words, e.g. all will have a "From" line but also if an email has metadata is independent from its class label, i.e. the classifier should not that all mails that have metadata are spam.
-Furthermore mails do not always consist of just text but also have attachments or their textual content is supplied as plain text or beautified with HTML markup.
+As a first preprocessing step, we make use of a modified parser to extract information from each email's structure.
+The provided emails will sometimes contain metadata which is very redundant w.r.t. to the actual class. 
+An example of this is the occurrence of "From:" which is contained within the headers of all emails. 
+The \emph{presence} of metadata in emails is in fact independent from any class label, i.e. the classifier should not use it its presence as a feature for distinguishing between classes of emails.
+On the other hand the information \emph{contained} within the metadata itself can be very useful in determining the class if available, but such a feature will be left for future work due to time constraints.
+Finally emails do not always consist of just text but may also have attachments encoded plain text or beautified with HTML markup. 
 
-In a first step, we strip the metadata from the email so that only give the content of the mail to the classifier.
-This reduces the size of data passed on to the classifier as most terms in the metadata are either common among all emails, e.g. the names of the header lines (``From'', ``Content-Type'', \dots), or are unique to the mail like the date of sending or the message-id.
-From the metadata we extract some basic information like the encoding or if it is a multi-part email for further processing.
 
-If the mail is split in multiple parts, we want to extract only the parts which contain text as we cannot infer information of the \emph{base64} representation of images or other binary attachments.
-These binary attachments would only add a large number of words of a length of 76 characters \cite{rfc2045} to the index which are very uncommon in other mails as images are compressed data with a high entropy.
-Another problem that is solved by adding handling multiple is the recursive parsing of attached emails that have textual content and may have multiple parts again inside so that we are now stripping down the inner mails to their actual content too.
+As a first step we strip most of the metadata from the email so that we only return the actual content of the email to the classifier.
+This drastically reduces the amount of data passed to the classifier as most terms in the metadata are either common among all emails, e.g. the names of the header lines (``From'', ``Content-Type'', \dots), or are completely unique to the mail itself like the date of sending or the message-id.
+From the metadata we only extract some basic information like the encoding or flags stating if the email is multi-part.
 
-Furthermore not all text is encoded in the same encoding as the email itself, e.g. the main text could be encoded as Base64 which would not reveal the actual words when just splitting the mail into words by separating at each space.
-Another typical encoding is quoted-printable which only transforms non-ASCII characters into another format but leaves all ASCII characters intact.
-Handling these encoding turns meaningless, long character sequences into words that are present in other mails.
+If the mail is split into multiple parts, we only extract parts which contain plain text as we cannot infer information from the \emph{base64} representation of images and other binary attachments.
+These binary attachments are represented in the form of seemingly random text (to the classifier) and would only add a large number of garbled text \cite{rfc2045} to the resultant index. Such combinations of text are very unlikely to be found in other emails due to high entropy within binary data.
+Another problem that is solved by handling multiple parts is the recursive parsing of attached emails. For each embedded email, we strip down each inner email to just their content as we have just described in this section.
 
-As a final parsing step in the email handling we are stripping all HTML from the mails to remove all HTML tags from our word index.
-This markup is not displayed to the user and does not carry any content that will be some sort of advertising.
+Furthermore not all text within the email is encoded using same encoding as the declared by the email itself. For example the main text could be encoded as Base64 which would not reveal the actual words when just splitting the mail into words by separating at each space.
+Another typical encoding is quoted-printable which transforms non-ASCII characters into another format (so called escape characters) but leaves all ASCII characters intact.
+Handling these multiple encodings in the correct fashion transforms meaningless, long character sequences into words that are present in other emails and useful for the classifier.
 
-Although email parsing did not make a significant impact on the quality score of the classifier, it reduced its dimensionality from 143820 down to 94903.
-With this lower dimensionality the runtime decreases too from 16 minutes to ten.
-In conclusion email parsing stripped a lot of irrelevant or redundant dependencies from the input data set without the cost of quality loss.
+As a final parsing step we strip down as much HTML content as possible from the emails' content in order to prevent HTML tags from entering our word index.
+This markup is not displayed to the user and does not carry any useful content for the parser or classifier to make use of.
+
+Although "smart" email parsing did not cause any significant increase in impact to the quality score of the classifier, it did manage reduce the dimensionality from 143820 down to 94903 words.
+As a consequence of this lower dimensionality the runtime decreases from 16 minutes to just 10 minutes.
+In conclusion email parsing is responsible for stripping down a lot of irrelevant or redundant dependencies from the input data set without the cost of any loss in quality.
 
 \subsection{Simple Text Processing Techniques}
 
-A number of simple processing techniques are used to conflate incoming strings that represent the word together. Although the email parser is built in such a way as to strip out HTML content where possible, a number of artefacts could still linger in the data which could cause noise and incorrectly distinguish variations of the same word. Because it is not the parser's job to perform this form of filtering, a separate step is taken to perform simple text processing tasks before passing them on the later pre-processing stages.
+A number of simple processing techniques are used to conflate strings being returned by the parser so that variations of the same word are mapped to the same feature. Although the email parser is built in such a way as to strip out HTML content where possible, a number of artefacts could still linger in the data which could cause noise and incorrectly distinguish variations of the same word. Because it is not the parser's job to perform this form of filtering, a separate step is taken to perform simple text processing tasks before passing them on the later pre-processing stages.
 
 All incoming words that are composed purely of symbols (i.e. no numbers or letters) are simply discarded as they are most commonly noise in the data that does not represent anything in the corpus. Without this step, the number of features used by the classifier would grow substantially as a large number of "rubbish" symbols are included as part of the feature set. Additionally, all remaining words will have ally symbols stripped, this prevents variations in words like {\it they're} and {\it theyre} from being treated as different features.
 
