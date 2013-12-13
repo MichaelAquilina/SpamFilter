@@ -182,7 +182,7 @@ As only a low number of words was reduced, the runtime stays constant at six min
 \input{lowerprecisionplot.tex}
 
 Figure \ref{p:lowerbound} shows the behaviour of the quality measures if we would evaluate the classification performance with $\beta=1$ to determine the best lower threshold.
-As we already have choosen an upper threshold of $\beta = 0.19$, we are taking this into account in Figure \ref{p:lowerbound19}.
+As we already have chosen an upper threshold of $\beta = 0.19$, we are taking this into account in Figure \ref{p:lowerbound19}.
 Using the upper threshold leads to slightly different behaviour where \emph{Precision} still decreases with increasing threshold but at a lower level.
 Whereas in the situation $\beta = 1$ \emph{Recall} stayed at a nearly constant level among all parameter choices, it decreases with the same pace as \emph{Precision}.
 Overall it should be remarked that \emph{Precision} is at a much higher level for $\alpha = 0$ in Figure \ref{p:lowerbound19} than in Figure \ref{p:lowerbound} whilst \emph{Recall} is at approximately the same level in both situations.
@@ -191,7 +191,7 @@ In both situations, we get the best scores for $\alpha=0$, which is no further i
 This means that there is a significant number of words that occur only once in the training set but still help separating classes in the test set.
 It has to be noticed that not all words with a frequency of one in the training set are relevant but there are enough relevant words with a frequency of one that would have a significant impact on the scores if pruned.
 
-Altough the best results were achieved using $\alpha=0$, for $\alpha=0.17$ we can still generate a classifier that produces very good results with a \emph{Precision} of $0.916$ and a \emph{Recall} of $0.944$.
+Although the best results were achieved using $\alpha=0$, for $\alpha=0.17$ we can still generate a classifier that produces very good results with a \emph{Precision} of $0.916$ and a \emph{Recall} of $0.944$.
 As this classifier only utilises 1568 dimensions, which is about 4\% of the classifier with $\alpha=0$, it runs the cross validation cycle in less then 100 seconds.
 
 \input{lowerbound-plot.tex}
