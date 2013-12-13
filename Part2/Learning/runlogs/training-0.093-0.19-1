@@ -1,0 +1,23 @@
+Using classification.NaiveBayes
+Using Feature Weighting Scheme classification.FrequencyWeighting
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    385 |     68 |
+ H |     82 |   1965 |
+
+Accuracy = 0.940000
+Recall = 0.849890
+Negative Recall = 0.959941
+Precision = 0.824411
+StdDev: 0.010832
+Finished Testing, performing final train step...
+Feature Dimensions = 223
+
+Most representative POSITIVE features:
+english, edu, john, wrote, data, discuss, depart, research, said, develop, reserv, seem, recent, though, second, mean, network, between, view, suggest, 
+
+Most representative NEGATIVE features:
+monei, wish, below, onc, abov, repli, reserv, accept, less, futur, abl, old, ever, remov, advertis, again, further, either, live, idea, 
+'
+Saved model to runlogs/classifier-0.093-0.19-1
