@@ -1,4 +1,31 @@
 \section{Preprocessing}
+\tikzstyle{diabox}=[minimum height=1.4cm,shape=rectangle,align=center, draw, font=\small]
+\begin{figure*}[t]
+    \begin{tikzpicture}
+        \node[diabox] at (0.00,0) (parsing) {Email\\Parsing};
+        \node[diabox] at (2.2,0,0) (textproc) {Text Processing\\Techniques};
+        \node[diabox] at (4.6,0) (domain) {Domain\\Extraction};
+        \node[diabox] at (6.6,0) (stemming) {Stemming};
+        \node[diabox] at (8.65, 0) (weight) {Feature\\Weighting};
+        \node[diabox] at (10.6,0)  (fselection) {Feature\\Selection};
+        \node[diabox] at (12.7, 0) (training) {Classifier\\Training};
+        \node[diabox] at (15, 0) (classify) {Test Set\\Classification};
+        \draw[red,dashed] (-1,-1) rectangle ++(12.6,2);
+        \draw[red] (0.1,1.4) node {Preprocessing};
+        \draw[blue,dashed] (7.6,-1.2) rectangle ++(8.7,2.4);
+        \draw[blue] (14.9,1.6) node {Cross Validation};
+        \draw [->] (parsing.east) -- (textproc.west);
+        \draw [->] (textproc.east) -- (domain.west);
+        \draw [->] (domain.east) -- (stemming.west);
+        \draw [->] (stemming.east) -- (weight.west);
+        \draw [->] (weight.east) -- (fselection.west);
+        \draw [->] (fselection.east) -- (training.west);
+        \draw [->] (training.east) -- (classify.west);
+    \end{tikzpicture}
+    \caption{Steps taken during training and cross validation}
+    \label{fig:steps}
+\end{figure*}
+
 The bag of words model used by our classifiers is a good way to represent the data found in the given training documents. However this feature representation is prone to very high dimensions if not handled well due to the large number of possible combinations in words. 
 
 According to a recent survey performed by Google and Harvard, there are approximately 1,022,000 different words in the English language \cite{google2010words}. While we do not expect to find all possible words in the document corpus, a large number of them will be found along with their derivations in the form of spelling mistakes and grammatical variations (e.g.{\it they're} and {\it theyre}). Other non-English words such as html code, URLs and nonsensical data such as PGP keys will also be found within the documents.
