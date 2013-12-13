@@ -4,6 +4,7 @@
         \begin{axis}[
             legend pos=south west,
             ymax=1,
+            ymin=0.7,
             xtick={0, 0.02, 0.04, 0.06, 0.08, 0.1},
             xticklabels={0, 0.02, 0.04, 0.06, 0.08, 0.1}
             ]
@@ -347,7 +348,7 @@
             %\draw[red,line width=1pt] ({axis cs:0.002,0}|-{rel axis cs:0,1}) -- ({axis cs:0.002,0}|-{rel axis cs:0,0});
         \end{axis}
     \end{tikzpicture}
-    \caption{Precision and recall w.r.t. lower threshold (no cap on the upper bound)}
+    \caption{Precision and recall w.r.t. lower threshold ($\beta=0.19$)}
     \label{p:lowerbound19}
 \end{figure}
 
