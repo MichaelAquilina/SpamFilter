@@ -142,9 +142,9 @@ In Section \ref{sec:featurethresholds}, we will try to optimise our selected thr
 
 Now that we have filtered out all unnecessary features and determined which features should be kept for classification, we need to convert email documents into data that is understandable by the Classifier. More specifically, we need to convert each email into a corresponding feature vector using the features we have just identified. In this report, we have attempted two ways of converting frequency information found in emails into corresponding weights. 
 
-The first and most basic attempt uses \emph{Frequency Weighting} which is simply assigning each feature in a vector the frequency of the corresponding term in the email. 
+The first and most basic attempt uses \emph{Frequency Weighting} which is simply assigning each feature in a vector the frequency of the corresponding term in the email. Although seemingly simple as an approach, it has proven to be effective representation of each email in the corpus during the writing of this report.
 
-The second approach taken is using \emph{Term Frequency Inverse Document Frequency} also commonly known as \emph{tfidf} \cite{tfidf1973}. Tfidf is a commonly used metric in natural language processing that portrays the importance of a word in a document with respect to the rest of the corpus. It is technique often used by Search Engines and has proven many times to be a reliable way of representing the significance of a term within a document. The equation for calculating the weight for a term $i$ in a document $j$ is given as:
+The second approach attempted was \emph{Term Frequency Inverse Document Frequency} also commonly known as \emph{tfidf} \cite{tfidf1973}. Tfidf is a commonly used metric in natural language processing that portrays the importance of a word in a document with respect to the rest of the corpus. It is technique often used by Search Engines and has proven many times to be a reliable way of representing the significance of a term within a document. The equation for calculating the weight for a term $i$ in a document $j$ is given as:
 
 \begin{align*}
 	\textrm{tfidf}_{ij} = \frac{f_{ij}}{\textrm{maxf}} * \log\left(\frac{N}{n_i}\right)
@@ -152,7 +152,7 @@ The second approach taken is using \emph{Term Frequency Inverse Document Frequen
 
 Where $N$ represents the number of documents, $n_i$ represents the number of times the term i appears in a document and \emph{maxf} represents the highest frequency in the document corpus.
 
-After testing these two approaches, it was immediately noted that \emph{tfidf} gave significantly worse results than \emph{frequency weighting}. While this was initially a surprise, It was noted that this behaviour could be occurring due to use of a multinomial Naive Bayes model rather than Bernoulli model. \todo{maybe some more justification on this. Not sure this is enough information to justify mentioning tfidf}. We shall assume the use of Frequency Weighting for the rest of the report for this reason.
+Interestingly, after testing these two approaches, it was immediately noted that \emph{tfidf} gave significantly worse results than \emph{frequency weighting}. While this was initially a surprise, It was noted that this behaviour could possibly be occurring due to use of a multinomial Naive Bayes model rather than Bernoulli model. Further investigation as to why this is the case could be a possible area for future work on our implementation. We shall assume the use of Frequency Weighting for the rest of the report due to its superior performance. Note that an implementation of the tfidf weighting scheme is still included as part of this reports implementation but is left disabled in favour of frequency weighting.
 
 \subsection{Optimising Feature Thresholds}
 \label{sec:featurethresholds}
