@@ -1,0 +1,15 @@
+Using weka.J48
+Using Feature Weighting Scheme classification.FrequencyWeighting
+Performing cross-validation on 10 folds...
+   |   Spam |    Ham |
+---|--------|--------|
+ S |    316 |    137 |
+ H |     74 |   1973 |
+
+Accuracy = 0.915600
+Recall = 0.697572
+Negative Recall = 0.963850
+Precision = 0.810256
+StdDev: 0.022974
+Finished Testing, performing final train step...
+Feature Dimensions = 92
