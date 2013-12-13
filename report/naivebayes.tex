@@ -1,6 +1,8 @@
 \section{Naive Bayes}
 As previously made in Part 1 of this project, we are using Naive Bayes as our initial classifier.
-We model our the underlying distribution as a multinomial distribution based on the word frequency in each email.
+We model our the underlying distribution as a multinomial distribution.
+This type of distribution takes the frequency of each word, not only the binary value of existence into account.
+In general, Naive Bayes makes the assumption that words are independently drawn from each other and does not model any dependencies between them.
 
 The probabilites generated during training and classifying are always stored as loglikelihoods to minimize numerical errors.
 Due to this low number of numerical errors, this Naive Bayes implementation is able to cope with the large number of 143820 dimensions (i.e. different word in the input data) in the initial training set.
