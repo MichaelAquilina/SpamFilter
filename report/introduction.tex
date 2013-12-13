@@ -1,19 +1,21 @@
 \section{Introduction}
-The following report describes our implementation of a spam filter.
-\todo{This filter classifies emails by their content if they are unwanted (spam) mails or wanted (ham) mails using various preprocessing techniques and a Naive Bayes classifier.}
+The following report describes our implementation of a Spam Filter. The main aim of any Spam Filter is to distinguish emails into one of two classes - unwanted \emph{Spam} emails and wanted \emph{Ham} emails. The fight against spam has been on-going effort since the inception of Email technology and is still heavily researched in the field of machine learning to this day \todo{citation}. Our Spam Filter is attempted in the form of a Naive Bayes classifier along with several pre-processing techniques to filter out noise and improve performance. Naive Bayes is a commonly used classification technique used for Spam Filtering, still in use till this day by popular email clients like Thunderbird and Microsoft Outlook due to its simplicity and surprisingly good performance \todo{citation}.
 
-As we were only given a labelled training set, we are evaluating the performance of our classifier using 10-fold cross validation.
-For each fold we are calculating the accuracy and reporting as a final measure the overall averaged accuracy and the sample standard deviation to compare the different classifier instantiations.
-As in a normal binary classification process, one always uses the terms positive and negative class, we are \todo{defining} \emph{spam} to be the positive class and \emph{ham} the negative class.
+In this report we will be making use of a given labelled set of emails to perform training. 
+This labelled set will also be used to evaluate the performance of our classifier using 10-fold cross validation. 
+Each fold will be used to calculate most of the standard machine learning performance metrics such as accuracy, recall and precision and as a final measure we will be reporting performance metrics as the overall average between each of the 10 folds. 
+The standard deviation is also derived from the results in order to provide a base for comparison between the different classifiers.
+As with all standard binary classification processes, we shall be using the terms positive and negative within the report to distinguish between the two possible classes - \emph{Spam} as positive and \emph{Ham} as negative.
 
-To optimise the classification performance, we pre-process the input data using various techniques to filter out noise, normalise the features and minimise the overall dimensionality.
+To optimise the classification performance, we attempt to improve the quality of input data using various pre-processing techniques to filter out noise, normalise features and minimise the overall dimensionality. Doing so is an important step into achieving best results without altering the actual classification process itself.
 
-As there is no one best classifier, we are comparing different classifiers for the given training set using different parameter instantiations.
+A focus on our Naive Bayes implementation will be made throughout the report, with emphasis on optimising the performance through the selection of correct parameters.
+However we shall also take the time at the end of the report to compare the performance of our implementation with other third party machine learning models such as the Decision Tree.
 \todo{a bit more here..}
 
-In addition to the classification quality, we will do have a look at the runtime of the classification and training process too.
-With a longer runtime, one might be able to increase the quality of the classifier (e.g. doing an exhaustive search over all possible modeles) significantly but the needed runtime could be infeasably large.
-As a minor factor we are trying to minimise the runtime of the training and the test set with minimal or (at best) no loss in classification quality.
-All reported times are based on a two core Intel i7-640L CPU with a frequency of 2.1GHz per core and 8Gb of main memory.
+In addition to the quality of classification results, we will be taking a look at improving the runtime of the classification and training process.
+With a longer runtime, one might be able to increase the quality of a classifier  significantly (e.g. doing an exhaustive search over all possible models) but the runtime required to do so could be infeasibly large. We therefore attempt to minimise the runtime of the training and classification process with little or (at best) no loss in classification quality.
+
+All reported times are based on running our implementation on two core Intel i7-640L CPU with a frequency of 2.1GHz per core and 8Gb of main memory.
 
 \todo{State best performance!}
