@@ -19,8 +19,32 @@ This reduced data set of only 1568 dimensions can be used to train a C4.5 tree i
 One of the parameters that can be adjusted is the number of instances each leaf of the tree needs to represent at least during the training phase.
 The default setting of WEKA requires at minimum two instances at each leaf, in Figure \ref{fig:j48} we outline the scores with varying number of minimum instances.
 From the results we can see that chaging the minimum number of instances has not a large impact on the score of the classifier.
-Because of this we are going to use WEKA's default setting of a minimum of to instances per leaf for comparing the performance of J48 to our best Naive Bayes instantiation.
+Because of this we are going to use WEKA's default setting of a minimum of two instances per leaf for comparing the performance of J48 to our best Naive Bayes instantiation.
 
-\todo{Improvement? Use statistics to show significance (or that we cannot reject the null hypothesis)}
+To compare the performance of both classifiers, we are testing the null hypothesis that they generate equal good results.
+The testing will be done using 10-fold crossvalidation on the same training set and the statistical significance of the results will be examined using Wilcoxon's signed-rank-test.
+As we already have used different measures throughout the whole document, we will be testing the performance of both classifiers using \emph{Accuracy}, \emph{Precision} and \emph{Recall}.
+For the statistical test, we are using 5\% as our confidence level, i.e. to successfully reject the null hypothesis that both classifiers produce similar results, the minimum sum of positive or negative ranks must be eight or less.
 
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ | l | r | r | }
+        \hline
+        \textbf{Measure} & \textbf{Difference} & $\min(\sum +ranks, \sum -ranks)$ \\
+        \hline
+        \emph{Accuracy} & 0.048 & 0 \\
+        \hline
+        \emph{Precision} & 0.111 & 1 \\
+        \hline
+        \emph{Recall} & 0.167 & 0 \\
+        \hline
+    \end{tabular}
+    \caption{Average differences in the quality scores and minimum sum of either positive or negative ranks of Naive Bayes and J48 based on 10-fold cross validation}
+    \label{table:difference}
+\end{table}
+
+Table \ref{table:difference} shows the average differences between both classifiers and shows clearly that that on average Naive Bayes performs better.
+With all ranks below $8$, we can reject the null hypothesis for all measures that the classifiers produce similar results.
+As the scores of Naive Bayes were always better, we can conclude that Naive Bayes outperforms C4.5/J48 for our dataset of Spam data for the given feature vectors.
+Remarkably J48 could only outperform Naive Bayes in one fold and in this fold it was only better in \emph{Precision} where Naive Bayes still lead to better scores in \emph{Accuracy} and \emph{Recall}.
 
