@@ -12,32 +12,17 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class CrossValidation {
-    protected ArrayList<File> files;
-    protected EmailClassifier classifier;
-    protected ConfusionMatrix confusionMatrix;
-    protected List<ConfusionMatrix> confusionMatrices;
+public class DualCrossValidation extends CrossValidation {
+    private EmailClassifier classifier2;
+    private ConfusionMatrix confusionMatrix2;
+    private List<ConfusionMatrix> confusionMatrices2;
 
-    public CrossValidation(String directory, EmailClassifier classifier) {
-        this.classifier = classifier;
-
-        File trainingDirectory = new File(directory);
-        files = new ArrayList<File>(Arrays.asList(trainingDirectory.listFiles(new SpamHamFileFilter())));
+    public DualCrossValidation(String directory, EmailClassifier classifier, EmailClassifier classifier2) {
+        super(directory, classifier);
+        this.classifier2 = classifier2;
     }
 
-    public double getStdDev() {
-        double mean = 0.0;
-        for (ConfusionMatrix cm : confusionMatrices) {
-            mean += cm.getAccuracy();
-        }
-        mean /= confusionMatrices.size();
-        double o2 = 0.0;
-        for (ConfusionMatrix cm : confusionMatrices) {
-            o2 += (cm.getAccuracy() - mean) * (cm.getAccuracy() - mean);
-        }
-        return Math.sqrt(o2 / (confusionMatrices.size() - 1));
-    }
-
+    @Override
     public void fold(int folds, double lowerPercentile, double upperPercentile) throws IOException {
         // Shuffle the list, so that we get each time other results
         Collections.shuffle(files);
@@ -53,6 +38,8 @@ public class CrossValidation {
         // For each combination spamfilter and test
         confusionMatrix = new ConfusionMatrix();
         confusionMatrices = new ArrayList<ConfusionMatrix>();
+        confusionMatrix2 = new ConfusionMatrix();
+        confusionMatrices2 = new ArrayList<ConfusionMatrix>();
         for (int i = 0; i < folds; i++) {
             // Gather training data
             List<File> train = new ArrayList<File>();
@@ -63,20 +50,26 @@ public class CrossValidation {
             }
 
             classifier.train(train, lowerPercentile, upperPercentile);
+            classifier2.train(train, lowerPercentile, upperPercentile);
             
             ConfusionMatrix cm = new ConfusionMatrix();
+            ConfusionMatrix cm2 = new ConfusionMatrix();
             for(File trainingFile : fileFolds.get(i)) {
                 EmailClass actualClass = trainingFile.getName().contains("ham")? EmailClass.Ham : EmailClass.Spam;
                 EmailClass emailClass = classifier.classify(trainingFile);
+                EmailClass emailClass2 = classifier2.classify(trainingFile);
 
                 confusionMatrix.add(actualClass, emailClass);
+                confusionMatrix2.add(actualClass, emailClass2);
                 cm.add(actualClass, emailClass);
+                cm2.add(actualClass, emailClass2);
             }
+            System.out.println("Fold done:");
+            System.out.format("(%f, %f, %f)\n", cm.getAccuracy(), cm.getPrecision(), cm.getRecall());
+            System.out.format("(%f, %f, %f)\n", cm2.getAccuracy(), cm2.getPrecision(), cm2.getRecall());
+            System.out.format("(%f, %f, %f)\n", cm.getAccuracy() - cm2.getAccuracy(), cm.getPrecision() - cm2.getPrecision(), cm.getRecall() - cm2.getRecall());
             confusionMatrices.add(cm);
+            confusionMatrices2.add(cm2);
         }
-    }
-
-    public ConfusionMatrix getCombinedConfusion() {
-        return confusionMatrix;
     }
 }
