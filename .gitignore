@@ -24,3 +24,5 @@ nbactions.xml
 
 # Tex Creator Artifacts
 *.synctex.gz
+/report/introduction.tex.bak
+/report/preprocessing.tex.bak
