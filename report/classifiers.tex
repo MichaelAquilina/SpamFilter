@@ -17,8 +17,9 @@ This reduced data set of only 1568 dimensions can be used to train a C4.5 tree i
 \input{j48-plot.tex}
 
 One of the parameters that can be adjusted is the number of instances each leaf of the tree needs to represent at least during the training phase.
-The default setting of WEKA requires at minimum two instances at each leaf, in Figure ?? we outline the scores with varying number of minimum instances.
-\todo{Vary minimum number of instances}
+The default setting of WEKA requires at minimum two instances at each leaf, in Figure \ref{fig:j48} we outline the scores with varying number of minimum instances.
+From the results we can see that chaging the minimum number of instances has not a large impact on the score of the classifier.
+Because of this we are going to use WEKA's default setting of a minimum of to instances per leaf for comparing the performance of J48 to our best Naive Bayes instantiation.
 
 \todo{Improvement? Use statistics to show significance (or that we cannot reject the null hypothesis)}
 
