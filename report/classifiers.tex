@@ -6,9 +6,18 @@ Because this property is not shared among all other classifier and some even sev
 \subsection{Decision Trees}
 
 We are going to use Weka's \cite{hall2009weka} implementation of the C4.5 decision tree \cite{Quinlan1993} (known in Weka as J48) as the first alternative to Naive Bayes classification.
+C4.5 builts a tree based on the features using information entropy.
+The dimension with the highest information gain will be used at each node new to generate a new split.
+After the creation of the tree, C4.5 tries to prune all unnecessary branches with leafs to keep the total number of nodes to a minimum.
+Altough this feature could be disabled, we are using it to avoid overfitting.
 
+As the runtime of C4.5 increases in a higher level with the number of dimensions than the Naive Bayes Classifier, we are going to use it with the threshold $\alpha=0.017$ and $\beta=0.19$.
+This reduced data set of only 1568 dimensions can be used to train a C4.5 tree in a feasible amount of timeThis reduced data set of only 1568 dimensions can be used to train a C4.5 tree in a feasible amount of time.
+
+One of the parameters that can be adjusted is the number of instances each leaf of the tree needs to represent at least during the training phase.
+The default setting of WEKA requires at minimum two instances at each leaf, in Figure ?? we outline the scores with varying number of minimum instances.
 \todo{Vary minimum number of instances}
 
-\todo{Improvement?}
+\todo{Improvement? Use statistics to show significance (or that we cannot reject the null hypothesis)}
 
 
