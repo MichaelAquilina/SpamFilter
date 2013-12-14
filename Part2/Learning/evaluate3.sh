@@ -1,5 +1,5 @@
 #!/bin/bash
-for k in `seq 11 1 20`; do
+for k in `seq 21 1 40`; do
     i=0.017
     #for i in `seq 0.01 0.02 0.16`; do
         j=0.19
