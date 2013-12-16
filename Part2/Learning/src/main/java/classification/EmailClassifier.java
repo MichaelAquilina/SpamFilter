@@ -179,9 +179,11 @@ public class EmailClassifier {
         if(TextProcessor.isNumber(result))
             return NUMBER_REP;
         else
+        {
             result = TextProcessor.fullStrip(result);
             result = TextProcessor.stripAttributes(result);
             return TextProcessor.porterStem(result);
+        }
     }
 
     public static void save(EmailClassifier emailClassifier, String path) throws IOException {
