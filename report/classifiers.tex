@@ -1,5 +1,5 @@
 \section{Alternatives to Naive Bayes}
-As a classifier is modeld after some given assumptions and with specific architechtural properities, e.g. all attributes are equally important, it is important to check if the used classifier is the right model for the examined problem.
+As a classifier is modeled after some given assumptions and with specific architechtural properities, e.g. all attributes are equally important, it is important to check if the used classifier is the right model for the examined problem.
 A very good feature of the Naive Bayes classifier is its ability to train on a dataset with a very high dimensionality in decent time.
 Because this property is not shared among all other classifier and some even severely suffer from high dimensionality (the so called Curse of Dimensionality \cite{bellman1957dynamic}), we are using the reduced set of features we estimated in the feature selection process without further research on the impact of other thresholds on feature trimming w.r.t. to non-bayesian classifiers.
 
@@ -7,24 +7,24 @@ Because this property is not shared among all other classifier and some even sev
 
 We are going to use Weka's \cite{hall2009weka} implementation of the C4.5 decision tree \cite{Quinlan1993} (known in Weka as J48) as the first alternative to Naive Bayes classification.
 C4.5 builts a tree based on the features using information entropy.
-The dimension with the highest information gain will be used at each node new to generate a new split.
-After the creation of the tree, C4.5 tries to prune all unnecessary branches with leafs to keep the total number of nodes to a minimum.
+The dimension with the highest information gain will be used at each node to generate a new split.
+After the creation of the tree, C4.5 tries to prune all unnecessary branches into simple leafs to keep the total number of nodes to a minimum.
 Altough this feature could be disabled, we are using it to avoid overfitting.
 
-As the runtime of C4.5 increases in a higher level with the number of dimensions than the Naive Bayes Classifier, we are going to use it with the threshold $\alpha=0.017$ and $\beta=0.19$.
-This reduced data set of only 1568 dimensions can be used to train a C4.5 tree in a feasible amount of timeThis reduced data set of only 1568 dimensions can be used to train a C4.5 tree in a feasible amount of time.
+As the runtime of C4.5 increases in a higher level with the number of dimensions than the Naive Bayes classifier, we are going to use it with the thresholds $\alpha=0.017$ and $\beta=0.19$.
+This reduced data set of only 1568 dimensions can be used to train a C4.5 tree in a feasible amount of time.
 
 \input{j48-plot.tex}
 
 One of the parameters that can be adjusted is the number of instances each leaf of the tree needs to represent at least during the training phase.
 The default setting of WEKA requires at minimum two instances at each leaf, in Figure \ref{fig:j48} we outline the scores with varying number of minimum instances.
-From the results we can see that chaging the minimum number of instances has not a large impact on the score of the classifier.
+From the results we can see that chaging the minimum number of instances has not a large impact on the score of the classifier, scores stay rather the same.
 Because of this we are going to use WEKA's default setting of a minimum of two instances per leaf for comparing the performance of J48 to our best Naive Bayes instantiation.
 
 To compare the performance of both classifiers, we are testing the null hypothesis that they generate equal good results.
-The testing will be done using 10-fold crossvalidation on the same training set and the statistical significance of the results will be examined using Wilcoxon's signed-rank-test.
+The testing will be done using 10-fold crossvalidation on the same training set and the statistical significance of the results will be examined using Wilcoxon's signed-rank test.
 As we already have used different measures throughout the whole document, we will be testing the performance of both classifiers using \emph{Accuracy}, \emph{Precision} and \emph{Recall}.
-For the statistical test, we are using 5\% as our confidence level, i.e. to successfully reject the null hypothesis that both classifiers produce similar results, the minimum sum of positive or negative ranks must be eight or less.
+For the statistical test, we are using 5\% as our confidence level, i.e. to successfully reject the null hypothesis that both classifiers produce similar results, the minimum sum of either positive or negative ranks must be eight or less.
 
 \begin{table}[h!]
     \centering
@@ -43,8 +43,8 @@ For the statistical test, we are using 5\% as our confidence level, i.e. to succ
     \label{table:difference}
 \end{table}
 
-Table \ref{table:difference} shows the average differences between both classifiers and shows clearly that that on average Naive Bayes performs better.
+Table \ref{table:difference} shows the average differences between both classifiers and shows clearly that on average Naive Bayes performs better.
 With all ranks below $8$, we can reject the null hypothesis for all measures that the classifiers produce similar results.
-As the scores of Naive Bayes were always better, we can conclude that Naive Bayes outperforms C4.5/J48 for our dataset of Spam data for the given feature vectors.
+As the scores of Naive Bayes were always better, we can conclude that Naive Bayes outperforms C4.5/J48 for our dataset of email data for the given feature vectors.
 Remarkably J48 could only outperform Naive Bayes in one fold and in this fold it was only better in \emph{Precision} where Naive Bayes still lead to better scores in \emph{Accuracy} and \emph{Recall}.
 
