@@ -28,7 +28,7 @@
 
 The bag of words model used by our classifiers is a good way to represent the data found in the given training documents. However this feature representation is prone to very high dimensions if not handled well due to the large number of possible combinations in words. 
 
-According to a recent survey performed by Google and Harvard, there are approximately 1,022,000 different words in the English language \cite{google2010words}. While we do not expect to find all possible words in the document corpus, a large number of them will be found along with their derivations in the form of spelling mistakes and grammatical variations (e.g.{\it they're} and {\it theyre}). Other non-English words such as HTML code, URLs and nonsensical data such as PGP keys will also be found within the documents.
+According to a recent survey performed by Google and Harvard, there are approximately 1,022,000 different words in the English language \cite{google2010words}. While we do not expect to find all possible words in the document corpus, a large number of them will be found along with their derivations in the form of spelling mistakes and grammatical variations (e.g.{\it they're} and {\it theyre}). Other non-English words such as HTML code, URLs and seemingly nonsensical data such as PGP keys will also be found within the documents.
 
 Most of these words will provide no benefit to the classifier and in most cases will even harm the classifier's performance. It is therefore of utmost importance that noise in the text is filtered out and the number of word combinations is reduced to the most representative, yet minimal subset of the available words. Once this is done, steps can be taken to transform each document into a feature vector that can be understood by the classifier. 
 
@@ -77,21 +77,21 @@ In conclusion email parsing is responsible for stripping down a lot of irrelevan
 
 A number of simple processing techniques are used to conflate strings being returned by the parser so that variations of the same word are mapped to the same feature. Although the email parser is built in such a way as to strip out HTML content where possible, a number of artefacts could still linger in the data which could cause noise and incorrectly distinguish variations of the same word. Because it is not the parser's job to perform this form of filtering, a separate step is taken to perform simple text processing tasks before passing them on the later pre-processing stages.
 
-All incoming words that are composed purely of symbols (i.e. no numbers or letters) are simply discarded as they are most commonly noise in the data that does not represent anything in the corpus. Without this step, the number of features used by the classifier would grow substantially as a large number of "rubbish" symbols are included as part of the feature set. Additionally, all remaining words will have ally symbols stripped, this prevents variations in words like {\it they're} and {\it theyre} from being treated as different features.
+All incoming words that are composed purely of symbols (i.e. no numbers or letters) are simply discarded as they are most commonly noise in the data that do not represent anything in the corpus. Without this step, the number of features used by the classifier would grow substantially as a large number of "rubbish" symbols are included as part of the feature set. Additionally, all remaining words will have all symbols removed as this prevents variations in words like {\it they're} and {\it theyre} from being treated as different features.
 
 As a second step, all valid incoming words are simply reduced to lower-case format. The same word in different cases should not be distinguished from one another during classification so it is important that e.g. {\it Bristol} is considered the same as {\it bristol}.
 
-Finally, variations in number representations (e.g. 4,000 and 4000) are detected using regular expressions and conflated to a single representative feature "9999". We do this because allowing all possible number combinations each a unique feature will increase the dimensionality substantially and rarely contribute to classification performance - it can most often be considered noise. Doing this also provides some assurance that we do not overfit our classifier to the training set with specific numeric combinations.
+Finally, variations in number representations (e.g. 4,000 and 4000) are detected using regular expressions and conflated to a single representative feature "9999". We do this because allowing all possible number combinations a unique feature each will increase the dimensionality substantially and rarely contribute to classification performance. Doing this also provides some assurance that we do not overfit our classifier to the training set with specific numeric combinations.
 
 Using the techniques described above we were able to reduce the number of  combinations from 94,903 words to just 56149. This provides a substantial decrease in dimensions and provides a very notable improvement to memory usage, training speed and classification speed. 
 
 \subsection{Domain Extraction}
 
-Due to the fact that Emails are a product of the web, it is very common to find items such as Uniform Resource Locaters (URLs) and email addresses within the their text. When left unprocessed, it is hard to group these items into corresponding features due to the additional data included within them.
+Due to the fact that Emails are a product of the web, it is very common to find items such as Uniform Resource Locators (URLs) and email addresses within the their contents. When left unprocessed, it is hard to group these items into corresponding features due to the additional data included within them.
 
-What we really care about is the domain each URL and email address contains. If we find two URLs which point to the same domain such as \emph{www.cs.bris.ac.uk/maths} and {\it www.cs.bris.ac.uk/eng}, the it would make sense to group these two items together as one feature - i.e. coming from the domain \emph{cs.bris.ac.uk}. This will prove useful in being able to identify URLs which point to malicious or spam websites and those which are well known and credible domains.
+What we really care about is the domain each URL and email address contains. If we find two URLs which point to the same domain such as \emph{www.cs.bris.ac.uk/maths} and {\it www.cs.bris.ac.uk/eng}, then it would make sense to group these two items together as one feature - i.e. coming from the domain \emph{cs.bris.ac.uk}. This will prove useful in being able to identify URLs which are associated with spam and those which are well known and credible ham domains.
 
-To do this, we use a regular expression parser to detect items that are URLs and email addresses. Detected items are put through a \emph{Domain Extraction} function which is able to strip out the username and '@' symbol in the case of emails (e.g. \emph{johndoe@example.com} would become \emph{example.com}) and remove paths and protocol declarations in the case of URLs (e.g. \emph{https://www.example.com/myimage.jpg} would become \emph{example.com} once again). Conflating both email address domains and web URL domains makes sense because they represent the same source of information.
+To perform this step, we use a regular expression parser to detect items that are URLs and email addresses. Detected items are put through a \emph{Domain Extraction} function which is able to strip out the username and '@' symbol in the case of emails (e.g. \emph{johndoe@example.com} would become \emph{example.com}) and remove paths and protocol declarations in the case of URLs (e.g. \emph{https://www.example.com/myimage.jpg} would become \emph{example.com} once again). Conflating both email address domains and web URL domains makes sense because they represent the same source of information.
 
 
 \subsection{Stemming}
@@ -111,20 +111,20 @@ In terms of the Spam Filter implementation, using Porter Stemming on the given s
 
 \subsection{Inverted Index Storage}
 
-After a word has gone through the stages of simple text processing, domain extraction and stemming - it is stored along with the name of its document of origin in a fast inverted index structure using a Hashed List. The Hash List is built so that a given word is an index that is able to quickly retrieve or update information its metadata in instant $O(1)$ time. Metadata included for each term includes an additional Hashed Map from document names to the frequency of the term in the indexed document as well as the terms total frequency for fast access without the need to accumulate all the results.
+After a word has gone through the stages of simple text processing, domain extraction and stemming - it is stored along with the name of its document of origin in a fast inverted index structure using a Hashed List. The Hash List is built so that a given word is an index that is able to quickly retrieve or update information about its metadata in constant $O(1)$ time. Metadata included for each term includes a Hashed Map from a \textit{document name} to the frequency of the term in the document.
 
-As more words are added over time the inverted index will accumulate a list of frequencies for each word in several documents. Once all words have been passed, information about the corpus such as each word's total frequency and its frequency within each document can easily be calculated from the underlying metadata in a quick fashion. The information stored is especially important for the next two stages that will occur - Feature Selection and Feature Weighting.
+As more words are added over time, the inverted index will accumulate a list of frequencies for each word in several documents. Once all words have been passed, information about the corpus such as each word's total frequency and its frequency within each document can easily be calculated from the underlying metadata. The information stored is especially important for the next two stages that will occur - Feature Selection and Feature Weighting.
 
 \subsection{Feature selection}
-Although we have substantially reduced the number of features through the use of various text processing techniques, we still have a substantial number of features for the classifier to train with. Interestingly, the frequency of occurrence for each word in the text can be grouped into 3 categories of very common, common and rare. 
+Although we have substantially reduced the number of features through the use of various text processing techniques, we still have a substantial number of features for the classifier to train with. Interestingly, the frequency of occurrence for each word in the text can be grouped into one of 3 general categories of \textit{very common}, \textit{common} and \textit{rare}. 
 
 Very frequent elements in the text and commonly referred to as stopwords in linguistic morphology. These are words which are very frequently found in English texts (Some good examples are \emph{the}, \emph{and}, \emph{it} etc..) and usually do not provide any particular indication about the category of the document's class. On the other hand, very rare elements in a text are usually attributed to spelling mistakes and other artefacts such as IDs (PGP keys being the most common in emails). In between these two categories we have words not too commonly found, but not rare enough to constitute as errors either.
 
-A corpus of documents that shows this pattern is said to obey \emph{Zipf's law} and thus follow what is called a \emph{Zipfian Distribution}. It so happens that most English documents follow this law and so does our corpus. This pattern occurs in English texts mainly due to a phenomenon pointed out by Zipf in his paper which he calls  \emph{the principle of least effort} \cite{zipf1949} .
+A corpus of documents that shows this pattern is said to obey \emph{Zipf's law} and thus follow what is called a \emph{Zipfian Distribution}. It so happens that most English documents follow this law and so does our corpus. This pattern occurs in English texts mainly due to a phenomenon pointed out by Zipf in his paper which he calls  \emph{the principle of least effort} \cite{zipf1949}.
 
-The frequency of occurrence of each term in the given training set is shown in Figure \ref{zipfian}  mapped in descending order. Some words on the graph are specified on the x-axis to provide an example at each portion of the graph (Note that these are stems due to our previous Stemming technique). It should be immediately noted how common rare words are by the long "tail" shown in the graph and one should also notice how frequent certain words such as \emph{the} are.
+The frequency of occurrence of each term in the given training set is shown in Figure \ref{zipfian} mapped in descending order. Some words on the graph are specified on the x-axis to provide an sample at each portion of the graph (Note that these features are stems rather than words due to our previous Stemming technique). It should be immediately noted how many different rare words are found within the corpus with low frequency by the long "tail" shown in the graph. On the other hand one should also notice how very frequent words such as \emph{the} do not have many combinations when compared to the infrequent words.
 
-What we really want to keep is the words which are in between these two categories as these are the most representative of the text. This area can be considered somewhat of a \emph{"Goldilocks Zone"} as its just about right for giving us the right information. To extract this area and remove the excess, we use a technique called feature selection to trim out all features from the index with a document frequency less than \(\alpha \times no. documents\)and more than \(\beta \times no. documents\), where \(\alpha\) and \(\beta\) are values in the range [0,1].
+What we really want to keep is the words which are in between these two categories as these are the most representative of the text. This area can be considered somewhat of a \emph{"Goldilocks Zone"} as its just about right for giving us the right information. To extract this area and remove the excess, we use a technique called \textit{feature selection} to trim out all features from the index with a document frequency less than \(\alpha \times no. documents\)and more than \(\beta \times no. documents\), where \(\alpha\) and \(\beta\) are values in the range [0,1].
 
 \begin{figure}[h!]
 	\label{zipfian}
@@ -135,14 +135,14 @@ What we really want to keep is the words which are in between these two categori
 \end{figure}
 
 Unfortunately, choosing ideal \(\alpha \) and \(\beta\) is a somewhat tedious process of trial and error.
-Finding the right values ensure that the classifiers does not overfit on features are only available in the training process but may accidentally strip out features that contribute very good to distinguish both classes but are represented with the same frequency as term that are considered irrelevant.
-In Section \ref{sec:featurethresholds}, we will try to optimise our selected thresholds by the empirical evaluation of the performance of the classifier on out data set.
+Finding the right values ensures that the classifier does not overfit on features that are only available in the training process or accidentally strips out features which are useful to the classifier.
+In Section \ref{sec:featurethresholds}, we will try to optimise our selected thresholds by the empirical evaluation of the performance of the classifier on our data set.
 
 \subsection{Vector Generation / Feature Weighting}
 
 Now that we have filtered out all unnecessary features and determined which features should be kept for classification, we need to convert email documents into data that is understandable by the Classifier. More specifically, we need to convert each email into a corresponding feature vector using the features we have just identified. In this report, we have attempted two ways of converting frequency information found in emails into corresponding weights. 
 
-The first and most basic attempt uses \emph{Frequency Weighting} which is simply assigning each feature in a vector the frequency of the corresponding term in the email. Although seemingly simple as an approach, it has proven to be effective representation of each email in the corpus during the writing of this report.
+The first and most basic attempt uses \emph{Frequency Weighting} which is simply assigning each feature in a vector the frequency of the corresponding term in the email. Although seemingly simple as an approach, it has proven to be an effective representation of each email in the corpus during the writing of this report.
 
 The second approach attempted was \emph{Term Frequency Inverse Document Frequency} also commonly known as \emph{tfidf} \cite{tfidf1973}. Tfidf is a commonly used metric in natural language processing that portrays the importance of a word in a document with respect to the rest of the corpus. It is technique often used by Search Engines and has proven many times to be a reliable way of representing the significance of a term within a document. The equation for calculating the weight for a term $i$ in a document $j$ is given as:
 
@@ -152,44 +152,46 @@ The second approach attempted was \emph{Term Frequency Inverse Document Frequenc
 
 Where $N$ represents the number of documents, $n_i$ represents the number of times the term i appears in a document and \emph{maxf} represents the highest frequency in the document corpus.
 
-Interestingly, after testing these two approaches, it was immediately noted that \emph{tfidf} gave significantly worse results than \emph{frequency weighting}. While this was initially a surprise, It was noted that this behaviour could possibly be occurring due to use of a multinomial Naive Bayes model rather than Bernoulli model. Further investigation as to why this is the case could be a possible area for future work on our implementation. We shall assume the use of Frequency Weighting for the rest of the report due to its superior performance. Note that an implementation of the tfidf weighting scheme is still included as part of this reports implementation but is left disabled in favour of frequency weighting.
+Interestingly, after testing these two approaches, it was immediately noted that \emph{tfidf} gave significantly worse results than \emph{frequency weighting}. While this was initially a surprise, It was noted that this behaviour could possibly be occurring due to use of a multinomial Naive Bayes model rather than Bernoulli model. Further investigation as to why this is the case could be a possible area for future work on our implementation. 
+
+We shall assume the use of Frequency Weighting for the rest of the report due to its superior performance. Note that an implementation of the tfidf weighting scheme is still included as part of this reports implementation but is left disabled in favour of frequency weighting.
 
 \subsection{Optimising Feature Thresholds}
 \label{sec:featurethresholds}
 
-After all preprocessing steps the total number of dimensions is now down to 43437 different words.
+After all preprocessing steps have been performed, the total number of dimensions has now been brought down to 43437 different words.
 Although this is less than a third of the initial dimensionality, it is slowing down the training of the classifier as well as the classification of the samples.
-A high number of features can have a negative impact on quality of the classification results too as the classifier may learn to concentrate on words that are rare and only appear in the training set while leaving out feature that could separate the two classes very well.
+A high number of features can also have a negative impact on quality of the classification results as the classifier may learn to concentrate on words that are rare and only appear in the training set while leaving out features that could separate the two classes very well.
 
-To increase the quality and the runtime, we want to remove infrequent and non-separating, but still frequent features without having a negative effect on the quality.
-As an exhaustive search of all possible feature combination is infeasible, we will try to find empirically the two thresholds $\alpha$ and $\beta$.
-This is done by setting one of the thresholds to a fixed value while iterating over possible values for the other threshold.
+To increase the quality and the runtime, we need to remove infrequent and very frequent words. However we still need to keep semi-frequent features without having a negative effect on the classification quality.
+As an exhaustive search of all possible feature combination is infeasible, we will try to empirically find the two thresholds $\alpha$ and $\beta$.
+We do this by setting one of the thresholds to a fixed value while iterating over possible values for the other threshold.
 
 \input{upperbound-plot.tex}
 
 To compare the impact on the behaviour of the classification of both classes \emph{Spam} and \emph{Ham} we are using the measures \emph{Precision}, \emph{Recall} and \emph{Negative Recall} as they are less dependent of the class distribution in the test set than \emph{Accuracy}.
 
 In Figure \ref{p:upperbound}, we have set $\alpha = 0$ to have all lower frequent words in the training and iterating over $\beta$ to empirically determine which high frequent words can be removed without an effect on the cluster quality.
-As seen in the graph, only for a value of $\beta$ larger than 0.19 all three quality measures stay quite constant.
+As seen in the graph, for a value of $\beta$ larger than 0.19 all three quality measures remain constant.
 In the interval between $0.05$ and $0.2$ there is a high variance of the scores, so we increased the resolution in the plot to a simulation in each 0.01 step to better view the behaviour of the classifier.
 As a final choice for $\beta$ we have taken $\beta = 0.19$ as \emph{Recall} has its maximum here and decreases steep towards $\beta = 0$.
 The other measures are at a very good level (near their maximum) for $\beta = 0.19$ and only increase slightly in this neighbourhood.
 
 This choice of $\beta$ reduces the dimensionality down to 43331 by pruning 106 very frequent words.
 These pruned words are mostly stopwords which do not provide any indication about the class of the mail as they occur in all kinds of text.
-As only a low number of words was reduced, the runtime stays constant at six minutes.
+As only a low number of words were reduced, the runtime stays constant at six minutes.
 
 \input{lowerprecisionplot.tex}
 
 Figure \ref{p:lowerbound} shows the behaviour of the quality measures if we would evaluate the classification performance with $\beta=1$ to determine the best lower threshold.
 As we already have chosen an upper threshold of $\beta = 0.19$, we are taking this into account in Figure \ref{p:lowerbound19}.
-Using the upper threshold leads to slightly different behaviour where \emph{Precision} still decreases with increasing threshold but at a lower level.
-Whereas in the situation $\beta = 1$ \emph{Recall} stayed at a nearly constant level among all parameter choices, it decreases with the same pace as \emph{Precision}.
+Using the upper threshold leads to slightly different behaviour were \emph{Precision} still decreases when increasing the threshold to a lower level.
+Whereas in the situation $\beta = 1$ \emph{Recall} remained at a near constant level among all parameter choices, it decreases with the same pace as \emph{Precision}.
 Overall it should be remarked that \emph{Precision} is at a much higher level for $\alpha = 0$ in Figure \ref{p:lowerbound19} than in Figure \ref{p:lowerbound} whilst \emph{Recall} is at approximately the same level in both situations.
 
 In both situations, we get the best scores for $\alpha=0$, which is no further improvement on the selection of the upper threshold.
-This means that there is a significant number of words that occur only once in the training set but still help separating classes in the test set.
-It has to be noticed that not all words with a frequency of one in the training set are relevant but there are enough relevant words with a frequency of one that would have a significant impact on the scores if pruned.
+This means that there is a significant number of words that occur only once in the training set but which still help separate classes in the test set.
+It should be noted that not all words with a frequency of one in the training set are relevant but there are enough relevant words with a frequency of one that would have a significant impact on the scores if pruned.
 
 Although the best results were achieved using $\alpha=0$, for $\alpha=0.17$ we can still generate a classifier that produces very good results with a \emph{Precision} of $0.916$ and a \emph{Recall} of $0.944$.
 As this classifier only utilises 1568 dimensions, which is about 4\% of the classifier with $\alpha=0$, it runs the cross validation cycle in less then 100 seconds.
