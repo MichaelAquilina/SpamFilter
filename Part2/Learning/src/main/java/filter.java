@@ -1,11 +1,14 @@
-package spamfilter;
-
 import classification.EmailClass;
 import classification.EmailClassifier;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import java.lang.reflect.Method;
+
+import java.net.URL;
+import java.net.URLClassLoader;
 
 public class filter {
 
@@ -23,9 +26,14 @@ public class filter {
         return emailClass.toString();
     }
 
-    public static void main(String args[]) throws FileNotFoundException {
+    public static void main(String args[]) throws Exception {
         if(args.length != 1)
             usage();
+
+        URL classUrl = new URL("file://" + System.getProperty("user.dir") + "/spamfilter-learning_2.10-0.1.0-jar-with-dependencies.jar");
+        Method method = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
+        method.setAccessible(true);
+        method.invoke(ClassLoader.getSystemClassLoader(), new Object[]{classUrl});
 
         File modelFile = new File(DEFAULT_MODEL_PATH);
         File targetFile = new File(args[0]);
