@@ -11,12 +11,14 @@ To optimise the classification performance, we attempt to improve the quality of
 
 A focus on our Naive Bayes implementation using the Bag of Words model will be made throughout the report.
 An emphasis on optimising the performance through the selection of correct parameters is also given throughout the various sections covered.
-However we shall also take the time at the end of the report to compare the performance of our implementation with other third party machine learning models such as the Decision Tree.
-\todo{a bit more here.. NOTE: If we stick to just Decision tree we need to change the grammar of the above paragraph a bit}
+However we shall also take the time at the end of the report to compare the performance of our implementation with other third party machine learning models such as the Decision Tree C4.5 as implemented in WEKA as J48.
 
 In addition to the quality of classification results, we will be taking a look at improving the runtime of the classification and training process.
 With a longer runtime, one might be able to increase the quality of a classifier  significantly (e.g. doing an exhaustive search over all possible models) but the runtime required to do so could be infeasibly large. We therefore attempt to minimise the runtime of the training and classification process with little or (at best) no loss in classification quality.
 
 All reported times are based on running our implementation on two core Intel i7-640L CPU with a frequency of 2.1GHz per core and 8Gb of main memory.
 
-\todo{State best performance!}
+Our final classifier performs training and 10-fold cross validation in four minutes based on about 40 thousand terms extracted from the input data.
+On the 10-fold cross validation it achieves an \emph{Accuracy} of 0.984, \emph{Precision} of 0.968 and a \emph{Recall} of 0.942 which is significantly better than random.
+We show that even using a weaker classifier that was trained on less input data, it still outperforms the J48 decision tree statistically significant in speed and quality of the classification.
+
