@@ -26,3 +26,7 @@ nbactions.xml
 *.synctex.gz
 /report/introduction.tex.bak
 /report/preprocessing.tex.bak
+/Part2/Learning/.classpath
+/Part2/Learning/.project
+/Part2/Learning/.settings/org.eclipse.jdt.core.prefs
+/Part2/Learning/tmp
