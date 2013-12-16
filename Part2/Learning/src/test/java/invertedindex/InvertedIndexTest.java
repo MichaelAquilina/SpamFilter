@@ -37,7 +37,7 @@ public class InvertedIndexTest {
         
         assertTrue(invertedIndex.getDocuments().isEmpty());
         
-        HashSet<String> myDocuments = new HashSet<>();
+        HashSet<String> myDocuments = new HashSet<String>();
         myDocuments.add("hello.txt");
         myDocuments.add("world.txt");
         myDocuments.add("GladOs.txt");
