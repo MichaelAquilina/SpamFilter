@@ -30,7 +30,7 @@ public class filter {
         if(args.length != 1)
             usage();
 
-        URL classUrl = new URL("file://" + System.getProperty("user.dir") + "/spamfilter-learning_2.10-0.1.0-jar-with-dependencies.jar");
+        URL classUrl = new URL("file://" + System.getProperty("user.dir") + "/spamfilter.jar");
         Method method = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
         method.setAccessible(true);
         method.invoke(ClassLoader.getSystemClassLoader(), new Object[]{classUrl});
