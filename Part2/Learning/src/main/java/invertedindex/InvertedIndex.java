@@ -11,8 +11,8 @@ public class InvertedIndex {
     private final HashSet<String> documents;
     
     public InvertedIndex() {
-        termMap = new HashMap<>();
-        documents = new HashSet<>();
+        termMap = new HashMap<String, TermData>();
+        documents = new HashSet<String>();
     }
     
     public void add(String term, String document) {
@@ -55,7 +55,7 @@ public class InvertedIndex {
     }
 
     public ArrayList<TermData> getInnerWords(int min, int max) {
-        ArrayList<TermData> result = new ArrayList<>();
+        ArrayList<TermData> result = new ArrayList<TermData>();
         for(String term : termMap.keySet()) {
             TermData termData = termMap.get(term);
 
@@ -67,7 +67,7 @@ public class InvertedIndex {
     }
 
     public ArrayList<TermData> getOuterWords(int min, int max) {
-        ArrayList<TermData> result = new ArrayList<>();
+        ArrayList<TermData> result = new ArrayList<TermData>();
         for(String term : termMap.keySet()) {
             TermData termData = termMap.get(term);
 
@@ -152,7 +152,7 @@ public class InvertedIndex {
     public void writeTermData(String path) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 
-        ArrayList<TermData> termDataList = new ArrayList<>(getInnerWords(6, getDocumentCount()));
+        ArrayList<TermData> termDataList = new ArrayList<TermData>(getInnerWords(6, getDocumentCount()));
         Collections.sort(termDataList);
         Collections.reverse(termDataList);
 

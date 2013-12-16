@@ -205,7 +205,7 @@ public class Parser {
             remainder = Jsoup.parse(remainder).text();
         }
 
-        ArrayList<String> words = new ArrayList<>();
+        ArrayList<String> words = new ArrayList<String>();
         words.addAll(Arrays.asList(remainder.split("[\\n\\s]+")));
 
         return words;

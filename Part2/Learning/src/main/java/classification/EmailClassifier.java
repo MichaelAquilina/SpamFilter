@@ -35,7 +35,7 @@ public class EmailClassifier {
     public EmailClassifier(Classifier classifier, FeatureWeighting weightingMethod, boolean useTextPreProcessing, boolean useFeatureSelection) {
         this.classifier = classifier;
         this.parser = new Parser();
-        this.termIndexMap = new HashMap<>();
+        this.termIndexMap = new HashMap<String, Integer>();
         this.useTextPreProcessing = useTextPreProcessing;
         this.useFeatureSelection = useFeatureSelection;
         this.weightingMethod = weightingMethod;
@@ -114,7 +114,7 @@ public class EmailClassifier {
         documentCount = invertedIndex.getDocumentCount();
 
         // Part 4: Feature Weighting
-        ArrayList<LabelledVector> labelledVectors = new ArrayList<>();
+        ArrayList<LabelledVector> labelledVectors = new ArrayList<LabelledVector>();
 
         for(String emailDocument : invertedIndex.getDocuments()) {
             LabelledVector emailVector = new LabelledVector();

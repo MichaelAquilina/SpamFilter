@@ -10,7 +10,7 @@ public class TermData implements Comparable<TermData> {
     
     public TermData(String term) {
         this.term = term;
-        this.termDocumentFrequency = new HashMap<>();
+        this.termDocumentFrequency = new HashMap<String, Integer>();
     }
 
     public String getTerm() {
