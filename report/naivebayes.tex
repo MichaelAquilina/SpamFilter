@@ -12,6 +12,7 @@ This resulted in an accuracy of 0.944 and a standard deviation across all folds 
 With the usage of the underlying distribution, we get a classification accuracy of 0.9472 and a standard deviation of 0.032.
 
 Although the class distribution (81\% Ham, 19\% Spam) is very different to a uniform distribution, the resulting classification score is not significantly different.
-\todo{clarify this section}With each instantiation taking 16 minutes to train and classify, the runtime does not make a difference either as the feature size stayed the same.
-\todo{As using maximum-a-posteriori is the most common used Naive Bayes approach, we are going to use it in the following as our baseline which we will optimise using various preprocessing techniques.}
+As the feature size is not affected by the prior distribution, changing it will neither make a change to the overall runtime.
+In general, using maximum-a-posteriori is the common Naive Bayes approach, as using a uniform distribution did not make a difference, we are going to use the class distribution as the a-priori distribution in the following as our baseline.
+Based on this baseline, we will optimise our classifier using various preprocessing techniques.
 
