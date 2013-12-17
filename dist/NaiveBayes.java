@@ -96,7 +96,7 @@ public class NaiveBayes extends Classifier {
             sortedMap.put(probs[i], i);
         }
 
-        return new ArrayList(sortedMap.values());
+        return new ArrayList<Integer>(sortedMap.values());
     }
 }
 

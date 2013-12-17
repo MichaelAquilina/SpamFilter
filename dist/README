@@ -1,0 +1,22 @@
+Building
+========
+
+The sources in this directory can be build using
+
+javac -cp deps.jar *.java
+
+All thirdparty dependencies are pacackged in deps.jar, these are:
+
+ * Apache Commons Codecs
+ * Google Gson
+ * jsoup HTML Parser
+
+Running
+======
+
+The code can be run using
+
+java filter <email-file>
+
+The code will take care by itself that the deps.jar file is loaded into
+the classpath.

@@ -31,7 +31,7 @@ public class filter {
             usage();
 
         // Lazy load all compiled Java classes and 3rdparty dependencies
-        URL classUrl = new URL("file://" + System.getProperty("user.dir") + "/spamfilter.jar");
+        URL classUrl = new URL("file://" + System.getProperty("user.dir") + "/deps.jar");
         Method method = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
         method.setAccessible(true);
         method.invoke(ClassLoader.getSystemClassLoader(), new Object[]{classUrl});
