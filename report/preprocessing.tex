@@ -68,8 +68,9 @@ Handling these multiple encodings in the correct fashion transforms meaningless,
 
 As a final parsing step we strip down as much HTML content as possible from the emails' content in order to prevent HTML tags from entering our word index.
 This markup is not displayed to the user and does not carry any useful content for the parser or classifier to make use of.
+For extracting the text from the HTML document we are using the Java Library jsoup \cite{jsoup} which provides error-resistant parsing of even non-standard HTML.
 
-Although "smart" email parsing did not cause any significant increase in impact to the quality score of the classifier, it did manage to reduce the dimensionality from 143820 down to 94903 words.
+Although "smart" email parsing did not cause any significant increase in the quality scores of the classifier, it did manage to reduce the dimensionality from 143820 down to 94903 words.
 As a consequence of this lower dimensionality the runtime decreases from 16 to just 10 minutes.
 In conclusion email parsing is responsible for stripping down a lot of irrelevant or redundant dependencies from the input data set without the cost of any loss in quality.
 
