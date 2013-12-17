@@ -65,6 +65,7 @@ Another problem that is solved by handling multiple parts is the recursive parsi
 Furthermore not all text within the email is encoded using same encoding as the declared by the email itself. For example the main text could be encoded as Base64 which would not reveal the actual words when just splitting the mail into words by separating at each space.
 Another typical encoding is quoted-printable which transforms non-ASCII characters into another format (so called escape characters) but leaves all ASCII characters intact.
 Handling these multiple encodings in the correct fashion transforms meaningless, long character sequences into words that are present in other emails and useful for the classifier.
+As Java does not have built-in support for transforming these encodings, we are utilising Apache Commons Codes \cite{commons:codec} to handle the transformation for us.
 
 As a final parsing step we strip down as much HTML content as possible from the emails' content in order to prevent HTML tags from entering our word index.
 This markup is not displayed to the user and does not carry any useful content for the parser or classifier to make use of.
