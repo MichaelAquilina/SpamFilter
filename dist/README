@@ -20,3 +20,11 @@ java filter <email-file>
 
 The code will take care by itself that the deps.jar file is loaded into
 the classpath.
+
+Remark
+======
+
+As not all files are required for running and we did not ship Weka
+as a dependency, we "commented out" these files by renaming them to
+"*.java_". These were used to compare J48 with our classifier but are
+not needed for the final spam classification.
