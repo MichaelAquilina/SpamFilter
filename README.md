@@ -1,6 +1,10 @@
 Spam Filter
 ===========
 
+Authors:
+* [Michael Aquilina](https://github.com/KillaW0lf04)
+* [Uwe L. Korn](https://github.com/xhochy)
+
 Project for "Introduction to Machine Learning" course.
 
 Requirements can be found in the following pages:
